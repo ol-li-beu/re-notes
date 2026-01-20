@@ -1,42 +1,66 @@
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg: #eeeeee;
+  --fg: #121212;
+  --accent: #009c00;
+  --grid: #4a4a4a;
+  --contrast: #e2e2e2
+  ;
+
+  /* each css.module can access font variables loaded in the server */
+  --font-main: var(--font-sans); 
+  --font-title: var(--font-serif);
+
+  --navheight: 64px;
+  --themeheight: 48px;
+
+
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+.dark {
+  --bg: #121212;
+  --fg: #eeeeee;
+  --grid: #9e9e9e;
+  --accent: #37ff00;
+
+   
 }
 
-html,
+#GlobalReset
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  height: 100%;
+}
+
 body {
-  max-width: 100vw;
-  overflow-x: hidden;
-}
+  display: flex;
+  flex-direction: column;
+  background-color: var(--bg);
+  color: var(--fg);
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.3s ease, color 0.3s ease;
+
+  min-height: 100vh;
+  width: 100%;
 }
 
-* {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
+main {
+  flex : 1
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
+
+/* Base case */
+p, span, div, li, input, button {
+  font-family: var(--font-main);
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
+h1, h2, h3 {
+  font-family: var(--font-title);
 }

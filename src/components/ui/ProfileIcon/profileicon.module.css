@@ -1,0 +1,22 @@
+.profileCircle {
+  width: var(--navheight);
+  height: var(--navheight);
+  border-radius: 50%;
+  border: 1.5px solid var(--fg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 4px; 
+  transition: all 0.2s ease;
+}
+
+.profileCircle:hover {
+  background-color: var(--fg);
+  color: var(--contrast); /*TBD invert to green */
+}
+
+.profileIcon {
+  width: 100%;
+  height: 100%;
+}

@@ -1,0 +1,58 @@
+.container {
+  display: block;
+  width: var(--themeheight);
+  height: var(--themeheight);
+  position: relative;
+  cursor: pointer;
+}
+
+.checkbox {
+  opacity: 0;
+  width: 0;
+  height: 0;
+  position: absolute;
+}
+
+.mainCircle {
+  width: 100%;
+  height: 100%;
+  background-color: var(--bg);
+  border-radius: 50%;
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* MAIN BODY */
+.celestialBody {
+  width: 50%;
+  height: 50%;
+  background-color: var(--fg); 
+  border-radius: 50%;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+/* MOON EFFECT */
+.checkbox:checked + .mainCircle .celestialBody {
+ width: 50%;
+}
+
+
+/* SUN EFFECT */
+.rays {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border: 2px dashed var(--fg);
+  border-radius: 50%;
+  opacity: 1;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.checkbox:checked + .mainCircle .rays {
+  opacity: 0;
+  transform: rotate(45deg) scale(0);
+}

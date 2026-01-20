@@ -1,0 +1,16 @@
+{
+    "footer" : {
+        "rights" : "© 2026 Re-Notes. All right Reserved",
+        "repo" : "GitHub Repository"
+    },
+    "navbar": {
+        "about" : "About",
+        "learn" : "Learn",
+        "projects" : "My Projects",
+        "login" : "Log In",
+        "register" : "Register"
+
+        
+    }
+
+}

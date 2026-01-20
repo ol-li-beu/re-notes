@@ -1,0 +1,39 @@
+.rectangularlogo {
+  display: flex;
+  align-items: center; /* relative to the father */
+  height: 100%;
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+
+.logoIcon {
+  background-color: var(--fg); 
+
+  
+  -webkit-mask-image: url('/RectangularLogo.svg');
+  mask-image: url('/RectangularLogo.svg');
+  
+
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+
+/* DYNAMIC SIZES */
+.header {
+  width: 160px;
+  height: 55px;
+}
+
+.footer {
+  width: 140px;
+  height: 50px;
+}
+
+.rectangularlogo:hover {
+  opacity: 0.6;
+
+}
