@@ -3,8 +3,8 @@
   --fg: #121212;
   --accent: #009c00;
   --grid: #4a4a4a;
-  --contrast: #e2e2e2
-  ;
+  --contrast: #e2e2e2;
+  
 
   /* each css.module can access font variables loaded in the server */
   --font-main: var(--font-sans); 
@@ -12,21 +12,17 @@
 
   --navheight: 64px;
   --themeheight: 48px;
-
-
 }
 
-.dark {
+html.dark {
   --bg: #121212;
   --fg: #eeeeee;
   --grid: #9e9e9e;
   --accent: #37ff00;
-
-   
 }
 
-#GlobalReset
-* {
+
+*, *::before, *::after {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -42,17 +38,16 @@ body {
   flex-direction: column;
   background-color: var(--bg);
   color: var(--fg);
+  min-height: 100vh;
+  width: 100%;
 
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  transition: background-color 0.3s ease, color 0.3s ease;
-
-  min-height: 100vh;
-  width: 100%;
+  transition: none;
 }
 
 main {
-  flex : 1
+  flex : 1;
 }
 
 

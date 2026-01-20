@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import { NextRequest } from "next/server";
 import { langs, defaultLang } from "../utils/i18n-config";
-import { jwtVerify } from "jose";
 
 
 
@@ -26,27 +25,17 @@ export async function middleware(request : NextRequest) {
     }
 
     // AUTH CHECK
-    const token = request.cookies.get('auth_token')?.value;
-    let isValidToken = false;
-
-    if (token) {
-        try {
-            const secret = new TextEncoder().encode(process.env.JWT_SECRET);
-            await jwtVerify(token, secret);
-            isValidToken = true;
-        } catch (error) {
-            console.error("JWT verification failed:", error);
-        }
-    }
+    // TBD SUPABASE get sesion
 
     // PROT CHECK
-    if (isProtectedRoute && !isValidToken) {
-        const url = request.nextUrl.clone();
-        url.pathname = `/${currentLang}/login`; // Redirigimos al login con idioma
-        const response = NextResponse.redirect(url);
-        if (token) response.cookies.delete('auth_token');
-        return response;
-    }
+    //if (isProtectedRoute && !isValidToken) {
+    // delete token 
+    // redirect to login page
+        //const url = request.nextUrl.clone();
+        //url.pathname = `/${currentLang}/login`; // Redirigimos al login con idioma
+        //const response = NextResponse.redirect(url);
+        //return response;
+    
 
     return NextResponse.next();
 }   

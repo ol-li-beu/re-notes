@@ -1,16 +1,14 @@
-'use client';
 
-import { useDictionary } from '@/components/DictionaryProvider';
+
 import RectangularLogo from '@/components/ui/RectangularLogo/RectangularLogo';
 import styles from './footer.module.css'
 
+interface FooterProps {
+    dict: any
+}
 
 
-
-export function Footer() {
-    const dict = useDictionary();
-
-    
+export function Footer({dict} : FooterProps) {
     const socials = { name: dict.footer.repo , url: 'https://github.com/ol-li-beu/re-notes' };
     const collaborators = [
         { name: 'agustnlee', url: 'https://github.com/agustnlee' },
