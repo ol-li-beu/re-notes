@@ -12,7 +12,7 @@ export default function ThemeButton() {
   useEffect(() => {
     setMounted(true);
   }, []); 
-  if (!mounted) <div style={{ width: '35px', height: '35px' }} />;
+  if (!mounted) return <div style={{ width: '35px', height: '35px' }} />;
 
   const isDark = theme === 'dark';
   const toggleTheme = () => {
@@ -29,7 +29,12 @@ export default function ThemeButton() {
       />
       <div className={styles.mainCircle}>
         <div className={styles.celestialBody}></div>
-        <div className={styles.rays}></div>
+        <div className={styles.rays}>
+          <span /> <span />
+          <span /> <span />
+          <span /> <span />
+          <span /> <span />
+        </div>
       </div>
     </label>
   );

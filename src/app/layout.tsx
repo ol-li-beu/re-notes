@@ -15,6 +15,14 @@ const merriweather = Merriweather({
 });
 
 
+export const metadata = {
+  title: 'Re-Notes',
+  description: 'Recursive and dynamic blocks-based notepad',
+  icons: {
+    icon: '/favicon.png', 
+  },
+}
+
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
 

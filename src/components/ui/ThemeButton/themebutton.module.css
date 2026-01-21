@@ -1,58 +1,101 @@
 .container {
-  display: block;
+  display: inline-flex;
+  cursor: pointer;
   width: var(--themeheight);
   height: var(--themeheight);
-  position: relative;
-  cursor: pointer;
 }
 
 .checkbox {
-  opacity: 0;
-  width: 0;
-  height: 0;
-  position: absolute;
+  display: none;
 }
 
 .mainCircle {
   width: 100%;
   height: 100%;
-  background-color: var(--bg);
-  border-radius: 50%;
-  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
 }
 
-/* MAIN BODY */
 .celestialBody {
-  width: 50%;
-  height: 50%;
-  background-color: var(--fg); 
+  --moonX: 100%;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
-  transition: all 0.3s ease;
+  background: var(--fg);
   position: relative;
+  overflow: hidden;
+  z-index: 2;
+  border: 1px solid var(--fg);
+  
+ 
+  transform: scale(0.62) rotate(0deg);
+  transition:
+    background 0.35s ease,
+    transform 0.4s ease;
+  
 }
 
-/* MOON EFFECT */
-.checkbox:checked + .mainCircle .celestialBody {
- width: 50%;
-}
-
-
-/* SUN EFFECT */
-.rays {
+.celestialBody::after {
+  content: '';
   position: absolute;
   width: 100%;
   height: 100%;
-  border: 2px dashed var(--fg);
+
+  background: var(--bg);
   border-radius: 50%;
-  opacity: 1;
-  transition: opacity 0.3s ease, transform 0.3s ease;
+  transform: translateX(100%);
+  transition: transform 0.35s ease;
+}
+.rays {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: translate(-50%, -50%)  translateX(1px); 
+  pointer-events: none; 
+}
+
+.rays span {
+  position: absolute;
+  width: 3px;       
+  height: 7px;      
+  background: var(--fg);
+  border-radius: 999px;
+  transform-origin: center center;
+  transition: transform 0.4s ease, opacity 0.4s ease;
+}
+
+.rays span:nth-child(1)  { transform: rotate(0deg) translateY(-18px); }
+.rays span:nth-child(2)  { transform: rotate(45deg) translateY(-18px); }
+.rays span:nth-child(3)  { transform: rotate(90deg) translateY(-18px); }
+.rays span:nth-child(4)  { transform: rotate(135deg) translateY(-18px); }
+.rays span:nth-child(5)  { transform: rotate(180deg) translateY(-18px); }
+.rays span:nth-child(6)  { transform: rotate(225deg) translateY(-18px); }
+.rays span:nth-child(7)  { transform: rotate(270deg) translateY(-18px); }
+.rays span:nth-child(8)  { transform: rotate(315deg) translateY(-18px); }
+
+/* Dark mode checked */
+.checkbox:checked + .mainCircle .celestialBody {
+  transform: scale(1) rotate(-20deg);
+}
+
+.checkbox:checked + .mainCircle .celestialBody::after {
+  transform: translateX(40%);
 }
 
 .checkbox:checked + .mainCircle .rays {
+  transform: rotate(2) translateY(-18px) scale(0); /* shrink towards center */
   opacity: 0;
-  transform: rotate(45deg) scale(0);
+}
+
+
+.checkbox:checked + .mainCircle .rays span {
+  transform: translateY(-15px) scale(0);
+  opacity: 0;
 }
