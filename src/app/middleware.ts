@@ -6,7 +6,8 @@ import { langs, defaultLang } from "../utils/i18n-config";
 
 export async function middleware(request : NextRequest) {
     const { pathname } = request.nextUrl;
-    const isProtectedRoute = pathname.includes('/projects') || pathname.includes('/profile');
+    const isProtectedRoute = pathname.includes('/projects') || pathname.includes('/profile') || pathname.includes('/set-password');
+     // check session or automatic email for set password basically
 
     // I18N CHECK
     const pathnameHasLang = langs.some(

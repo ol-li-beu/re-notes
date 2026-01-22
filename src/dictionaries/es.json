@@ -9,6 +9,20 @@
         "projects" : "Mis Proyectos",
         "login" : "Iniciar Sesión",
         "register" : "Registrarse"
-    }
+    },
+    "userform" : {
+        "newpassword" : "Nueva Contraseña",
+        "password" : "Contraseña",
+        "email" : "Email",
+        "btnlogin" : "Iniciar Sesión",
+        "btnregister" : "Registrarse",
+        "btnsetpassword" : "Actualizar Contraseña",
+        "btnhide" : "Ocultar",
+        "btnshow" : "Mostrar"
+
+    },
+
+    "messages" : {},
+    "toasts" : {}
 }
 

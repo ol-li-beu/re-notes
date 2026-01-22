@@ -8,14 +8,14 @@ interface PageProps {
   };
 }
 
-export default async function LoginPage({ params }: PageProps) {
+export default async function SetPasswordPage({ params }: PageProps) {
   const { lang } = await params;
   const dictionary = await getDictionary(lang as any);
   const user = await getAuthUser(); //TBD Supabase built-in authentication from session that is set in log in
 
   return (<>
     <UserForm 
-    mode="login" 
+    mode="set-password" 
     lang={lang} 
     dict={dictionary} 
     user={user}

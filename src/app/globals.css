@@ -4,6 +4,7 @@
   --accent: #009c00;
   --grid: #4a4a4a;
   --contrast: #e2e2e2;
+  --negativeaccent: #c80000;
   
 
   /* each css.module can access font variables loaded in the server */

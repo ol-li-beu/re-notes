@@ -9,8 +9,20 @@
         "projects" : "My Projects",
         "login" : "Log In",
         "register" : "Register"
+    },
+    "userform" : {
+        "newpassword" : "New Password",
+        "password" : "Password",
+        "email" : "Email",
+        "btnlogin" : "Log In",
+        "btnregister" : "Register",
+        "btnsetpassword" : "Update Password",
+        "btnhide" : "Hide",
+        "btnshow" : "Show"
+    },
 
-        
-    }
+    "messages" : {},
+    "toasts" : {}
+
 
 }
