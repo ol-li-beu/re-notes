@@ -72,12 +72,13 @@
   padding: 12px;
   border-radius: 8px;
   border: 1px solid var(--fg);
-  font-size: 15px;
-  font-weight: 500;
+  font-size: 17px;
+  font-weight: 600;
   cursor: pointer;
   transition: none;
   background-color: var(--bg);
   color: var(--fg);
+
   
 }
 
