@@ -22,6 +22,12 @@
   mask-position: center;
 }
 
+
+.rectangularlogo:hover {
+  opacity: 0.6;
+
+}
+
 /* DYNAMIC SIZES */
 .header {
   width: 160px;
@@ -31,9 +37,4 @@
 .footer {
   width: 140px;
   height: 50px;
-}
-
-.rectangularlogo:hover {
-  opacity: 0.6;
-
 }

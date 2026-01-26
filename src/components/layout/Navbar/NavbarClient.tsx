@@ -6,6 +6,7 @@ import styles from "./navbar.module.css";
 import RectangularLogo from "@/components/ui/RectangularLogo/RectangularLogo";
 import ThemeButton from "@/components/ui/ThemeButton/ThemeButton";
 import LanguageSelector from "@/components/ui/LanguageSelector/LanguageSelector";
+import UserMenu from "./UserMenu";
 
 
 interface NavbarClientProps {
@@ -51,9 +52,7 @@ export default function NavbarClient({
           <LanguageSelector currentLang={lang} />
 
           {isLoggedIn ? (
-            <div className={styles.userProfile}>
-              <span className={styles.userName}>{user.name}</span>
-            </div>
+              <UserMenu username={user.name ?? "User"} email={user.email ?? "email@gmail.com"} dict={dict} />
           ) : (
             <div className={styles.authButtons}>
               <Link href={`/${lang}/login`} className={styles.loginBtn}>

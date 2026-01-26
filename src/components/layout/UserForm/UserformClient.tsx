@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import styles from "./userform.module.css";
+import { EyeOff, EyeOn } from "@/components/ui/EyeButton/EyeButton";
 
 interface UserFormClientProps {
   mode: "login" | "register" | "set-password";
@@ -28,9 +29,9 @@ export default function UserFormClient({
       <form action={action} className={styles.form}>
         {(mode === "login" || mode === "register") && (
           <input
-            name="email"
-            type="email"
-            placeholder={dict.email}
+            name="userdata"
+            type="userdata"
+            placeholder={dict.userdata}
             required
             className={`${styles.input} ${styles.email}`}
           />
@@ -51,7 +52,7 @@ export default function UserFormClient({
               onClick={() => setShowPassword((v) => !v)}
               aria-label={showPassword ? "Hide password" : "Show password"}
             >
-              {showPassword ? dict.btnhide : dict.btnshow}
+              {showPassword ? <EyeOff /> : <EyeOn />}
             </button>
           </div>
         )}
@@ -71,7 +72,7 @@ export default function UserFormClient({
               onClick={() => setShowPassword((v) => !v)}
               aria-label={showPassword ? "Hide password" : "Show password"}
             >
-              {showPassword ? dict.btnhide : dict.btnshow}
+              {showPassword ? <EyeOn />: <EyeOff />}
             </button>
           </div>
         )}

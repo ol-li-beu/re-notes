@@ -1,7 +1,9 @@
 
 import { ThemeProvider } from "next-themes";
+import { ToastProvider } from "@/hooks/ToastContext";
 import { Inter, Merriweather } from 'next/font/google';
 import "@/app/globals.css";
+
 
 const inter = Inter({ 
   subsets: ['latin'],
@@ -30,7 +32,9 @@ export default async function RootLayout({ children }: { children: React.ReactNo
     <html className={`${inter.variable} ${merriweather.variable}`} suppressHydrationWarning>
       <body>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <ToastProvider>
                 {children} 
+          </ToastProvider>
         </ThemeProvider>
       </body>
     </html>

@@ -90,7 +90,7 @@
 }
 
 .checkbox:checked + .mainCircle .rays {
-  transform: rotate(2) translateY(-18px) scale(0); /* shrink towards center */
+  transform: rotate(2) translateY(-18px) scale(0); 
   opacity: 0;
 }
 

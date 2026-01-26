@@ -8,17 +8,29 @@
         "learn" : "Aprender",
         "projects" : "Mis Proyectos",
         "login" : "Iniciar Sesión",
-        "register" : "Registrarse"
+        "register" : "Registrarse",
+        "logout" : "Cerrar Sesión",
+        "delete" : "Borrar Cuenta",
+
+        "profile" : "Mi Perfil"
     },
     "userform" : {
         "newpassword" : "Nueva Contraseña",
         "password" : "Contraseña",
-        "email" : "Email",
+        "userdata" : "Nombre de Usuario / Email",
         "btnlogin" : "Iniciar Sesión",
         "btnregister" : "Registrarse",
-        "btnsetpassword" : "Actualizar Contraseña",
-        "btnhide" : "Ocultar",
-        "btnshow" : "Mostrar"
+        "btnsetpassword" : "Actualizar Contraseña"
+    },
+
+    "projects" : {
+        "searchbar" : "Buscar ..."
+    },
+
+    "home" : {
+        "description" : "Conectá y expandé tus ideas recursivamente",
+        "btnregister" : "Registrarse ahora",
+        "btnlearn" : "Aprender más"
 
     },
 

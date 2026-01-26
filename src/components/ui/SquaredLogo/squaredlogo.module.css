@@ -1,0 +1,64 @@
+.container {
+  display: flex;
+  align-items: center; 
+  justify-content: center;
+  height: 300px;
+  width: 300px;
+  cursor: pointer;
+  border-radius: 50%;
+  
+  border: 10px dashed var(--fg);
+  
+  transition: opacity 0.3s ease, border-color 0.3s ease;
+  background: transparent;
+}
+
+.container:hover {
+  animation: spin 4s linear infinite;
+  opacity: 1;
+}
+
+.logoIcon {
+  width: 230px; 
+  height: 230px;
+  background-color: var(--fg); 
+
+  
+  -webkit-mask-image: url('/SquaredLogo.svg');
+  mask-image: url('/SquaredLogo.svg');
+  
+
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-position: center;
+  mask-position: center;
+
+}
+
+
+
+
+.container:hover .logoIcon {
+  animation: spin-reverse 4s linear infinite;
+  transform: scale(1.1);
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes spin-reverse {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-360deg);
+  }
+}

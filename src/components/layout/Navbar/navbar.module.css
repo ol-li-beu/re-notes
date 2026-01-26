@@ -97,36 +97,13 @@
 
 
 
-.userProfile {
-  padding: 0.5rem 0; 
-  min-width: 150px;  
-  text-align: center;
-  display: flex;
-  align-items: center;
-  gap: 0.8rem;
-}
-
-.userName {
-  font-weight: 600; 
-  font-size: 0.95rem;
-  color: var(--fg);
-  padding: 0.5rem 0.8rem;
-  border-radius: 6px;
-  transition: background 0.2s ease;
-  cursor: default;
-}
-
-.userName:hover, 
 .loginBtn:hover, 
 .registerBtn:hover {
-  background: var(--contrast); 
+ 
   color: var(--accent);
   text-decoration: underline;
   text-decoration-color: var(--accent);
   text-decoration-thickness: 2px;
 }
 
-.registerBtn:hover {
-  background: var(--bg); 
-}
 

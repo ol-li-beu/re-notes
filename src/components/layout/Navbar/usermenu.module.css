@@ -1,0 +1,68 @@
+.userMenu {
+  position: relative;
+}
+
+.trigger {
+  all: unset;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  font-weight: 500;
+}
+
+.trigger:hover {
+  background: var(--contrast);
+  border-radius: 8px;
+}
+
+.dropdown {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 6px);
+  min-width: 160px;
+
+  background: var(--bg);
+  border-radius: 12px;
+  box-shadow: 0 10px 30px var(--bg);
+
+  animation: fadeIn 0.15s ease;
+}
+
+.item {
+  all: unset;
+  display: block;
+  width: 100%;
+  padding: 10px 14px;
+  cursor: pointer;
+}
+
+.item:hover {
+  background: var(--accent);
+}
+
+.danger {
+  color: var(--bg);
+  background: var(--fg);
+
+}
+
+.arrow {
+  transition: transform 0.2s ease;
+}
+
+.open {
+  transform: rotate(180deg);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

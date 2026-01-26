@@ -1,7 +1,7 @@
 .footer {
   background-color: var(--bg);
   color: var(--fg);
-  border-top: 1px solid var(--grid); 
+  border-top: 3px solid var(--grid); 
   font-family: var(--font-main);
 }
 
