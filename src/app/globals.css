@@ -1,10 +1,10 @@
 :root {
   --bg: #eeeeee;
   --fg: #222222;
-  --accent: #009c00;
+  --accent: #00aa00;
   --grid: #4a4a4a;
   --contrast: #d1d1d1;
-  --negativeaccent: #c80000;
+  --negativeaccent: #d40000;
   
 
   /* each css.module can access font variables loaded in the server */

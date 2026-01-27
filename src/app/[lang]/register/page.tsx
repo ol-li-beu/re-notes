@@ -2,11 +2,7 @@ import { getAuthUser } from "@/utils/auth-actions";
 import { getDictionary } from "@/utils/get-dictionary";
 import UserForm from "@/components/layout/UserForm/Userform";
 
-interface PageProps {
-  params: {
-    lang: string;
-  };
-}
+import { PageProps } from "@/utils/types";
 
 export default async function RegisterPage({ params }: PageProps) {
   const { lang } = await params;

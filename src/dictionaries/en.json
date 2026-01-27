@@ -8,7 +8,7 @@
         "learn" : "Learn",
         "projects" : "My Projects",
         "login" : "Log In",
-        "register" : "Register",
+        "register" : "Sign Up",
         "logout" : "Log out",
         "delete" : "Delete Account",
 
@@ -19,8 +19,13 @@
         "password" : "Password",
         "userdata" : "Username / Email",
         "btnlogin" : "Log In",
-        "btnregister" : "Register",
-        "btnsetpassword" : "Update Password"},
+        "btnregister" : "Sign Up",
+        "btnsetpassword" : "Update Password",
+
+        "changeregister": "You don't have an account?",
+        "changelogin":  "You already have an account?",
+        "changepassword": "Did you forget your password?"
+    },
 
     "projects" : {
         "searchbar" : "Search ..."
@@ -28,7 +33,7 @@
 
     "home" : {
         "description" : "Connect and expand your ideas recursively",
-        "btnregister" : "Register Now",
+        "btnregister" : "Get Started",
         "btnlearn" : "Learn More"
 
     },

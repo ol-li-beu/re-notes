@@ -7,9 +7,15 @@ interface Props<T> {
   items: T[];
   placeholder?: string;
   filterFn: (item: T, query: string) => boolean;
+  children: (filtered: T[]) => React.ReactNode;
 }
 
-export default function SearchController<T>({items, placeholder, filterFn,}: Props<T>) {
+export default function SearchController<T>({
+  items,
+  placeholder,
+  filterFn,
+  children,
+}: Props<T>) {
   const [query, setQuery] = useState('');
 
   const filtered = useMemo(
@@ -25,6 +31,7 @@ export default function SearchController<T>({items, placeholder, filterFn,}: Pro
         placeholder={placeholder}
       />
 
+      {children(filtered)}
     </>
   );
 }

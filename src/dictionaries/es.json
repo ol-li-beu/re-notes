@@ -8,7 +8,7 @@
         "learn" : "Aprender",
         "projects" : "Mis Proyectos",
         "login" : "Iniciar Sesión",
-        "register" : "Registrarse",
+        "register" : "Crear Cuenta",
         "logout" : "Cerrar Sesión",
         "delete" : "Borrar Cuenta",
 
@@ -19,8 +19,13 @@
         "password" : "Contraseña",
         "userdata" : "Nombre de Usuario / Email",
         "btnlogin" : "Iniciar Sesión",
-        "btnregister" : "Registrarse",
-        "btnsetpassword" : "Actualizar Contraseña"
+        "btnregister" : "Crear Cuenta",
+        "btnsetpassword" : "Actualizar Contraseña",
+        
+        
+        "changeregister": "No tienes una cuenta?",
+        "changelogin":  "Ya tienes una cuenta?",
+        "changepassword": "Te olvidaste tu contraseña?"
     },
 
     "projects" : {
@@ -29,7 +34,7 @@
 
     "home" : {
         "description" : "Conectá y expandé tus ideas recursivamente",
-        "btnregister" : "Registrarse ahora",
+        "btnregister" : "Comenzar ahora",
         "btnlearn" : "Aprender más"
 
     },

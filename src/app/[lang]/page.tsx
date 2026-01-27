@@ -3,12 +3,7 @@ import SquaredLogo from "@/components/ui/SquaredLogo/SquaredLogo";
 import styles from "./mainpage.module.css";
 import { getDictionary } from "@/utils/get-dictionary";
 
-
-interface PageProps {
-  params: {
-    lang: string;
-  };
-}
+import { PageProps } from "@/utils/types";
 
 export default async function HomePage({params} : PageProps) {
   const {lang} = await params;
