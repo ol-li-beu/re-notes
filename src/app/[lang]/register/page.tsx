@@ -6,14 +6,14 @@ import { PageProps } from "@/utils/types";
 
 export default async function RegisterPage({ params }: PageProps) {
   const { lang } = await params;
-  const dictionary = await getDictionary(lang as any);
+  const dict = await getDictionary(lang as any);
   const user = await getAuthUser(); //TBD Supabase built-in authentication from session that is set in log in
 
   return (<>
     <UserForm 
     mode="register" 
     lang={lang} 
-    dict={dictionary} 
+    dict={dict.userform} 
     user={user}
     />
   </>);

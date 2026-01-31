@@ -30,6 +30,8 @@
 .close {
   background: none;
   border: none;
+  outline: none;
+  padding: 0px;
   font-size: 16px;
   cursor: pointer;
   color: inherit;

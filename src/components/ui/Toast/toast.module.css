@@ -17,6 +17,7 @@
   color: var(--fg);
 }
 
+
 @keyframes slideUp {
   from {
     opacity: 0;
@@ -37,9 +38,11 @@
   background: var(--accent);
 }
 
-.button {
+.close {
   background: none;
   border: none;
+  outline: none;
+  padding: 0px;
   font-size: 18px;
   color: inherit;
   cursor: pointer;

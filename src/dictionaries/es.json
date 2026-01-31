@@ -25,15 +25,64 @@
         
         "changeregister": "No tienes una cuenta?",
         "changelogin":  "Ya tienes una cuenta?",
-        "changepassword": "Te olvidaste tu contraseña?"
+        "forgotpassword": "Te olvidaste tu contraseña?",
+        "register" : "Registrate Acá",
+        "login" : "Iniciá Sesión Acá",
+
+        "error" : "Algo salió mal. Por favor intente nuevamente",
+        "emailsuccess" : "Enviando email de reestablecimiento de contraseña",
+        "emailinvalid" : "El email ingresado no es válido",
+        "passwordinvalid" : "La contraseña debe tener 10 caracteres, mínimo 1 letra y 1 número",
+
+        "resettitle" : "Reestablecimiento de Contraseña",
+        "email" : "Email",
+        "resetin" : "Reenviar en",
+        "sendreset" : "Reenviar",
+        "closeresend" : "Cancelar"
+
     },
 
     "projects" : {
-        "searchbar" : "Buscar ..."
+        "searchbar" : "Buscar ...",
+        "createproject" : "Crear Proyecto",
+        "editproject" : "Editar Proyecto",
+        "projecttitle" : "Título del Proyecto",
+        "projectdescription" : "Descripción Corta",
+        "save" : "Guardar",
+        "create" : "Crear",
+
+        "projectupdated" : "Proyecto Actualizado",
+        "projectcreated" : "Proyecto Creado",
+
+        "confirmdelete" : "Descartar Proyecto?",
+        "descriptiondelete" : "Podrá Restaurarlo en la Papelera",
+        "btncanceldelete" : "Cancelar",
+        "btnconfirmdelete" : "Confirmar",
+        "movedtrash" : "El Proyecto Descartado se movió a la Papelera",
+
+        "edit" : "Editar",
+        "delete" : "Eliminar",
+        "cancel" : "Cancelar"
+
+        
+    },
+
+    "recycled" : {
+        "empty" : "No se han Encontrado Proyectos Descartados",
+        "searchbar" : "Buscar ...",
+        "projectrestored" : "Proyecto Restaurado con Éxito",
+        "confirmdelete" : "Eliminar para Siempre?",
+        "descriptiondelete" : "No se Podrá Deshacer esta Acción",
+        "btncanceldelete" : "Cancelar",
+        "btnconfirmdelete" : "Confirmar",
+        "permadelete" : "El Proyecto ha sido Eliminado Permanentemente",
+
+        "restore" : "Restaurar",
+        "deleteforever" : "Eliminar para Siempre"
     },
 
     "home" : {
-        "description" : "Conectá y expandé tus ideas recursivamente",
+        "description" : "Conectá y Expandé tus Ideas Recursivamente",
         "btnregister" : "Comenzar ahora",
         "btnlearn" : "Aprender más"
 

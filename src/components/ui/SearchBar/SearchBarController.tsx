@@ -10,12 +10,7 @@ interface Props<T> {
   children: (filtered: T[]) => React.ReactNode;
 }
 
-export default function SearchController<T>({
-  items,
-  placeholder,
-  filterFn,
-  children,
-}: Props<T>) {
+export default function SearchController<T>({items, placeholder, filterFn, children,}: Props<T>) {
   const [query, setQuery] = useState('');
 
   const filtered = useMemo(

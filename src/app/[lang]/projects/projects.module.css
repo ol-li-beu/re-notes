@@ -12,6 +12,14 @@
   transition: all 0.25s ease;
 }
 
+.center {
+  min-height: 240px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
 @media (max-width: 1100px) {
   .grid { grid-template-columns: repeat(2, 1fr); }
 }

@@ -13,7 +13,7 @@ export default function Message({ type, children, onClose }: MessageProps) {
     <div className={`${styles.message} ${styles[type]}`}>
       <span>{children}</span>
       {onClose && (
-        <button className={styles.close} onClick={onClose}>
+        <button className={`${styles.close} ${styles[type]}`} onClick={onClose}>
           ×
         </button>
       )}

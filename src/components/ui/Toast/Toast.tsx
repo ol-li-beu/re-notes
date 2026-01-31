@@ -12,7 +12,7 @@ export default function Toast({ message, type, onClose }: ToastProps) {
   return (
     <div className={`${styles.toast} ${styles[type]}`}>
       <span>{message}</span>
-      <button onClick={onClose}>×</button>
+      <button className={`${styles.close} ${styles[type]}`} onClick={onClose}>×</button>
     </div>
   );
 }

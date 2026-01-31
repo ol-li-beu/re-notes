@@ -1,0 +1,77 @@
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal {
+  background: var(--bg);
+  border-radius: 14px;
+  padding: 20px;
+  width: 90%;
+  max-width: 360px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  animation: pop 0.2s ease-out;
+}
+
+.modal h3 {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.modal p {
+  font-size: 13px;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.actions button {
+  padding: 8px 12px;
+  font-size: 13px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  background: var(--bg);
+  border: solid 1px var(--fg);
+
+  transition: ease-in-out 0.2;
+}
+
+.actions button:hover{
+  border-color: var(--accent);
+  background: var(--accent);
+}
+
+.actions .confirm {
+  color: var(--bg);
+  background: var(--fg);
+}
+
+
+.actions .danger {
+  background: var(--negativeaccent);
+  color: var(--bg);
+  border-color: var(--negativeaccent);
+}
+
+@keyframes pop {
+  from {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}

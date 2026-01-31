@@ -6,17 +6,11 @@ import styles from "./projectmodal.module.css";
 
 
 const MAX_TITLE = 30;
-const MAX_DESC = 60;
+const MAX_DESC = 120;
 
-export default function ProjectModal({
-  project,
-  onClose,
-  onSave,
-}: {
-  project: Project | null;
-  onClose: () => void;
-  onSave: (data: { title: string; description: string }) => void;
-}) {
+export default function ProjectModal({project,onClose,onSave, dict}: {project: Project | null; onClose: () => void; 
+  onSave: (data: { title: string; description: string }) => void; dict: any;}, ) {
+
   const [title, setTitle] = useState("");
   const [desc, setDesc] = useState("");
   const [shakeTitle, setShakeTitle] = useState(false);
@@ -32,6 +26,7 @@ export default function ProjectModal({
     }
   }, [project]);
 
+
   useEffect(() => {
     if (shakeTitle) setTimeout(() => setShakeTitle(false), 300);
     if (shakeDesc) setTimeout(() => setShakeDesc(false), 300);
@@ -43,9 +38,8 @@ export default function ProjectModal({
         className={styles.modal}
         onClick={(e) => e.stopPropagation()}
       >
-        <h2>{project ? "Edit project" : "Create project"}</h2>
+        <h2>{project ? dict.editproject : dict.createproject}</h2>
 
-        
         <input
           value={title}
           maxLength={MAX_TITLE}
@@ -56,7 +50,7 @@ export default function ProjectModal({
             }
             setTitle(e.target.value);
           }}
-          placeholder="Project title"
+          placeholder={dict.projecttitle}
         />
         <span className={styles.counter}>
           {title.length}/{MAX_TITLE}
@@ -74,21 +68,20 @@ export default function ProjectModal({
             }
             setDesc(e.target.value);
           }}
-          placeholder="Short description"
+          placeholder={dict.projectdescription}
         />
         <span className={styles.counter}>
           {desc.length}/{MAX_DESC}
         </span>
 
         <div className={styles.actions}>
-          <button onClick={onClose}>Cancel</button>
-          <button
-            disabled={!title.trim()}
+          <button className={`${styles.buttons} ${styles.ghost}`} onClick={onClose}> {dict.cancel} </button>
+          <button className={`${styles.buttons} ${styles.primary}`}  disabled={!title.trim()}
             onClick={() =>
               onSave({ title: title.trim(), description: desc.trim() })
             }
           >
-            {project ? "Save" : "Create"}
+            {project ? dict.save : dict.create}
           </button>
         </div>
       </div>

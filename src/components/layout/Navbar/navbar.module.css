@@ -68,13 +68,14 @@
 }
 
 .loginBtn, .registerBtn {
-  padding: 0.5rem 0; 
-  min-width: 120px;  
+  padding: 0.75rem 0.5rem; 
+  min-width: 100px;  
   text-align: center;
   text-decoration: none;
   border-radius: 6px;
-  font-size: 1rem;
+  font-size: 0.85rem;
   font-weight: 500;
+  
 
   border: 2px solid var(--grid);
   background-color: var(--bg);
@@ -83,10 +84,18 @@
   align-items: center;
   justify-content: center;
   
-  transition: all 0.2s ease;
+  
   background-color: transparent; 
   color: var(--fg);
   border-color: var(--fg);
+
+  text-decoration: underline transparent;
+  text-underline-offset: 5px;
+  transition: 
+    color 0.3s ease, 
+    text-decoration-color 0.3s ease, 
+    text-underline-offset 0.3s ease,
+    opacity 0.3s ease;
 
 }
 
@@ -99,11 +108,10 @@
 
 .loginBtn:hover, 
 .registerBtn:hover {
- 
   color: var(--accent);
-  text-decoration: underline;
   text-decoration-color: var(--accent);
-  text-decoration-thickness: 2px;
+  text-underline-offset: 2px; 
+
 }
 
 

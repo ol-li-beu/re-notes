@@ -24,15 +24,64 @@
 
         "changeregister": "You don't have an account?",
         "changelogin":  "You already have an account?",
-        "changepassword": "Did you forget your password?"
+        "forgotpassword": "Did you forget your password?",
+
+        "register" : "Sign Up Here",
+        "login" : "Log In here",
+
+        "error" : "Something went wrong. Please try again",
+        "emailsuccess" : "Sending password reset email",
+        "emailinvalid" : "The email entered is not valid",
+        "passwordinvalid" : "The password needs to be at least 10 character, with a minimum of 1 letter and 1 number",
+
+        "resettitle" : "Password Reset",
+        "email" : "Email",
+        "resetin" : "Resend in",
+        "sendreset" : "Resend",
+        "closeresend" : "Cancel"
     },
 
     "projects" : {
-        "searchbar" : "Search ..."
+        "searchbar" : "Search ...",
+        "createproject" : "Create Project",
+        "editproject" : "Edit Project",
+        "projecttitle" : "Project Title",
+        "projectdescription" : "Short Description",
+        "save" : "Save",
+        "create" : "Create",
+
+        "projectupdated" : "Project Updated",
+        "projectcreated" : "Project Created",
+
+        "confirmdelete" : "Discard Project?",
+        "descriptiondelete" : "You will be able to Restore it from the Recycle Bin",
+        "btncanceldelete" : "Cancel",
+        "btnconfirmdelete" : "Confirm",
+        "movedtrash" : "The Discarded Project was Moved to the Recycle Bin",
+
+        "edit" : "Edit",
+        "delete" : "Delete",
+        "cancel" : "Cancel"
+
+        
+    },
+
+    "recycled" : {
+        "empty" : "No Discarded Projects Found",
+        "searchbar" : "Search ...",
+        "projectrestored" : "Project Restored Successfully",
+        "confirmdelete" : "Delete Forever?",
+        "descriptiondelete" : "This Action Cannot be Undone",
+        "btncanceldelete" : "Cancel",
+        "btnconfirmdelete" : "Confirm",
+        "permadelete" : "The Project was Deleted Permanently",
+
+        "restore" : "Restore",
+        "deleteforever" : "Delete Forever"
     },
 
     "home" : {
-        "description" : "Connect and expand your ideas recursively",
+        "description" : "Connect and Expand your Ideas Recursively",
         "btnregister" : "Get Started",
         "btnlearn" : "Learn More"
 

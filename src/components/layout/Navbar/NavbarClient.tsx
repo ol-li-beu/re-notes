@@ -15,12 +15,7 @@ interface NavbarClientProps {
     user : any;
     dict: any;
 }
-export default function NavbarClient({
-  lang,
-  navLinks,
-  user,
-  dict,
-} : NavbarClientProps) {
+export default function NavbarClient({ lang, navLinks, user, dict, } : NavbarClientProps) {
   const pathname = usePathname();
   const isLoggedIn = !!user;
 
