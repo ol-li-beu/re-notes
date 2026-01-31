@@ -12,7 +12,11 @@
         "logout" : "Log out",
         "delete" : "Delete Account",
 
-        "profile" : "My Profile"
+        "profile" : "My Profile",
+        "confirmtitle" : "Delete Account Forever?",
+        "confirmdescription" : "Your Projects Will be Lost Forever",
+        "confirmcancel" : "Cancel",
+        "confirmdelete" : "Delete"
     },
     "userform" : {
         "newpassword" : "New Password",
@@ -43,7 +47,7 @@
 
     "projects" : {
         "searchbar" : "Search ...",
-        "createproject" : "Create Project",
+        "createproject" : "Create New Project",
         "editproject" : "Edit Project",
         "projecttitle" : "Project Title",
         "projectdescription" : "Short Description",
@@ -61,7 +65,10 @@
 
         "edit" : "Edit",
         "delete" : "Delete",
-        "cancel" : "Cancel"
+        "cancel" : "Cancel",
+
+        "trash" : "Recycle Bin",
+        "gototrash" : "Go to Recycle Bin"
 
         
     },

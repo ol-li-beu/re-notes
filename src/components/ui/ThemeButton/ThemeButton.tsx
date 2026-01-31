@@ -1,41 +1,27 @@
 'use client'
 
-import { useState, useEffect } from 'react';
-import { useTheme } from 'next-themes';
-import styles from './themebutton.module.css';
+import { useState, useEffect } from 'react'
+import { useTheme } from 'next-themes'
+import { Sun, Moon } from 'lucide-react'
+import styles from './themebutton.module.css'
 
 export default function ThemeButton() {
-  const [mounted, setMounted] = useState(false);
-  const { theme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false)
+  const { theme, setTheme } = useTheme()
 
-  // For setting initial mount 
-  useEffect(() => {
-    setMounted(true);
-  }, []); 
-  if (!mounted) return <div style={{ width: '35px', height: '35px' }} />;
+  useEffect(() => setMounted(true), [])
+  if (!mounted) return <div style={{ width: 36, height: 36 }} />
 
-  const isDark = theme === 'dark';
-  const toggleTheme = () => {
-    setTheme(isDark ? 'light' : 'dark');
-  };
+  const isDark = theme === 'dark'
 
   return (
-    <label className={styles.container} aria-label="Toggle Theme">
-      <input 
-        type="checkbox" 
-        className={styles.checkbox} 
-        checked={isDark}
-        onChange={toggleTheme} 
-      />
-      <div className={styles.mainCircle}>
-        <div className={styles.celestialBody}></div>
-        <div className={styles.rays}>
-          <span /> <span />
-          <span /> <span />
-          <span /> <span />
-          <span /> <span />
-        </div>
-      </div>
-    </label>
-  );
+    <button
+      aria-label="Toggle theme"
+      className={styles.button}
+      onClick={() => setTheme(isDark ? 'light' : 'dark')}
+    >
+      <Sun className={`${styles.icon} ${styles.sun} ${isDark ? styles.hidden : styles.visible}`} />
+      <Moon className={`${styles.icon} ${styles.moon} ${isDark ? styles.visible : styles.hidden}`} />
+    </button>
+  )
 }

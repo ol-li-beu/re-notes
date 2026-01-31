@@ -12,7 +12,11 @@
         "logout" : "Cerrar Sesión",
         "delete" : "Borrar Cuenta",
 
-        "profile" : "Mi Perfil"
+        "profile" : "Mi Perfil",
+        "confirmtitle" : "Eliminar Cuenta Permanentemente?",
+        "confirmdescription" : "Tus Proyectos se van a Perder para Siempre",
+        "confirmcancel" : "Cancelar",
+        "confirmdelete" : "Eliminar"
     },
     "userform" : {
         "newpassword" : "Nueva Contraseña",
@@ -44,7 +48,7 @@
 
     "projects" : {
         "searchbar" : "Buscar ...",
-        "createproject" : "Crear Proyecto",
+        "createproject" : "Crear Proyecto Nuevo",
         "editproject" : "Editar Proyecto",
         "projecttitle" : "Título del Proyecto",
         "projectdescription" : "Descripción Corta",
@@ -62,7 +66,10 @@
 
         "edit" : "Editar",
         "delete" : "Eliminar",
-        "cancel" : "Cancelar"
+        "cancel" : "Cancelar",
+
+        "trash" : "Papelera",
+        "gototrash" : "Ir a la Papelera"
 
         
     },

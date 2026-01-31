@@ -1,6 +1,8 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useContext } from "react";
+import ConfirmModal from "@/components/ui/ConfirmModal/ConfirmModal";
+import { ToastContext } from "@/hooks/ToastContext";
 import styles from "./usermenu.module.css";
 
 interface UserDropdownProps {
@@ -11,6 +13,9 @@ interface UserDropdownProps {
 
 export default function UserMenu({ username, email, dict }: UserDropdownProps) {
   const [open, setOpen] = useState(false);
+  const [confirmDelete, setConfirmDelete] = useState(false); // modal
+  const { showToast } = useContext(ToastContext)!;
+  
   const ref = useRef<HTMLDivElement>(null);
 
   // click
@@ -25,6 +30,7 @@ export default function UserMenu({ username, email, dict }: UserDropdownProps) {
   }, []);
 
   return (
+    <>
     <div ref={ref} className={styles.wrapper}>
       <button
         onClick={() => setOpen((v) => !v)}
@@ -40,11 +46,31 @@ export default function UserMenu({ username, email, dict }: UserDropdownProps) {
         <div className={styles.dropdown}>
         <button className={styles.item}> {email} </button>
           <button className={styles.item}> {dict.logout} </button>
-          <button className={`${styles.item} ${styles.danger}`}>
+          <button className={`${styles.item} ${styles.danger}`}
+            onClick={() => {
+            setConfirmDelete(true);
+            setOpen(false); }}>
             {dict.delete}
           </button>
         </div>
       )}
     </div>
+
+    {confirmDelete && (
+        <ConfirmModal
+          title={dict.confirmtitle}
+          description={dict.confirmdescription}
+          btncancel={dict.confirmcancel}
+          btnconfirm={dict.confirmdelete}
+          onCancel={() => setConfirmDelete(false)}
+          onConfirm={() => {
+            setConfirmDelete(false);
+            // TODO: delete account SUpabse TBD, and close sesssion
+          }}
+        />
+      )}
+    </>
+
+    
   );
 }

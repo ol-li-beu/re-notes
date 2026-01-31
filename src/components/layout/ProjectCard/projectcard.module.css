@@ -91,9 +91,9 @@
 }
 
 .description {
-  font-size: 0.85rem;
+  font-size: 0.9rem;
   line-height: 1.45;
-  color: var(--muted);
+  color: var(--fg-muted);
 
   display: -webkit-box;
   -webkit-line-clamp: 3;
@@ -134,4 +134,29 @@
 
 .trashActions button:hover {
   background-color: var(--contrast);
+}
+
+.iconWrapper {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.specialText {
+  padding: 6px;
+  font-size: 1.2rem;
+  font-weight: 8¿700;
+  text-decoration: underline solid 2px var(--fg);
+  font-family: var(--font-title);
+}
+
+.specialIcon {
+ padding: 6px;
+ border-radius: 6px;
+ opacity: 0.7;
+ transition: opacity 0.2s ease;
+}
+
+.card:hover .specialIcon,
+.card:hover .specialText {
+  opacity: 1;
 }

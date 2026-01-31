@@ -2,7 +2,6 @@
   padding: 24px; 
 }
 
-
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
@@ -17,6 +16,28 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+.header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.search {
+  flex: 1;
+  min-width: 0; /* IMPORTANT for flex + inputs */
+}
+
+.searchRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.searchRow > :first-child {
+  flex: 1;
+  min-width: 0;
 }
 
 

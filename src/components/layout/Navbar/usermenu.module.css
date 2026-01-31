@@ -44,7 +44,7 @@
 
 .danger {
   color: var(--bg);
-  background: var(--fg);
+  background: var(--negativeaccent);
 
 }
 

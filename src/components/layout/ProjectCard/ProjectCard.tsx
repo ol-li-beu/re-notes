@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { Project } from "@/utils/types";
-import { TrashButton } from "@/components/ui/TrashButton/TrashButton";
+import { Icon } from "@/components/ui/Icons/Icons";
 import RefreshButton from "@/components/ui/RefreshButton/RefreshButton";
 import styles from "./projectcard.module.css";
 
@@ -63,6 +63,7 @@ export default function ProjectCard({project, lang, mode = "normal", isMenuOpen,
                     onCloseMenu?.();
                     onEdit?.(project);
                   }}>
+                  <Icon name="edit" />
                   {dict.edit}
                 </button>
 
@@ -72,7 +73,7 @@ export default function ProjectCard({project, lang, mode = "normal", isMenuOpen,
                     onCloseMenu?.();
                     onDelete?.(project);
                   }}>
-                  <TrashButton />
+                  <Icon name="trash" />
                   {dict.delete}
                 </button>
               </div>
@@ -88,7 +89,7 @@ export default function ProjectCard({project, lang, mode = "normal", isMenuOpen,
       {mode === "trash" && (
         <div className={styles.trashActions}>
           <button onClick={() => onRestore?.(project)}>
-            <RefreshButton />
+            <Icon name="undo" />
             {dict.restore}
           </button>
 
@@ -96,7 +97,7 @@ export default function ProjectCard({project, lang, mode = "normal", isMenuOpen,
             className={styles.danger}
             onClick={() => onPermanentDelete?.(project)}
           >
-            <TrashButton />
+            <Icon name="trash" />
             {dict.deleteforever}
           </button>
         </div>
