@@ -2,10 +2,15 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import styles from "./userform.module.css";
 import { Icon } from "@/components/ui/Icons/Icons";
+import Message from "@/components/ui/Message/Message";
+
 import { useToast } from "@/hooks/useToast";
 import { useRouter } from "next/navigation";
+import { useMessage } from "@/hooks/useMessage";
+
+import styles from "./userform.module.css";
+
 
 interface UserFormClientProps {
   mode: "login" | "register" | "set-password";
@@ -28,6 +33,7 @@ export default function UserFormClient({ mode, dict, lang, action,}: UserFormCli
   const [sending, setSending] = useState(false);
   const [cooldown, setCooldown] = useState(0);
 
+  const { message, showMessage, clearMessage } = useMessage();
   const { showToast } = useToast();
   const router = useRouter();
 
@@ -65,27 +71,33 @@ export default function UserFormClient({ mode, dict, lang, action,}: UserFormCli
 
     return () => clearInterval(timer);
   }, [cooldown]);
-  
 
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+// SUBMIT 
+const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
   e.preventDefault();
-
-  const looksLikeEmail = identifier.includes("@");
-  const isEmailValid =
-    !looksLikeEmail || EMAIL_REGEX.test(identifier);
-
-  if (!isEmailValid) {
-    showToast(dict.emailinvalid ?? "Invalid email format", "error");
+  
+  if (!identifier) {
+    showMessage("error", dict.userdatarequired ?? "Email or username is required");
     return;
   }
 
-  if (!PASSWORD_REGEX.test(password)) {
-    showToast(
-      dict.passwordinvalid ??
-        "Password must be at least 10 characters and include a letter and a number.",
-      "error"
-    );
+  if (!password) {
+    showMessage("error", dict.passwordrequired ?? "Password is required");
+    return;
+  }
+
+  const looksLikeEmail = identifier.includes("@");
+  const isEmailValid = !looksLikeEmail || EMAIL_REGEX.test(identifier);
+
+  if (!isEmailValid) {
+    showMessage("error", dict.emailinvalid ?? "Invalid email format");
+    return;
+  }
+
+  if (mode !== "login" && !PASSWORD_REGEX.test(password)) {
+    showMessage( "error",
+    dict.passwordinvalid ?? "Password must be at least 10 characters and include a letter and a number.");
     return;
   }
 
@@ -95,7 +107,7 @@ export default function UserFormClient({ mode, dict, lang, action,}: UserFormCli
 
 
   if (result?.error) {
-    showToast(result.error, "error"); //TBD lib supabase try send error or {}, if it works set up auth, 
+    showMessage("error", result.error); //TBD lib supabase try send error or {}, if it works set up auth, 
   }
 
   // TBD from database receive success or not after auth
@@ -110,15 +122,17 @@ export default function UserFormClient({ mode, dict, lang, action,}: UserFormCli
   return (
     <div className={styles.wrapper}>
       <form className={styles.form} onSubmit={handleSubmit}>
+
         {(mode === "login" || mode === "register") && (
           <input
             name="identifier"
             type="text"
             placeholder={dict.userdata} // "Email or username"
-            required
             className={styles.input}
             value={identifier}
-            onChange={(e) => setIdentifier(e.target.value.trim())}
+            onChange={(e) => 
+              {setIdentifier(e.target.value.trim()); 
+              if (message) clearMessage(); }}
             autoComplete="username"
           />
         )}
@@ -129,10 +143,12 @@ export default function UserFormClient({ mode, dict, lang, action,}: UserFormCli
               name="password"
               type={showPassword ? "text" : "password"}
               placeholder={dict.password}
-              required
               className={styles.input}
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={(e) => {
+                setPassword(e.target.value);
+                if (message) clearMessage();
+              }}
               autoComplete={
                 mode === "login" ? "current-password" : "new-password"
               }
@@ -168,6 +184,12 @@ export default function UserFormClient({ mode, dict, lang, action,}: UserFormCli
           {mode === "register" && dict.btnregister}
           {mode === "set-password" && dict.btnsetpassword}
         </button>
+
+        {message && (
+        <Message type={message.type} onClose={clearMessage}>
+          {message.text}
+        </Message>
+        )}
 
         <div className={styles.links}>
           {mode === "login" && (

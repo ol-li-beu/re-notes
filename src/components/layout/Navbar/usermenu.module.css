@@ -4,36 +4,39 @@
 
 .trigger {
  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 4px; 
-  padding: 4px 8px; 
-  font-size: 0.85rem;
-  font-weight: 500;
-  background: transparent;
-  border-radius: 6px;
-  transition: background 0.2s ease;
+ display: flex;
+ align-items: center;
+ gap: 4px; 
+ padding: 4px 8px; 
+ font-size: 1rem;
+ font-weight: 500;
+ background: transparent;
+ border-radius: 6px;
+ transition: background var(--anim-fast) var(--ease-standard), 
+             opacity var(--anim-fast) var(--ease-standard);
 }
 
 .trigger:hover {
-  background: var(--contrast);
-  border-radius: 8px;
-}
+  background: var(--accent);  
+  opacity: 0.8;
+} 
 
 .dropdown {
   position: absolute;
   right: 0;
   top: calc(100% + 4px);
+  width: max-content;
   min-width: 140px;
-  max-width: 220px; 
+  max-width: 320px;
   background: var(--bg);
   box-shadow: 0 6px 20px rgba(0,0,0,0.1);
   animation: fadeIn 0.15s ease;
 
   white-space: normal;
-  overflow: hidden;
   word-break: break-word; 
-  border-radius: 8px;
+
+
+  border: 1px solid var(--fg);
 }
 
 .item {
@@ -44,6 +47,12 @@
   padding: 10px 14px;
   font-size: 0.85rem;
   cursor: pointer;
+  white-space: normal;
+  background-color: var(--bg);
+}
+
+.emailItem {
+  word-break: break-all;
 }
 
 .item:hover {
@@ -57,7 +66,7 @@
 }
 
 .arrow {
-  transition: transform 0.2s ease;
+  transition: transform var(--anim-fast) var(--ease-standard);
 }
 
 .open {

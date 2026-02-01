@@ -1,5 +1,5 @@
 import { Trash2, PlusSquare, PencilLine, Undo2, Mail, LogIn, Sun, Moon,
-     Eye, EyeOff, Computer } from "lucide-react";
+     Eye, EyeOff, Computer, User } from "lucide-react";
 
 import { SiGithub } from "@icons-pack/react-simple-icons"
 
@@ -29,6 +29,7 @@ export const ICONSTYPE = {
   eye: Eye, 
   eyeoff: EyeOff,
   repo: Computer,
+  user: User,
 
   github: SiGithub,
 } 

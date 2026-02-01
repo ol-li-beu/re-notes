@@ -14,9 +14,9 @@
     0 4px 12px rgba(0,0,0,0.08),
     0 1px 0 rgba(255,255,255,0.03) inset;
   transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease,
-    opacity 0.2s ease;
+    transform var(--anim-fast) var(--ease-standard),
+    box-shadow var(--anim-fast) var(--ease-standard),
+    opacity var(--anim-fast) var(--ease-standard);
 }
 
 .card:hover {
@@ -66,7 +66,7 @@
   font-size: 0.9rem;
   text-align: left;
 
-  transition: background 0.15s ease;
+  transition: background var(--anim-fast) var(--ease-standard);
 }
 
 .dropdown button:hover {
@@ -127,9 +127,9 @@
   cursor: pointer;
 
   transition:
-    transform 0.15s ease,
-    background 0.15s ease,
-    box-shadow 0.15s ease,
+    transform var(--anim-fast) var(--ease-standard),
+    background var(--anim-fast) var(--ease-standard),
+    box-shadow var(--anim-fast) var(--ease-standard),
 }
 
 .trashActions button:hover {
@@ -153,7 +153,7 @@
  padding: 6px;
  border-radius: 6px;
  opacity: 0.7;
- transition: opacity 0.2s ease;
+ transition: opacity var(--anim-fast) var(--ease-standard);
 }
 
 .card:hover .specialIcon,

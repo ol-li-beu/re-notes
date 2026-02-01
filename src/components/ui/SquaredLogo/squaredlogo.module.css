@@ -10,7 +10,7 @@
   background: transparent;
 
   /* Optional: smooth scaling if you ever add hover effects */
-  transition: border-color 0.3s ease;
+  transition: border-color var(--anim-normal) var(--ease-standard);
 }
 
 .logoIcon {
@@ -29,5 +29,5 @@
   mask-position: center;
 
   /* Smooth transform for scale animation */
-  transition: transform 0.3s ease;
+  transition: transform var(--anim-normal) var(--ease-standard);
 }

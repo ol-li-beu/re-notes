@@ -38,8 +38,10 @@
 
         "error" : "Algo salió mal. Por favor intente nuevamente",
         "emailsuccess" : "Enviando email de reestablecimiento de contraseña",
-        "emailinvalid" : "El email ingresado no es válido",
-        "passwordinvalid" : "La contraseña debe tener 10 caracteres, mínimo 1 letra y 1 número",
+        "emailinvalid" : "El Email Ingresado No es Válido",
+        "passwordinvalid" : "La Contraseña Debe Tener 10 Caracteres, Mínimo 1 Letra y 1 Número",
+        "passwordrequired" : "Se Requiere Ingresar una Contraseña",
+        "userdatarequired" : "Se Requiere Ingresar Nombre de Usuario o Email", 
 
         "resettitle" : "Reestablecimiento de Contraseña",
         "email" : "Email",

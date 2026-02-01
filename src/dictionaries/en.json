@@ -40,6 +40,8 @@
         "emailsuccess" : "Sending password reset email",
         "emailinvalid" : "The email entered is not valid",
         "passwordinvalid" : "The password needs to be at least 10 character, with a minimum of 1 letter and 1 number",
+        "passwordrequired" : "It is Required to Enter a Password",
+        "userdatarequired" : "It is Required to Enter a Username or Email", 
 
         "resettitle" : "Password Reset",
         "email" : "Email",

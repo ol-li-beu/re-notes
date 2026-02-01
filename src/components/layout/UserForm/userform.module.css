@@ -57,7 +57,7 @@
   cursor: pointer;
   color: var(--fg);
 
-  transition: opacity 0.2s ease;
+  transition: opacity var(--anim-fast) var(--ease-standard);
 }
 
 .toggle:hover {
@@ -81,7 +81,7 @@
   border: 1px solid var(--fg);
   background-color: var(--bg);
   color: var(--fg);
-  transition: opacity 0.2s ease;
+  transition: opacity var(--anim-fast) var(--ease-standard);
 }
 
 .button:active {
@@ -104,7 +104,7 @@ button:disabled {
   background: var(--fg);
   color: var(--bg);
   border: 1px solid var(--fg);  
-  transition: opacity 0.2s ease;    
+  transition: opacity var(--anim-fast) var(--ease-standard);    
 }
 
 .resendbtn:hover {
@@ -117,7 +117,7 @@ button:disabled {
   color: var(--bg);
   border: 1px solid var(--fg);
   opacity: 0.7;
-  transition: opacity 0.2s ease;
+  transition: opacity var(--anim-fast) var(--ease-standard);
 }
 .resendbtn:disabled.hover {
   background: var(--fg);
@@ -142,11 +142,11 @@ button:disabled {
   text-decoration: underline;
   text-align: left; 
   width: auto;
+   transition: opacity var(--anim-fast) var(--ease-standard);
   
 }
 
 .link:hover {
-  transition: opacity 0.2s ease;
   opacity: 0.5;
 }
 
@@ -170,6 +170,8 @@ button:disabled {
   display: flex;
   flex-direction: column;
   gap: 16px;
+
+  animation: pop var(--anim-slow) var(--ease-out) forwards;
 }
 
 .modalActions {
@@ -181,6 +183,16 @@ button:disabled {
 }
 
 
+@keyframes pop {
+  from {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
 
 
 .spinner {

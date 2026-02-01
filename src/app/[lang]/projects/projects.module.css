@@ -8,7 +8,7 @@
   gap: 28px;
 
 
-  transition: all 0.25s ease;
+  transition: all var(--anim-normal) var(--ease-standard);
 }
 
 .center {

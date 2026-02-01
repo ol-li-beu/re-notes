@@ -13,7 +13,7 @@
   background: var(--bg);
   border: 1px solid var(--fg);
 
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  transition: border-color var(--anim-fast) var(--ease-standard), box-shadow var(--anim-fast) var(--ease-standard);
 }
 
 .wrapper:focus-within {

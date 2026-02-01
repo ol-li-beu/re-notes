@@ -44,13 +44,12 @@
   color: var(--fg);
   font-weight: 600;
   opacity: 1;
-  transition: all 0.2s ease;
+  transition: all var(--anim-normal) var(--ease-standard);
 }
 
 .middle a:hover {
   color: var(--accent);
-  opacity: 0.9;
-  transition: all 0.2s ease;
+  opacity: 0.7;
 }
 
 .active {
@@ -63,6 +62,7 @@
 .right {
   justify-content: flex-end;
   gap: 1.5rem;
+  align-items: center;
 }
 
 .authButtons {
@@ -96,10 +96,10 @@
   text-decoration: underline transparent;
   text-underline-offset: 5px;
   transition: 
-    color 0.3s ease, 
-    text-decoration-color 0.3s ease, 
-    text-underline-offset 0.3s ease,
-    opacity 0.3s ease;
+    color var(--anim-normal) var(--ease-standard), 
+    text-decoration-color var(--anim-normal) var(--ease-standard), 
+    text-underline-offset var(--anim-normal) var(--ease-standard),
+    opacity var(--anim-normal) var(--ease-standard);
 
 }
 

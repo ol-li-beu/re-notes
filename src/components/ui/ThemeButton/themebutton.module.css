@@ -16,13 +16,12 @@
   height: 35px;
   color: var(--fg);
   transition:
-    transform 0.45s cubic-bezier(.4,0,.2,1),
-    opacity 0.35s ease;
+    transform var(--anim-slow) var(--ease-standard),
+    opacity var(--anim-normal) ease;
 }
 
 .icon:hover {
   color: var(--accent);
-  transition: all 0.2s ease;
 }
 
 

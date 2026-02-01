@@ -17,7 +17,8 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
-  animation: pop 0.2s ease-out;
+
+  animation: pop var(--anim-slow) var(--ease-out) forwards;
 }
 
 .modal h3 {
@@ -45,7 +46,7 @@
   background: var(--bg);
   border: solid 1px var(--fg);
 
-  transition: ease-in-out 0.2;
+  transition: ease-in-out var(--anim-fast);
 }
 
 .actions button:hover{
@@ -65,6 +66,23 @@
   border-color: var(--negativeaccent);
 }
 
+
+.actions .danger:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+  transition: opacity var(--anim-fast) var(--ease-standard);
+}
+
+
+.actions .danger:disabled:hover {
+  cursor: not-allowed;
+  opacity: 0.6;
+  background: var(--negativeaccent);
+  border-color: var(--negativeaccent);;
+}
+
+
+
 @keyframes pop {
   from {
     transform: scale(0.95);
@@ -74,19 +92,4 @@
     transform: scale(1);
     opacity: 1;
   }
-}
-
-.actions .danger:disabled {
-  cursor: not-allowed;
-  opacity: 0.6;
-  transition: opacity 0.2s ease;
-}
-
-
-.actions .danger:disabled:hover {
-  cursor: not-allowed;
-  opacity: 0.6;
-  transition: opacity 0.2s ease;
-  background: var(--negativeaccent);
-  border-color: var(--negativeaccent);;
 }

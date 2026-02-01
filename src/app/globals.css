@@ -15,7 +15,20 @@
   --themeheight: 48px;
 
   --padding : 12px;
+
+  /* Anim Speed */
+  --anim-fast: 0.2s;
+  --anim-normal: 0.3s;
+  --anim-slow: 0.4s;
+
+  /* motion Ease */
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-out: cubic-bezier(0.0, 0, 0.2, 1);
+
 }
+
+
+
 
 html.dark {
   --bg: #222222;
@@ -79,3 +92,6 @@ select:focus {
   outline: none;
   box-shadow: none;
 }
+
+
+/* TODO GLOBAL ANIMATIONS */

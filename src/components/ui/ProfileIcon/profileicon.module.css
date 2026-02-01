@@ -8,7 +8,7 @@
   justify-content: center;
   overflow: hidden;
   padding: 4px; 
-  transition: all 0.2s ease;
+  transition: all var(--anim-fast) var(--ease-standard);
 }
 
 .profileCircle:hover {

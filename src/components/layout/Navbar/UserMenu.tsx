@@ -85,18 +85,21 @@ export default function UserMenu({ username, email, dict, lang }: UserDropdownPr
 
   return (
     <>
-      <div ref={ref} className={styles.wrapper}>
+      <div ref={ref} className={styles.userMenu}>
         <button
           onClick={() => setOpen((v) => !v)}
           className={styles.trigger}
           aria-expanded={open}
         >
-          {username}
+          <Icon name="user" /> {username}
           <span className={`${styles.arrow} ${open ? styles.open : ""}`}>▾</span>
         </button>
 
         {open && (
           <div className={styles.dropdown}>
+            <button className={`${styles.item} ${styles.emailItem}`}>
+              <Icon name="mail" />{email}
+            </button>
             <button className={styles.item} onClick={handleLogOut}>
               <Icon name="logout" /> {dict.logout}
             </button>

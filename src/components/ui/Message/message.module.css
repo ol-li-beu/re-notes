@@ -7,22 +7,25 @@
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  border: 2px solid var(--fg);
+  border: 2px solid;
   color: var(--fg);
   opacity: 1;
 }
 
 .error {
   background: var(--negativeaccent);
+  border-color: var(--negativeaccent);
 }
 
 .success {
   background: var(--accent);
+  border-color: var(--accent);
   
 }
 
 .info {
   background: var(--bg);
+  border-color: var(--fg);
  
   
 }

@@ -3,7 +3,7 @@
   align-items: center; /* relative to the father */
   height: 100%;
   text-decoration: none;
-  transition: opacity 0.2s ease;
+  transition: opacity var(--anim-fast) var(--ease-standard);
 }
 
 .logoIcon {
@@ -25,7 +25,6 @@
 
 .rectangularlogo:hover {
   opacity: 0.5;
-  transition: all 0.2s ease;
 }
 
 /* DYNAMIC SIZES */
