@@ -48,6 +48,7 @@
     "projects" : {
         "searchbar" : "Search ...",
         "createproject" : "Create New Project",
+        "trashproject" : "Projects Recycle Bin",
         "editproject" : "Edit Project",
         "projecttitle" : "Project Title",
         "projectdescription" : "Short Description",

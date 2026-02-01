@@ -1,6 +1,7 @@
 
 
 import RectangularLogo from '@/components/ui/RectangularLogo/RectangularLogo';
+import { Icon } from '@/components/ui/Icons/Icons';
 import styles from './footer.module.css'
 
 interface FooterProps {
@@ -33,12 +34,12 @@ export function Footer({dict} : FooterProps) {
                     
                     <ul className={styles['social-list']}>
                         <a href={socials.url}  target="_blank" rel="noopener noreferrer"> 
-                            {socials.name} 
+                            <Icon name="repo" size={15}/> {socials.name} 
                         </a> 
                         {collaborators.map((collaborator) => (
                             <li key={collaborator.name}>
                                 <a href={collaborator.url} target="_blank" rel="noopener noreferrer">
-                                    {collaborator.name}
+                                    <Icon name="github" size={15}/> {collaborator.name}
                                 </a>
                             </li>
                         ))}

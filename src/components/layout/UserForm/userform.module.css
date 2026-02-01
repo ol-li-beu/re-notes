@@ -56,10 +56,12 @@
   text-transform: uppercase;
   cursor: pointer;
   color: var(--fg);
+
+  transition: opacity 0.2s ease;
 }
 
 .toggle:hover {
-  color: var(--contrast);
+  opacity: 0.5;
 }
 
 
@@ -79,6 +81,7 @@
   border: 1px solid var(--fg);
   background-color: var(--bg);
   color: var(--fg);
+  transition: opacity 0.2s ease;
 }
 
 .button:active {
@@ -87,6 +90,7 @@
 
 .button:hover {
     background-color: var(--accent);
+    opacity: 0.9;
 }
 
 
@@ -131,7 +135,8 @@ button:disabled {
 }
 
 .link:hover {
-  color: var(--contrast);
+  transition: opacity 0.2s ease;
+  opacity: 0.5;
 }
 
 

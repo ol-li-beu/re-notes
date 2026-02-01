@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import styles from "./userform.module.css";
-import { EyeOff, EyeOn } from "@/components/ui/EyeButton/EyeButton";
+import { Icon } from "@/components/ui/Icons/Icons";
 import { useToast } from "@/hooks/useToast";
 import { useRouter } from "next/navigation";
 
@@ -143,7 +143,7 @@ export default function UserFormClient({ mode, dict, lang, action,}: UserFormCli
               className={styles.toggle}
               onClick={() => setShowPassword((v) => !v)}
             >
-              {showPassword ? <EyeOff /> : <EyeOn />}
+              {showPassword ? <Icon name="eyeoff" /> : <Icon name="eye" />}
             </button>
           </div>
         )}

@@ -1,5 +1,7 @@
 import { Trash2, PlusSquare, PencilLine, Undo2, Mail, LogIn, Sun, Moon,
-     Eye, EyeOff, GithubIcon, Computer } from "lucide-react";
+     Eye, EyeOff, Computer } from "lucide-react";
+
+import { SiGithub } from "@icons-pack/react-simple-icons"
 
 export type Project = {
   id: string;
@@ -26,8 +28,9 @@ export const ICONSTYPE = {
   moon: Moon,
   eye: Eye, 
   eyeoff: EyeOff,
-  github: GithubIcon,
   repo: Computer,
+
+  github: SiGithub,
 } 
 
 export type IconName = keyof typeof ICONSTYPE;

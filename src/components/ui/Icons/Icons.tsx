@@ -11,10 +11,10 @@ type Props = {
 };
 
 export function Icon({ name, size = 18, onClick }: Props) {
-  const LucideIcon = ICONSTYPE[name];
+  const Icon = ICONSTYPE[name];
 
   return (
-    <LucideIcon
+    <Icon
       size={size}
       className={`${styles.icon} ${onClick ? styles.clickable : ""}`}
       onClick={onClick}

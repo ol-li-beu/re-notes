@@ -43,11 +43,14 @@
   text-decoration: none;
   color: var(--fg);
   font-weight: 600;
-  opacity: 0.7;
+  opacity: 1;
+  transition: all 0.2s ease;
 }
 
 .middle a:hover {
   color: var(--accent);
+  opacity: 0.9;
+  transition: all 0.2s ease;
 }
 
 .active {
@@ -68,8 +71,9 @@
 }
 
 .loginBtn, .registerBtn {
-  padding: 0.75rem 0.5rem; 
-  min-width: 100px;  
+  padding: 0.7rem 0.5rem; 
+  min-width: 6rem;  
+  min-height: 0.4rem;
   text-align: center;
   text-decoration: none;
   border-radius: 6px;
@@ -110,7 +114,8 @@
 .registerBtn:hover {
   color: var(--accent);
   text-decoration-color: var(--accent);
-  text-underline-offset: 2px; 
+  text-underline-offset: 4px; 
+  
 
 }
 

@@ -113,7 +113,7 @@ export default function ProjectsClient({lang, dict, initialProjects, }: Projects
             />
 
             <SpecialProjectCard
-              title={dict.trash}
+              title={dict.trashproject}
               onClick={() => router.push(`/${lang}/projects/recycled-bin`)}
               iconName="trash"
             />

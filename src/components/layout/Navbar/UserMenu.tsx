@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect, useContext } from "react";
 import ConfirmModal from "@/components/ui/ConfirmModal/ConfirmModal";
 import { ToastContext } from "@/hooks/ToastContext";
+import { Icon } from "@/components/ui/Icons/Icons";
 import styles from "./usermenu.module.css";
 
 interface UserDropdownProps {
@@ -44,12 +45,15 @@ export default function UserMenu({ username, email, dict }: UserDropdownProps) {
 
       {open && (
         <div className={styles.dropdown}>
-        <button className={styles.item}> {email} </button>
-          <button className={styles.item}> {dict.logout} </button>
+        {/*<button className={styles.item}> */}
+            {/*<Icon name="mail"/> {email} </button> */}
+          <button className={styles.item}> 
+            <Icon name="logout"/> {dict.logout} </button>
           <button className={`${styles.item} ${styles.danger}`}
             onClick={() => {
             setConfirmDelete(true);
             setOpen(false); }}>
+            <Icon name="trash"/>
             {dict.delete}
           </button>
         </div>

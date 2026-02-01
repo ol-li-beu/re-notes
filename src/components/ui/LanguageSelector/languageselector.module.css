@@ -18,6 +18,7 @@
   
   cursor: pointer;
   outline: none;
+  transition: opacity 0.2s ease;
   
   
   appearance: none;
@@ -34,7 +35,9 @@
 
 .select:hover {
   border-color: var(--bg);
+  opacity: 0.9;
   background-color: var(--accent);
+  transition: opacity 0.2s ease;
 }
 
 

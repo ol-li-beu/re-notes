@@ -49,6 +49,7 @@
     "projects" : {
         "searchbar" : "Buscar ...",
         "createproject" : "Crear Proyecto Nuevo",
+        "trashproject" : "Papelera de Proyectos",
         "editproject" : "Editar Proyecto",
         "projecttitle" : "Título del Proyecto",
         "projectdescription" : "Descripción Corta",

@@ -56,29 +56,41 @@
   border-radius: 999px;
   font-size: 1.1rem;
   cursor: pointer;
-  transition: all 0.25s ease; 
+
+  border: 3px solid;
+  text-decoration: 2px underline transparent;
+  text-underline-offset: 5px;
+  transition: 
+    color 0.3s ease, 
+    text-decoration-color 0.3s ease, 
+    text-underline-offset 0.3s ease,
+    opacity 0.3s ease;
 }
 
 .btn.primary {
   background: var(--fg);
   color: var(--bg);
-  border: 3px solid var(--bg);
+  border-color: var(--bg);
 }
 
 .btn.primary:hover {
   transform: translateY(-1px);
   border-color: var(--accent);
+  text-decoration-color: var(--bg);
+  text-underline-offset: 2px;
 }
 
 .btn.ghost {
   background: var(--bg);
   color: var(--fg);
-  border: 3px solid var(--fg);
+  border-color: var(--fg);
 }
 
 .btn.ghost:hover {
   transform: translateY(-1px);
   border-color: var(--accent);
+  text-decoration-color: var(--fg);
+  text-underline-offset: 2px;
 }
 
 

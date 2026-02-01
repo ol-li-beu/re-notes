@@ -19,6 +19,9 @@ export default async function LangLayout({children, params} : LayoutProps) {
   const dictionary = await getDictionary(lang as any);
   const user = await getAuthUser(); //TBD Supabase built-in authentication from session that is set in log in
 
+  // test userlogged in
+  //const user = {name:"agustin", email:"agustin.lee2006@gmail.com"}
+
   return (
     <>
             <Navbar lang = {lang} dict={dictionary} user={user} />
