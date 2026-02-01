@@ -103,18 +103,34 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 
   const formData = new FormData(e.currentTarget);
 
-  const result = await action(formData);
+  const result = await action(formData); // ACTION VARIES DEPENDING ON PAGE
 
 
   if (result?.error) {
-    showMessage("error", result.error); //TBD lib supabase try send error or {}, if it works set up auth, 
+    showMessage("error", result.error); //TBD lib supabase try send error or {}, if it works set up auth, returns obj after setting session or updating 
+    // result = {success : "message from dict"} or {rerror : "messagefrom dict"} get dict in backedn
   }
 
-  // TBD from database receive success or not after auth
+  // TBD from database receive success or not after auth. BASED ON MODE, doesnt exist user or wrong password etc? OR HERE
 
-  if (result?.success) {
+  //LOG IN
+  if (result?.success && mode==="login") {
+    showToast(result.success, "success"); // logged in successfully
     router.push(`/${lang}/projects`);
   }
+
+  if (result?.success && mode==="register") {
+    showToast(result.success, "success"); // registered successfully
+    router.push(`/${lang}`);
+  }
+
+  if (result?.success && mode==="set-password") {
+    showToast(result.success, "success"); // password changed successfully
+    router.push(`/${lang}`);
+  }
+
+  
+
 };
 
 // REndering
