@@ -13,10 +13,13 @@
         "delete" : "Delete Account",
 
         "profile" : "My Profile",
-        "confirmtitle" : "Delete Account Forever?",
+        "confirmtitle" : "Delete Account Permanently?",
         "confirmdescription" : "Your Projects Will be Lost Forever",
         "confirmcancel" : "Cancel",
-        "confirmdelete" : "Delete"
+        "confirmdelete" : "Delete",
+        "deletein" : "Delete in",
+        "accountdeleted" : "The Account was Deleted Permanently",
+        "logoutsuccess" : "Logged Out Successfully"
     },
     "userform" : {
         "newpassword" : "New Password",

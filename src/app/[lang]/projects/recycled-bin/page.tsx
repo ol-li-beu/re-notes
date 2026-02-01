@@ -24,7 +24,7 @@ const deletedProjects: Project[] = [
   { "id": "24", "title": "Infinity Scroll", "description": "A creative writing blog exploring endless storytelling." }
 ];
 
-export default async function TrashProjectsPage({ params }: PageProps) {
+export default async function RecycledBinPage({ params }: PageProps) {
   const { lang } = await params;
   const dict = await getDictionary(lang);
 

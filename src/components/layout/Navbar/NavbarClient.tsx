@@ -47,7 +47,7 @@ export default function NavbarClient({ lang, navLinks, user, dict, } : NavbarCli
           <LanguageSelector currentLang={lang} />
 
           {isLoggedIn ? (
-              <UserMenu username={user.name ?? "User"} email={user.email ?? "email@gmail.com"} dict={dict} />
+              <UserMenu username={user.name ?? "User"} email={user.email ?? "email@gmail.com"} dict={dict} lang={lang} />
           ) : (
             <div className={styles.authButtons}>
               <Link href={`/${lang}/login`} className={styles.loginBtn}>

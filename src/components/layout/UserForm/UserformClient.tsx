@@ -42,8 +42,6 @@ export default function UserFormClient({ mode, dict, lang, action,}: UserFormCli
 
     setSending(true);
 
-    
-
     try {
       await new Promise((res) => setTimeout(res, 1500));
     // TODO TBD: supabase reset
@@ -67,6 +65,7 @@ export default function UserFormClient({ mode, dict, lang, action,}: UserFormCli
 
     return () => clearInterval(timer);
   }, [cooldown]);
+  
 
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {

@@ -2,8 +2,8 @@
 
 import styles from "./confirmmodal.module.css";
 
-export default function ConfirmModal({title, description, btncancel, btnconfirm, onConfirm, onCancel,}: 
-  {title: string; description: string; btncancel : string; btnconfirm : string; onConfirm: () => void; onCancel: () => void; }) {
+export default function ConfirmModal({title, description, btncancel, btnconfirm, onConfirm, onCancel, disabled=false,}: 
+  {title: string; description: string; btncancel : string; btnconfirm : string; onConfirm: () => void; onCancel: () => void; disabled?: boolean}) {
     
   return (
     <div className={styles.backdrop} onClick={onCancel}>
@@ -18,7 +18,7 @@ export default function ConfirmModal({title, description, btncancel, btnconfirm,
           <button onClick={onCancel}>
             {btncancel}
           </button>
-          <button className={styles.danger} onClick={onConfirm}>
+          <button className={styles.danger} onClick={onConfirm} disabled={disabled}>
             {btnconfirm}
           </button>
         </div>

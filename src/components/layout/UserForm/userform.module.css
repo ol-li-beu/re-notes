@@ -103,7 +103,8 @@ button:disabled {
 .resendbtn {
   background: var(--fg);
   color: var(--bg);
-  border: 1px solid var(--fg);      
+  border: 1px solid var(--fg);  
+  transition: opacity 0.2s ease;    
 }
 
 .resendbtn:hover {
@@ -111,7 +112,17 @@ button:disabled {
   background-color: var(--accent);
 }
 
-
+.resendbtn:disabled {
+  background: var(--fg);
+  color: var(--bg);
+  border: 1px solid var(--fg);
+  opacity: 0.7;
+  transition: opacity 0.2s ease;
+}
+.resendbtn:disabled.hover {
+  background: var(--fg);
+  border: 1px solid var(--fg);
+}
 
 .links {
   margin-top: 15px;

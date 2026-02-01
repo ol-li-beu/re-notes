@@ -16,7 +16,10 @@
         "confirmtitle" : "Eliminar Cuenta Permanentemente?",
         "confirmdescription" : "Tus Proyectos se van a Perder para Siempre",
         "confirmcancel" : "Cancelar",
-        "confirmdelete" : "Eliminar"
+        "confirmdelete" : "Eliminar",
+        "deletein" : "Eliminar en",
+        "accountdeleted" : "La Cuenta ha sido Eliminada Permanentemente",
+        "logoutsuccess" : "Sesión Cerrada con Éxito"
     },
     "userform" : {
         "newpassword" : "Nueva Contraseña",
