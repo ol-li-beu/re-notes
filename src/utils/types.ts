@@ -1,7 +1,7 @@
-import { Trash2, PlusSquare, PencilLine, Undo2, Mail, LogIn, Sun, Moon,
-     Eye, EyeOff, Computer, User } from "lucide-react";
+import { Trash2, PlusSquare, PencilLine, Undo2, Mail, LogOut, LogIn, Sun, Moon,
+     Eye, EyeOff, Computer, UserCircle, UserRoundPen, Search, UserRoundPlus, LucideUserRoundX, FingerprintPatternIcon  } from "lucide-react";
 
-import { SiGithub } from "@icons-pack/react-simple-icons"
+import { SiGithub, } from "@icons-pack/react-simple-icons"
 
 export type Project = {
   id: string;
@@ -18,20 +18,28 @@ export interface PagePropsCanvas {
 }
 
 export const ICONSTYPE = {
+  github: SiGithub,
+
   trash: Trash2,
   create: PlusSquare,
   edit: PencilLine,
   undo: Undo2,
   mail: Mail,
-  logout: LogIn,
+  logout: LogOut,
   sun: Sun,
   moon: Moon,
   eye: Eye, 
   eyeoff: EyeOff,
   repo: Computer,
-  user: User,
+  user: UserCircle,
+  userpen : UserRoundPen,
+  search: Search,
+  login: LogIn,
+  userx: LucideUserRoundX,
+  userplus: UserRoundPlus,
+  fingerprint: FingerprintPatternIcon,
 
-  github: SiGithub,
+  
 } 
 
 export type IconName = keyof typeof ICONSTYPE;

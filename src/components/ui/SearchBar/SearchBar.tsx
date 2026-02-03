@@ -1,6 +1,6 @@
 'use client';
 
-import { SearchIcon } from './SearchIcon';
+import { Icon } from '../Icons/Icons';
 import styles from './searchbar.module.css';
 
 interface SearchBarProps {
@@ -13,7 +13,7 @@ interface SearchBarProps {
 export default function SearchBar({value, onChange, placeholder, disabled = false,}: SearchBarProps) {
   return (
     <div className={styles.wrapper}>
-      <SearchIcon className={styles.icon} />
+      <div className={styles.icon}> <Icon name="search" /> </div>
 
       <input
         type="search"

@@ -14,7 +14,7 @@ export default function SpecialProjectCard({ onClick, title, iconName, size=40}:
   return (
     <div className={styles.card} onClick={onClick}>
       <div className={styles.iconWrapper}> {/* TBD */}
-        <span className={styles.specialIcon}> <Icon name={iconName} size={size} /> </span>
+        <span className={styles.specialIcon}> <Icon name={iconName}/> </span>
       </div>
       <p className={styles.specialText}>{title}</p>
     </div>

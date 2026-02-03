@@ -4,14 +4,15 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: var(--space-md);
 }
 
 
 .form {
   width: 100%;
   max-width: 520px;
-  min-height:350px;
-  padding: 50px;
+  min-height:unset;
+  padding: clamp(var(--space-md), 6vh, var(--space-lg));
   border: 2px solid var(--fg);
   background-color: var(--bg);
   display: flex;
@@ -23,10 +24,10 @@
 
 .input {
   width: 100%;
-  padding: 14px 16px;
+  padding: var(--space-sm) var(--space-md);
   border-radius: 6px;
   border: 1px solid var(--fg);
-  font-size: 16px;
+  font-size: var(--font-sm);
   outline: none;
   transition: none;
 }
@@ -49,9 +50,9 @@
   transform: translateY(-50%);
   background: none;
   border: none;
-  padding: 4px 6px;
-  font-size: 11px;
-  font-weight: 600;
+  padding: var(--space-2xs) var(--space-xs);
+  font-size: var(--font-sm);
+  font-weight: var(--font-weight);
   letter-spacing: 0.6px;
   text-transform: uppercase;
   cursor: pointer;
@@ -61,13 +62,13 @@
 }
 
 .toggle:hover {
-  opacity: 0.5;
+  opacity: var(--opacitychange);
 }
 
 
 .button,
 .resendbtn {
-  min-height: 44px;           
+  min-height: var(--touch-target-min);           
   line-height: 1.2;           
   padding: 12px 20px;
   font-size: 16px;
@@ -90,12 +91,13 @@
 
 .button:hover {
     background-color: var(--accent);
-    opacity: 0.9;
+    opacity: var(--opacitychange);
+    border-color: var(--accent);
 }
 
 
 button:disabled {
-  opacity: 0.6;
+  opacity: var(--opacitychange);
   cursor: not-allowed;
 }
 
@@ -116,12 +118,8 @@ button:disabled {
   background: var(--fg);
   color: var(--bg);
   border: 1px solid var(--fg);
-  opacity: 0.7;
+  opacity: var(--opacitychange);
   transition: opacity var(--anim-fast) var(--ease-standard);
-}
-.resendbtn:disabled.hover {
-  background: var(--fg);
-  border: 1px solid var(--fg);
 }
 
 .links {
@@ -129,11 +127,14 @@ button:disabled {
   display: flex;
   flex-direction: column; 
   gap: 10px;
-  font-size: 14px;
+  font-size: var(--font-sm);
   align-items: flex-start;
 }
 
 .link {
+  min-height: var(--space-md);
+  display: inline-flex;
+  align-items: center;
   background: none;
   border: none;
   padding: 0;
@@ -147,7 +148,7 @@ button:disabled {
 }
 
 .link:hover {
-  opacity: 0.5;
+  opacity: var(--opacitychange);
 }
 
 
@@ -164,12 +165,16 @@ button:disabled {
 .modal {
   background: var(--bg);
   border: 2px solid var(--fg);
-  padding: 30px;
+  padding: var(--space-md);
+  max-height: calc(100vh - 32px);
+  max-height: calc(100dvh - 32px);
   width: 100%;
   max-width: 420px;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: var(--space-md);
+  margin: var(--space-md);
+  overflow-y: auto;
 
   animation: pop var(--anim-slow) var(--ease-out) forwards;
 }
@@ -214,6 +219,13 @@ button:disabled {
 
 .hint {
   font-size: 13px;
-  opacity: 0.7;
+  opacity: var(--opacitychange);
   text-align: center;
+}
+
+
+@media (max-width: 768px) {
+  .modalActions {
+    flex-direction: column;
+  }
 }

@@ -32,6 +32,14 @@ export default function ProjectModal({project,onClose,onSave, dict}: {project: P
     if (shakeDesc) setTimeout(() => setShakeDesc(false), 300);
   }, [shakeTitle, shakeDesc]);
 
+  // ANTI SCROLL ON MODAL
+  useEffect(() => {
+  document.body.style.overflow = "hidden";
+  return () => {
+    document.body.style.overflow = "";
+  };
+  }, []);
+
   return (
     <div className={styles.backdrop} onClick={onClose}>
       <div

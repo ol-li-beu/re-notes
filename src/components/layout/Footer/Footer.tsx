@@ -34,12 +34,12 @@ export function Footer({dict} : FooterProps) {
                     
                     <ul className={styles['social-list']}>
                         <a href={socials.url}  target="_blank" rel="noopener noreferrer"> 
-                            <Icon name="repo" size={15}/> {socials.name} 
+                            <Icon name="repo"/> {socials.name} 
                         </a> 
                         {collaborators.map((collaborator) => (
                             <li key={collaborator.name}>
                                 <a href={collaborator.url} target="_blank" rel="noopener noreferrer">
-                                    <Icon name="github" size={15}/> {collaborator.name}
+                                    <Icon name="github"/> {collaborator.name}
                                 </a>
                             </li>
                         ))}

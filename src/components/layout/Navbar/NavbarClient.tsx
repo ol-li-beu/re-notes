@@ -7,6 +7,7 @@ import RectangularLogo from "@/components/ui/RectangularLogo/RectangularLogo";
 import ThemeButton from "@/components/ui/ThemeButton/ThemeButton";
 import LanguageSelector from "@/components/ui/LanguageSelector/LanguageSelector";
 import UserMenu from "./UserMenu";
+import GuestMenu from "./GuestMenu";
 
 
 interface NavbarClientProps {
@@ -49,14 +50,7 @@ export default function NavbarClient({ lang, navLinks, user, dict, } : NavbarCli
           {isLoggedIn ? (
               <UserMenu username={user.name ?? "User"} email={user.email ?? "email@gmail.com"} dict={dict} lang={lang} />
           ) : (
-            <div className={styles.authButtons}>
-              <Link href={`/${lang}/login`} className={styles.loginBtn}>
-                {dict.login}
-              </Link>
-              <Link href={`/${lang}/register`} className={styles.registerBtn}>
-                {dict.register}
-              </Link>
-            </div>
+              <GuestMenu dict={dict} lang={lang} />
           )}
         </div>
 

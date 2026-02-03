@@ -1,21 +1,26 @@
 .container {
+  --logo-size: clamp(220px, 50vw, 420px);
+
+
   display: flex;
   align-items: center; 
   justify-content: center;
-  height: 350px;
-  width: 350px;
+
+  height: var(--logo-size);
+  width: var(--logo-size);
+
   cursor: pointer;
   border-radius: 50%;
-  border: 10px dashed var(--fg);
+  border: calc(var(--logo-size) * 0.03) dashed var(--fg);
   background: transparent;
 
-  /* Optional: smooth scaling if you ever add hover effects */
   transition: border-color var(--anim-normal) var(--ease-standard);
 }
 
 .logoIcon {
-  width: 270px; 
-  height: 270px;
+  width: calc(var(--logo-size) * 0.77);
+  height: calc(var(--logo-size) * 0.77);
+
   background-color: var(--fg);
 
   -webkit-mask-image: url('/SquaredLogo.svg');
@@ -30,4 +35,12 @@
 
   /* Smooth transform for scale animation */
   transition: transform var(--anim-normal) var(--ease-standard);
+}
+
+
+/* Better control */
+@media (max-width: 360px) {
+  .container {
+    --logo-size: 160px;
+  }
 }

@@ -69,14 +69,13 @@
 
 .actions .danger:disabled {
   cursor: not-allowed;
-  opacity: 0.6;
+  opacity: var(--opacitychange);
   transition: opacity var(--anim-fast) var(--ease-standard);
 }
 
 
 .actions .danger:disabled:hover {
   cursor: not-allowed;
-  opacity: 0.6;
   background: var(--negativeaccent);
   border-color: var(--negativeaccent);;
 }

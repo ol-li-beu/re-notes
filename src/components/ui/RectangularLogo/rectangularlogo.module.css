@@ -1,15 +1,19 @@
 .rectangularlogo {
   display: flex;
-  align-items: center; /* relative to the father */
+  align-items: center; 
+
   height: 100%;
   text-decoration: none;
   transition: opacity var(--anim-fast) var(--ease-standard);
+
 }
 
 .logoIcon {
+  width: 100%;
+  height: 100%;
+
   background-color: var(--fg); 
 
-  
   -webkit-mask-image: url('/RectangularLogo.svg');
   mask-image: url('/RectangularLogo.svg');
   
@@ -24,16 +28,16 @@
 
 
 .rectangularlogo:hover {
-  opacity: 0.5;
+  opacity: var(--opacitychange);
 }
 
 /* DYNAMIC SIZES */
 .header {
-  width: 160px;
-  height: 55px;
+  width: clamp(50px, 10vw, 180px);
+  height: clamp(30px, 6vw, 60px);
 }
 
 .footer {
-  width: 140px;
-  height: 50px;
+  width: 320px;
+  height: 60px;
 }

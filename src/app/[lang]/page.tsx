@@ -12,6 +12,7 @@ export default async function HomePage({params} : PageProps) {
 
   return (
     <main className={styles.main}>
+      <section>
       <header className={styles.header}>
         <div className={styles.left}>
           <h1 className={styles.softwareName}>Re-Notes</h1>
@@ -28,11 +29,13 @@ export default async function HomePage({params} : PageProps) {
           <SquaredLogo />
         </div>
       </header>
+      </section>
 
-
+      <section>
        <div className={styles.greySection}>
-
-      </div>
+          
+        </div>
+      </section>
 
     </main>
   );

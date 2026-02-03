@@ -1,12 +1,12 @@
 .message {
   position: relative;
-  padding: 10px 14px;
+  padding: var(--space-xs) var(--space-sm);
   border-radius: 10px;
-  font-size: 14px;
+  font-size: var(--font-sm);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
+  gap: var(--space-xs);
   border: 2px solid;
   color: var(--fg);
   opacity: 1;
@@ -35,7 +35,7 @@
   border: none;
   outline: none;
   padding: 0px;
-  font-size: 16px;
+  font-size: 1rem;
   cursor: pointer;
   color: inherit;
 }

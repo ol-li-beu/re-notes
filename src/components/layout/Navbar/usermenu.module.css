@@ -6,72 +6,83 @@
  cursor: pointer;
  display: flex;
  align-items: center;
- gap: 4px; 
- padding: 4px 8px; 
- font-size: 1rem;
- font-weight: 500;
+ gap: var(--space-2xs); 
+ padding: var(--space-2xs) var(--space-2xs); 
+ min-height: 40px;
  background: transparent;
- border-radius: 6px;
- transition: background var(--anim-fast) var(--ease-standard), 
-             opacity var(--anim-fast) var(--ease-standard);
+ border: none;
+ outline: none;
+ transition: opacity var(--anim-fast) var(--ease-standard);
 }
 
 .trigger:hover {
-  background: var(--accent);  
-  opacity: 0.8;
+  color: var(--accent);  
+  opacity: var(--opacitychange);
 } 
+
+
+.trigger svg {
+  width: clamp(18px, 4vw, 30px);
+  height: clamp(18px, 4vw, 30px);
+}
+
 
 .dropdown {
   position: absolute;
   right: 0;
   top: calc(100% + 4px);
   width: max-content;
-  min-width: 140px;
-  max-width: 320px;
+  min-width: clamp(140px, 40vw, 200px);
+  max-width: min(90vw, 320px);
   background: var(--bg);
-  box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+  box-shadow: 0 6px 10px rgba(0,0,0,0.1);
   animation: fadeIn 0.15s ease;
+
 
   white-space: normal;
   word-break: break-word; 
 
 
-  border: 1px solid var(--fg);
+  border: 0.5px solid var(--fg);
+  
 }
 
 .item {
   display: flex; 
   align-items: center;
-  gap: 6px; 
+  gap: clamp(4px, 1vw, var(--space-2xs)); 
   width: 100%;
-  padding: 10px 14px;
-  font-size: 0.85rem;
+  padding: var(--space-xs) var(--space-2xs);
+  font-size: var(--font-xs);
   cursor: pointer;
   white-space: normal;
   background-color: var(--bg);
-}
+  color: inherit;
+  text-decoration: none;
 
-.emailItem {
-  word-break: break-all;
+  transition: opacity var(--anim-fast) var(--ease-standard);
 }
 
 .item:hover {
   background: var(--accent);
   color: var(--bg);
+  opacity: var(--opacitychange);
+}
+
+.item:visited {
+  color: inherit;
+}
+
+.dataItem {
+  word-break: break-all;
 }
 
 .danger {
   color: var(--bg);
   background: var(--negativeaccent);
+  opacity: 0.9;
 }
 
-.arrow {
-  transition: transform var(--anim-fast) var(--ease-standard);
-}
-
-.open {
-  transform: rotate(180deg);
-}
 
 @keyframes fadeIn {
   from {
@@ -82,4 +93,13 @@
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+
+
+@media (max-width: 768px) {
+  .trigger {
+    min-height: 32px;
+  }
+
 }

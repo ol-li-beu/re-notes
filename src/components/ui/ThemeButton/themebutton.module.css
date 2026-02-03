@@ -1,6 +1,6 @@
 .button {
-  width: var(--themeheight);
-  height: var(--themeheight);
+  width: clamp(20px, 4vw, 40px);
+  height: clamp(20px, 4vw, 40px);
   border-radius: 50%;
   background: transparent;
   border: none;
@@ -12,8 +12,9 @@
 
 .icon {
   position: absolute;
-  width: 35px;
-  height: 35px;
+  width: 1.3rem;
+  height: 1.3rem;
+  flex: 0 0 auto;
   color: var(--fg);
   transition:
     transform var(--anim-slow) var(--ease-standard),
@@ -43,4 +44,15 @@
   opacity: 0;
   transform: scale(0.3) rotate(60deg);
   pointer-events: none;
+}
+
+
+
+@media (max-width: 768px) {
+  .icon {
+    width: 0.9rem;
+    height: 0.9rem;
+  }
+  
+
 }

@@ -1,9 +1,9 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Project } from "@/utils/types";
 import { Icon } from "@/components/ui/Icons/Icons";
-import RefreshButton from "@/components/ui/RefreshButton/RefreshButton";
 import styles from "./projectcard.module.css";
 
 type CardMode = "normal" | "trash";
@@ -24,8 +24,12 @@ type Props = {
 
 export default function ProjectCard({project, lang, mode = "normal", isMenuOpen, 
   onToggleMenu, onCloseMenu, onEdit, onDelete, onRestore, onPermanentDelete, dict,}: Props) {
-
+  
   const router = useRouter();
+  
+
+  
+
 
   return (
     <div

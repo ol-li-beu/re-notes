@@ -89,16 +89,17 @@ export default function UserMenu({ username, email, dict, lang }: UserDropdownPr
         <button
           onClick={() => setOpen((v) => !v)}
           className={styles.trigger}
-          aria-expanded={open}
-        >
-          <Icon name="user" /> {username}
-          <span className={`${styles.arrow} ${open ? styles.open : ""}`}>▾</span>
+          aria-expanded={open}>
+          <Icon name="user" />  
         </button>
 
         {open && (
           <div className={styles.dropdown}>
-            <button className={`${styles.item} ${styles.emailItem}`}>
-              <Icon name="mail" />{email}
+            <button className={`${styles.item} ${styles.dataItem}`} onClick= {() => {showToast("WIP", "error")}}>
+              <Icon name="userpen" /> {username}
+            </button>
+            <button className={`${styles.item} ${styles.dataItem}`}>
+              <Icon name="mail" /> {email}
             </button>
             <button className={styles.item} onClick={handleLogOut}>
               <Icon name="logout" /> {dict.logout}
@@ -110,7 +111,7 @@ export default function UserMenu({ username, email, dict, lang }: UserDropdownPr
                 setOpen(false);
               }}
             >
-              <Icon name="trash" /> {dict.delete}
+              <Icon name="userx" /> {dict.delete}
             </button>
           </div>
         )}

@@ -1,122 +1,89 @@
 .nav {
-  height: var(--navheight);
+  width: 100%;
+  height: auto;
   border-bottom: 2px solid var(--grid);
   background: var(--bg);
   color: var(--fg);
   position: sticky;
   top: 0;
   z-index: 100;
+  
 }
 
 .container {
-  max-width: 1800px;
+  width: 100%;
   margin: 0 auto;
   height: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0rem 3rem;
+  padding: 0rem 1rem;
 }
 
 .left {
-  flex: 1;
   display: flex;
   align-items: center;
-  height: 100%;
+  flex: 0 0 auto;
+  padding-left: 0;
+  padding-block: var(--space-2xs);
+  padding-right: var(--space-2xs);
 }
+
 .right {
-  flex: 1;
   display: flex;
-  align-items: right;
-  gap: 1rem;
+  align-items: center;
+  justify-content: flex-end;
+  flex: 0 0 auto;
 }
 
 .middle {
-  flex: 2;
   display: flex;
   justify-content: center;
-  gap: 5rem;
 }
 
 .middle a {
-  font-size: 20px;
+  font-size: var(--font-sm);
   text-decoration: none;
   color: var(--fg);
-  font-weight: 600;
+  font-weight: calc(var(--font-weight)+100px);
+  text-align: center;
   opacity: 1;
   transition: all var(--anim-normal) var(--ease-standard);
+  padding: var(--space-md) var(--space-lg);
 }
 
 .middle a:hover {
   color: var(--accent);
-  opacity: 0.7;
+  opacity: var(--opacitychange);
 }
 
 .active {
   opacity: 1;
   color: var(--accent) !important;
   text-decoration: underline !important;
-  text-decoration-thickness: 3px !important;
+  text-decoration-thickness: var(--underline-sm) !important;
 }
 
 .right {
+  display: flex;
+  flex-wrap: wrap;
   justify-content: flex-end;
-  gap: 1.5rem;
+  gap: var(--space-sm);
   align-items: center;
-}
-
-.authButtons {
-  display: flex;
-  gap: 1rem;
-}
-
-.loginBtn, .registerBtn {
-  padding: 0.7rem 0.5rem; 
-  min-width: 6rem;  
-  min-height: 0.4rem;
-  text-align: center;
-  text-decoration: none;
-  border-radius: 6px;
-  font-size: 0.85rem;
-  font-weight: 500;
-  
-
-  border: 2px solid var(--grid);
-  background-color: var(--bg);
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  
-  
-  background-color: transparent; 
-  color: var(--fg);
-  border-color: var(--fg);
-
-  text-decoration: underline transparent;
-  text-underline-offset: 5px;
-  transition: 
-    color var(--anim-normal) var(--ease-standard), 
-    text-decoration-color var(--anim-normal) var(--ease-standard), 
-    text-underline-offset var(--anim-normal) var(--ease-standard),
-    opacity var(--anim-normal) var(--ease-standard);
-
-}
-
-.registerBtn {
-  background: var(--fg);
-  color: var(--bg);
-}
-
-
-
-.loginBtn:hover, 
-.registerBtn:hover {
-  color: var(--accent);
-  text-decoration-color: var(--accent);
-  text-underline-offset: 4px; 
-  
+  height: 100%;
 
 }
 
 
+@media (max-width: 768px) {
+  .container {
+    padding: 0 0.2rem;
+  } 
+  .middle a {
+    padding: var(--space-2xs);
+  }
+  .right {
+    gap: var(--space-2xs);
+  }
+
+}

@@ -1,9 +1,10 @@
-.icon {
-  display: block;
- 
-}
-
 
 .clickable {
   cursor: pointer;
 }
+
+.icon {
+  width: 1.1em;
+  height: 1.1em;
+}
+

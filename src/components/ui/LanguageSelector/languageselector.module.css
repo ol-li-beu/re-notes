@@ -10,9 +10,9 @@
   border: 1px solid var(--bg);
   
   
-  font-size: 0.85rem;
-  font-weight: 500;
-  padding: 0.4rem 0.6rem;
+  font-size: var(--font-xs);
+  font-weight: var(--font-weight);
+  padding: var(--space-2xs) var(--space-2xs);
   border-radius: 6px;
   
   
@@ -23,19 +23,21 @@
   
   appearance: none;
   -webkit-appearance: none;
-  padding-right: 1.8rem; 
+  padding-right: var(--space-sm); 
   
   
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23888888'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
   background-repeat: no-repeat;
-  background-position: right 0.5rem center;
-  background-size: 1rem;
+  background-position: right 0.1rem center;
+  background-size: 0.5rem;
+
+  transition: opacity var(--anim-fast) var(--ease-standard);
 }
 
 
 .select:hover {
   border-color: var(--bg);
-  opacity: 0.9;
+  opacity: var(--opacitychange);
   background-color: var(--accent);
 }
 
@@ -49,7 +51,7 @@
 .select option {
   background-color: var(--bg);
   color: var(--fg);
-  padding: 10px;
+  padding: var(--space-xs);
 }
 
 

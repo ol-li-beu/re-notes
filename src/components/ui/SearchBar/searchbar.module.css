@@ -1,13 +1,13 @@
 .wrapper {
+  max-width: 1200px;
+  width: calc(100% - 2rem);
   display: flex;
   align-items: center;
-  gap: 1rem;
-  margin: 2.5rem auto;
+  gap: var(--space-md);
+  margin: var(--space-lg) auto;
 
-  width: 100%;
-  max-width: 540px;
-
-  padding: 0.55rem 0.75rem;
+  padding: var(--space-xs) var(--space-md);
+  padding-inline: 1rem;
   border-radius: 999px;
 
   background: var(--bg);
@@ -22,10 +22,10 @@
 }
 
 .icon {
-  width: 18px;
-  height: 18px;
-  color: var(--muted);
-  flex-shrink: 0;
+  font-size: var(--font-md);
+  display: flex;
+  opacity: var(--opacitychange);
+  align-items: center;
 }
 
 .input {
@@ -33,11 +33,21 @@
   border: none;
   outline: none;
   background: transparent;
-
+  line-height: 1.2;
   color: var(--fg);
-  font-size: 0.95rem;
+  font-size: var(--font-sm);
+  
 }
 
 .input::placeholder {
   color: var(--muted);
+}
+
+
+@media (max-width: 768px) {
+
+  .input {
+    font-size: var(--font-md);
+  }
+
 }
