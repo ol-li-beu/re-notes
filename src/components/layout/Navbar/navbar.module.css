@@ -57,6 +57,10 @@
   opacity: var(--opacitychange);
 }
 
+.notloggedin {
+  display:all;
+}
+
 .active {
   opacity: 1;
   color: var(--accent) !important;
@@ -74,16 +78,92 @@
 
 }
 
+.authButtons {
+  display: flex;
+  gap: var(--space-sm);
+  justify-content: flex-start;            
+  width: 100%;
+  box-sizing: border-box;
+  font-size: var(--font-sm);
+
+}
+
+.loginBtn, .registerBtn {
+  width: 100%;
+  max-width: 200px; 
+  padding: var(--space-xs) var(--space-sm);
+  min-width: fit-content;  
+  min-height: clamp(28px, 2vw, 44px);
+  text-align: center;
+  text-decoration: none;
+  border-radius: 6px;
+  
+  font-weight: var(--font-weight);
+  
+
+  border: var(--underline-sm) solid var(--grid);
+  background-color: var(--bg);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  
+  background-color: transparent; 
+  color: var(--fg);
+  border-color: var(--fg);
+
+  text-decoration: underline transparent;
+  text-underline-offset: 3px;
+  transition: 
+    color var(--anim-normal) var(--ease-standard), 
+    text-decoration-color var(--anim-normal) var(--ease-standard), 
+    text-underline-offset var(--anim-normal) var(--ease-standard),
+    opacity var(--anim-normal) var(--ease-standard);
+
+}
+
+.registerBtn {
+  background: var(--fg);
+  color: var(--bg);
+}
+
+.loginBtn:hover {
+  text-decoration-color: var(--fg);
+  text-underline-offset: 4px; 
+  background: var(--accent);
+  border-color: var(--accent);
+  opacity: var(--opacitychange);
+
+} 
+.registerBtn:hover {
+  text-decoration-color: var(--bg);
+  text-underline-offset: 4px; 
+  background: var(--accent);
+  border-color: var(--accent);
+  opacity: var(--opacitychange);
+}
+
 
 @media (max-width: 768px) {
   .container {
     padding: 0 0.2rem;
   } 
   .middle a {
+   
     padding: var(--space-2xs);
   }
   .right {
     gap: var(--space-2xs);
   }
 
+}
+
+@media (max-width: 1024px) {
+  .notloggedin {
+    display: none;
+  }
+  .loginBtn, .registerBtn {
+    padding: var(--space-2xs) var(--space-sm);  
+  }
 }

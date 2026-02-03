@@ -28,7 +28,7 @@
 
 
 .rectangularlogo:hover {
-  opacity: var(--opacitychange);
+  opacity: 0.5;
 }
 
 /* DYNAMIC SIZES */
