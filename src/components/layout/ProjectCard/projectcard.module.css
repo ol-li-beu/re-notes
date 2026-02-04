@@ -1,10 +1,12 @@
 
 .card {
-  background: var(--bg);
+  background: var(--cardcontrast);
+  border: 1px outset var(--grid);
   border-radius: 14px;
-  padding: 16px;
+  padding: var(--space-xs);
   min-height: 220px;
   height: auto;
+  opacity: 0.9;
 
   display: flex;
   flex-direction: column;
@@ -19,6 +21,8 @@
     opacity var(--anim-fast) var(--ease-standard);
 }
 
+
+
 .card:hover {
   transform: translateY(-6px) scale(1.01);
   box-shadow: 0 14px 32px rgba(0,0,0,0.16);
@@ -26,18 +30,35 @@
 
 .top {
   display: flex;
+  align-items: flex-start;
   justify-content: space-between;
+  gap: var(--space-xs);
+  padding-bottom: 6px;
 }
 
 .menuWrap {
   position: relative;
+  flex-shrink: 0;
+ 
 }
 
 .menuBtn {
+  width: var(--touch-target-min);
+  height: var(--touch-target-min);
+  font-size: var(--font-md);
   background: none;
   border: none;
-  font-size: 18px;
+  padding: 0;
+  cursor: pointer;
+  
+  display: flex; 
+  align-self: flex-start;
+  justify-content: center;
+  background: none;
+  border: none;
+
 }
+
 
 .dropdown {
   position: absolute;
@@ -80,8 +101,10 @@
 .title {
   font-size: var(--font-md);
   font-weight: var(--font-weight);
-  line-height: 1.35;
-  margin-bottom: 6px;
+  line-height: var(--inline-height);
+  flex: 1;
+  margin: 0;
+  padding: 0;
 
   display: -webkit-box;
   line-clamp: 2;
@@ -92,7 +115,7 @@
 
 .description {
   font-size: var(--font-sm);
-  line-height: 1.4;
+  line-height: var(--inline-height);
   color: var(--fg-muted);
 
   display: -webkit-box;
@@ -145,19 +168,26 @@
   padding: var(--space-2xs);
   font-size: var(--font-md);
   font-weight: var(--font-weight);
-  text-decoration: underline solid 2px var(--fg);
+  line-height: 1.35;
   font-family: var(--font-title);
 }
 
 .specialIcon {
- padding: var(--space-2xs);
+line-height: 1; 
+display: inline-flex;
+
+ padding: var(--space-2xs) var(--space-2xs);
  border-radius: 6px;
  font-size: var(--font-lg);
  opacity: var(--opacitychange);
- transition: opacity var(--anim-fast) var(--ease-standard);
+ transition: opacity var(--anim-normal) var(--ease-standard);
 }
 
-.card:hover .specialIcon,
+.card:hover .specialIcon {
+  opacity: 1;
+}
+
+
 .card:hover .specialText {
   opacity: 1;
 }

@@ -40,6 +40,8 @@ export default function ProjectModal({project,onClose,onSave, dict}: {project: P
   };
   }, []);
 
+  // BCK Functiones para guardar ediciones y eliminaciones de proyectos
+
   return (
     <div className={styles.backdrop} onClick={onClose}>
       <div

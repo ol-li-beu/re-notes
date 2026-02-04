@@ -26,10 +26,9 @@
   flex-wrap: wrap;
   flex: 0 1 auto;
   width: fit-content;
-  padding-left: 0;
-  padding-right: 0;
-  padding-block: var(--space-2xs);
-  gap: var(--space-sm);
+  padding-right: var(--space-xs);
+  gap: var(--space-2xs);
+  
 }
 
 .right {
@@ -47,7 +46,7 @@
 }
 
 .middle a {
-  font-size: var(--font-sm);
+  font-size: var(--font-md);
   text-decoration: none;
   color: var(--fg);
   font-weight: calc(var(--font-weight)+100px);
@@ -96,7 +95,7 @@
   width: auto;
   max-width: none; 
   white-space: nowrap;
-  padding: var(--space-xs) var(--space-sm);
+  padding: var(--space-2xs) var(--space-xs);
   min-width: fit-content;  
   min-height: clamp(28px, 2vw, 44px);
   text-align: center;
@@ -187,9 +186,11 @@
   .notloggedin {
     display: none;
   }
+
   .loginBtn svg, .registerBtn svg {
-    display: none;
+    display:none;
   }
+  
   .loginBtn, .registerBtn {
     padding: var(--space-2xs) var(--space-xs); 
     text-align: center;

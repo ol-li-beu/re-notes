@@ -4,6 +4,7 @@
   background: none;
   border: none;
   cursor: pointer;
+  padding: var(--space-xs) 0;
 
   transition: opacity var(--anim-fast) var(--ease-standard);
 }
@@ -26,9 +27,9 @@
   position: fixed;
   top: 0;
   left: 0;
-  width: min(80vw, 88vw);
-  height: 100dvh;
-  background: var(--bg);
+  width: min(60vw, 85vw);
+  height: 80dvh;
+  background: var(--contrast);
   z-index: 999;
 
   padding: 0.3rem var(--space-xs);
@@ -71,6 +72,17 @@
   margin-bottom: var(--space-md);
 }
 
+
+.menu ul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm); 
+
+  transition: opacity var(--anim-fast) var(--ease-standard);
+}
+
 .menu a {
 
   text-decoration: none;
@@ -87,8 +99,8 @@
   width: 100%; 
   max-width: 600px;
   
-  padding: var(--space-xs) var(--space-lg); 
-  border-radius: 999px; 
+  padding: var(--space-xs) var(--space-sm); 
+  border-radius: 4px;
   
   background: transparent;
   color: var(--fg);
@@ -100,9 +112,20 @@
 }
 
 .button:hover {
-    background-color: var(--contrast);
-    opacity: var(--opacity-change);
+  background-color: var(--bg);
+  opacity: var(--opacity-change);
+  color: var(--accent);
 } 
+
+.button.active {
+  background-color: var(--contrast);
+  color: var(--accent);
+  border-left: 4px solid var(--accent); 
+}
+
+.button.active:hover {
+  background-color: var(--bg);
+}
 
 .close.button {
   align-self: flex-start;
@@ -110,13 +133,6 @@
   padding: var(--space-xs) var(--space-md); 
 }
 
-.menu ul {
-  list-style: none;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-sm); 
-}
 
 /* Animation */
 @keyframes slideInLeft {

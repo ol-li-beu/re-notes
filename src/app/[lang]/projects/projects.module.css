@@ -1,43 +1,45 @@
 .wrapper {
-  padding: 24px; 
+  padding: var(--space-md); 
 }
 
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-  gap: 28px;
+  gap: var(--space-lg);
 
 
   transition: all var(--anim-normal) var(--ease-standard);
 }
 
-.center {
-  min-height: 240px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
 .header {
   display: flex;
   align-items: center;
   gap: 12px;
-  margin-bottom: 16px;
+  margin-bottom: var(--container-gap);
 }
 
 .search {
   flex: 1;
-  min-width: 0; /* IMPORTANT for flex + inputs */
+  min-width: 0; 
 }
 
 .searchRow {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: var(--space-lg);
 }
 
 .searchRow > :first-child {
   flex: 1;
   min-width: 0;
+}
+
+
+.loading {
+  min-height: 240px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 

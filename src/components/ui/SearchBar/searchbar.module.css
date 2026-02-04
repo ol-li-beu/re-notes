@@ -13,7 +13,7 @@
   background: var(--bg);
   border: 1px solid var(--fg);
 
-  transition: border-color var(--anim-fast) var(--ease-standard), box-shadow var(--anim-fast) var(--ease-standard);
+  transition: border-color var(--anim-fast) var(--ease-standard), box-shadow var(--anim-fast) var(--ease-standard),;
 }
 
 .wrapper:focus-within {
@@ -21,11 +21,17 @@
   box-shadow: 0 0 0 3px rgba(100, 100, 255, 0.15);
 }
 
+.wrapper:focus-within .icon {
+  transform: scale(1.2);
+}
+
 .icon {
   font-size: var(--font-md);
   display: flex;
   opacity: var(--opacitychange);
   align-items: center;
+  
+  transition: transform var(--anim-fast) var(--ease-standard);
 }
 
 .input {
@@ -47,7 +53,15 @@
 @media (max-width: 768px) {
 
   .input {
-    font-size: var(--font-md);
+    font-size: var(--font-sm);
+  }
+  .wrapper {
+    width: calc(90% - 2rem);
+  }
+  .icon {
+    font-size: var(--font-sm);
   }
 
+  
 }
+

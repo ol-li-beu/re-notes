@@ -1,6 +1,6 @@
 .button {
-  width: clamp(20px, 4vw, 40px);
-  height: clamp(20px, 4vw, 40px);
+  width: var(--touch-target-min);
+  height: var(--touch-target-min);
   border-radius: 50%;
   background: transparent;
   border: none;
@@ -12,8 +12,8 @@
 
 .icon {
   position: absolute;
-  width: 1.3rem;
-  height: 1.3rem;
+  width: var(--touch-target-min);
+  height: var(--touch-target-min);
   flex: 0 0 auto;
   color: var(--fg);
   transition:
@@ -21,7 +21,13 @@
     opacity var(--anim-normal) ease;
 }
 
-.icon:hover {
+.button svg {
+  width: var(--icon-size);
+  height: var(--icon-size);
+
+}
+
+.button:hover .icon {
   color: var(--accent);
 }
 
@@ -48,11 +54,5 @@
 
 
 
-@media (max-width: 768px) {
-  .icon {
-    width: 0.9rem;
-    height: 0.9rem;
-  }
-  
 
-}
+

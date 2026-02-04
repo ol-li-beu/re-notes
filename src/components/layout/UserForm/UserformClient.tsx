@@ -131,10 +131,9 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
   
   const formData = new FormData(e.currentTarget);
 
-  // BCK funciones supabase para log in register y change password
 
   const result = await action(formData); // ACTION VARIES DEPENDING ON PAGE 
-  // BCK
+  
   // formData.identifier, etc. 
   // result = {success : "message from dict"} or {error : "messagefrom dict"}
   // functiones async
@@ -149,7 +148,7 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
   
 
 
-  //LOG IN
+  
   if (result?.success && mode==="login") {
     showToast(result.success, "success"); // logged in successfully
     router.push(`/${lang}/projects`);

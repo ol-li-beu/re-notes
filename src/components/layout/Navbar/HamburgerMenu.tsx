@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { usePathname, } from "next/navigation";
+import Link from "next/link";
 import { Icon } from "@/components/ui/Icons/Icons";
 
 import styles from "./hamburgermenu.module.css";
@@ -8,10 +10,17 @@ import styles from "./hamburgermenu.module.css";
 interface HamburgerProps {
     dict : any;
     lang : string;
-} // NO navlink if expansion is needed
+} 
 
 export default function HamburgerMenu({dict, lang} : HamburgerProps) {
   const [open, setOpen] = useState(false);
+  const pathname = usePathname();
+
+  const navLinks = dict ? [
+    { name: dict.about, href: `/${lang}/about` },
+    { name: dict.learn, href: `/${lang}/learn` },
+    { name: dict.projects, href: `/${lang}/projects` },
+  ] : [];
 
 // ANTI SCROLLING PARENT
   useEffect(() => {
@@ -21,10 +30,12 @@ export default function HamburgerMenu({dict, lang} : HamburgerProps) {
     };
   }, [open]);
 
+  
+
   return (
     <>
       <button
-        className={styles.burger}
+        className={`circle-fill ${styles.burger}`}
         onClick={() => setOpen(true)}
         aria-label="Open menu">
             <Icon name="menu" />
@@ -48,11 +59,20 @@ export default function HamburgerMenu({dict, lang} : HamburgerProps) {
             </button>
             </div>
 
-            
             <ul>
-                <li><a href={`/${lang}/about`}className={styles.button}> {dict.about} </a></li>
-                <li><a href={`/${lang}/learn`}className={styles.button}> {dict.learn} </a></li>
-                <li><a href={`/${lang}/projects`}className={styles.button}> {dict.projects} </a></li>
+            {navLinks.map((link : any) => {
+                const isActive = pathname === link.href;
+                return (
+                  <li key={link.href}>
+                    <Link
+                      href={link.href}
+                      className={`${styles.button} ${isActive ? styles.active : ""}`}
+                      onClick={() => setOpen(false)} >
+                      {link.name}
+                    </Link>
+                  </li>
+                );
+                })}
             </ul>
 
           </nav>

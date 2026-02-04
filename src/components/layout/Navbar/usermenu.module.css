@@ -3,13 +3,13 @@
 }
 
 .trigger {
- font-size: clamp(0.875rem, 1vw + 0.5rem, 1.25rem);
+ width: var(--touch-target-min);
+ height: var(--touch-target-min);
  cursor: pointer;
  display: flex;
  align-items: center;
  gap: var(--space-2xs); 
- padding: var(--space-2xs) var(--space-2xs); 
- min-height: 2.5em;
+ padding: var(--space-2xs) var(--space-2xs);  
  background: transparent;
  border: none;
  outline: none;
@@ -23,8 +23,9 @@
 
 
 .trigger svg {
-  width: clamp(18px, 4vw, 30px);
-  height: clamp(18px, 4vw, 30px);
+  display:block;
+  width: var(--iconsize);
+  height: var(--iconsize);
 }
 
 
@@ -97,11 +98,3 @@
   }
 }
 
-
-
-@media (max-width: 768px) {
-  .trigger {
-    min-height: 32px;
-  }
-
-}

@@ -52,11 +52,10 @@ export default function ProjectCard({project, lang, mode = "normal", isMenuOpen,
 
             {/* Action Menu: Only visible in 'normal' mode */}
             <button
-              className={styles.menuBtn}
+              className={`circle-fill ${styles.menuBtn}`}
               onClick={onToggleMenu}
-              aria-expanded={isMenuOpen}
-            >
-              ⋯
+              aria-expanded={isMenuOpen}>
+              <Icon name="ellipsisvertical" />
             </button>
 
             {/* Dropdown Menu */}

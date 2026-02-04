@@ -55,11 +55,16 @@
 
 .buttons {
   font-size: var(--font-sm);
-  min-width: 100px;
+  padding: var(--space-xs) var(--space-sm);
+  min-width: 120px;
   border: solid 2px;
+  border-radius: 6px;
   outline: none;
-  border-radius: 4px;
-  padding: var(--space-xs) var(--space-2xs);
+
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease,
+    color 0.15s ease;
 }
 
 
@@ -78,6 +83,7 @@
 .primary:hover, .ghost:hover  {
   border-color: var(--accent);
   background-color: var(--accent);
+  opacity: var(--opacitychange);
 }
 
 

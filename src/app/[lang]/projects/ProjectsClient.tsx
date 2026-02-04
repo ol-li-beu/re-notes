@@ -58,7 +58,7 @@ export default function ProjectsClient({lang, dict, initialProjects, }: Projects
   
   if (loading) {
     return (
-      <div className={styles.center}>
+      <div className={styles.loading}>
         <Spinner />
       </div>
     );
@@ -80,6 +80,15 @@ export default function ProjectsClient({lang, dict, initialProjects, }: Projects
       {(filteredProjects) => (
         <div className={styles.wrapper}>
           <div className={styles.grid}>
+
+            <SpecialProjectCard
+              title={dict.createproject}
+              onClick={() => {
+                setEditing(null);
+                setModalOpen(true);
+              }}
+              iconName="create"/>
+
             {filteredProjects.map((p) => (
               <ProjectCard
                 key={p.id}
@@ -105,15 +114,6 @@ export default function ProjectsClient({lang, dict, initialProjects, }: Projects
                 }}
               />
             ))}
-
-            <SpecialProjectCard
-              title={dict.createproject}
-              onClick={() => {
-                setEditing(null);
-                setModalOpen(true);
-              }}
-              iconName="create"
-            />
 
             <SpecialProjectCard
               title={dict.trashproject}

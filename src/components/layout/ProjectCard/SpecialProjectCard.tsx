@@ -7,16 +7,15 @@ interface SpecialProjectCardProps {
   onClick: () => void;
   title: string;
   iconName: IconName;
-  size? : number;
 }
 
-export default function SpecialProjectCard({ onClick, title, iconName, size=40}: SpecialProjectCardProps) {
+export default function SpecialProjectCard({ onClick, title, iconName}: SpecialProjectCardProps) {
   return (
     <div className={styles.card} onClick={onClick}>
-      <div className={styles.iconWrapper}> {/* TBD */}
+      <p className={styles.specialText}>{title}</p>
+      <div className={styles.iconWrapper}> 
         <span className={styles.specialIcon}> <Icon name={iconName}/> </span>
       </div>
-      <p className={styles.specialText}>{title}</p>
     </div>
   );
 }

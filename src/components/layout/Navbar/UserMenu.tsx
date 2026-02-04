@@ -88,7 +88,7 @@ export default function UserMenu({ username, email, dict, lang }: UserDropdownPr
       <div ref={ref} className={styles.userMenu}>
         <button
           onClick={() => setOpen((v) => !v)}
-          className={styles.trigger}
+          className={`circle-fill ${styles.trigger}`}
           aria-expanded={open}>
           <Icon name="user" />  
         </button>

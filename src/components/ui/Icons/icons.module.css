@@ -6,5 +6,8 @@
 .icon {
   width: 1.1em;
   height: 1.1em;
+  display: inline-block;
+  line-height: 1;
+  flex-shrink: 0;
 }
 
