@@ -34,7 +34,7 @@
   mask-position: center;
 
   /* Smooth transform for scale animation */
-  transition: transform var(--anim-normal) var(--ease-standard);
+  transition: all var(--anim-normal) var(--ease-standard);
 }
 
 

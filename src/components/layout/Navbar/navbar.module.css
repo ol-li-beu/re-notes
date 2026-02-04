@@ -17,16 +17,19 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0rem 1rem;
+  padding: 0rem var(--space-md);
 }
 
 .left {
   display: flex;
   align-items: center;
-  flex: 0 0 auto;
+  flex-wrap: wrap;
+  flex: 0 1 auto;
+  width: fit-content;
   padding-left: 0;
+  padding-right: 0;
   padding-block: var(--space-2xs);
-  padding-right: var(--space-2xs);
+  gap: var(--space-sm);
 }
 
 .right {
@@ -34,6 +37,8 @@
   align-items: center;
   justify-content: flex-end;
   flex: 0 0 auto;
+  padding-block: var(--space-2xs);
+  
 }
 
 .middle {
@@ -64,8 +69,6 @@
 .active {
   opacity: 1;
   color: var(--accent) !important;
-  text-decoration: underline !important;
-  text-decoration-thickness: var(--underline-sm) !important;
 }
 
 .right {
@@ -80,23 +83,26 @@
 
 .authButtons {
   display: flex;
-  gap: var(--space-sm);
-  justify-content: flex-start;            
-  width: 100%;
+  gap: var(--space-xs);
+  justify-content: flex-end;            
+  width: auto;
   box-sizing: border-box;
   font-size: var(--font-sm);
+  
 
 }
 
 .loginBtn, .registerBtn {
-  width: 100%;
-  max-width: 200px; 
+  width: auto;
+  max-width: none; 
+  white-space: nowrap;
   padding: var(--space-xs) var(--space-sm);
   min-width: fit-content;  
   min-height: clamp(28px, 2vw, 44px);
   text-align: center;
   text-decoration: none;
   border-radius: 6px;
+  gap: var(--space-xs);
   
   font-weight: var(--font-weight);
   
@@ -145,7 +151,13 @@
 }
 
 
+.mobileOnlyGuestMenu {
+  display: none;
+}
+
 @media (max-width: 768px) {
+  
+
   .container {
     padding: 0 0.2rem;
   } 
@@ -160,10 +172,27 @@
 }
 
 @media (max-width: 1024px) {
+  .mobileOnlyGuestMenu {
+    display: flex; 
+    width: auto;    
+  }
+
+  .middle {
+    display: none;
+  }
+  .container {
+    padding: 0 var(--space-xs); 
+  }
+
   .notloggedin {
     display: none;
   }
+  .loginBtn svg, .registerBtn svg {
+    display: none;
+  }
   .loginBtn, .registerBtn {
-    padding: var(--space-2xs) var(--space-sm);  
+    padding: var(--space-2xs) var(--space-xs); 
+    text-align: center;
+    white-space: normal; 
   }
 }

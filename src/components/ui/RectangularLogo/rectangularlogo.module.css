@@ -27,14 +27,16 @@
 }
 
 
-.rectangularlogo:hover {
-  opacity: 0.5;
+.rectangularlogo:hover .logoIcon {
+  background-color: var(--accent); 
+  opacity: 0.5; 
 }
+
 
 /* DYNAMIC SIZES */
 .header {
-  width: clamp(50px, 10vw, 180px);
-  height: clamp(30px, 6vw, 60px);
+  width: clamp(80px, 12vw, 160px);
+  height: clamp(32px, 5vw, 55px);
 }
 
 .footer {

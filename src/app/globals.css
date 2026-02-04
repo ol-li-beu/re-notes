@@ -32,7 +32,7 @@
   --touch-target-min: 40px;
 
   --font-xs: clamp(0.25rem, 0.38rem + 0.3vw, 2rem);
-  --font-sm: clamp(0.4rem, 0.45rem + 0.4vw, 2rem);
+  --font-sm: clamp(0.42rem, 0.46rem + 0.4vw, 2rem);
   --font-md: clamp(1rem, 0.9rem + 0.6vw, 1.125rem);
 
   --font-lg: clamp(1.35rem, 1.1rem + 1.2vw, 1.75rem);
@@ -133,4 +133,33 @@ select:focus {
 }
 
 
-/* TODO GLOBAL ANIMATIONS */
+.circle-fill {
+  width: clamp(32px, 8vw, 48px);
+  aspect-ratio: 1 / 1;
+  flex-shrink: 0;
+
+  border-radius: 50%;
+  display: inline-flex; 
+  align-items: center;
+  justify-content: center;
+  
+  line-height: 1; 
+  text-align: center;
+  
+  padding: 0; 
+  box-sizing: border-box;
+
+  background: transparent;
+  transition: opacity var(--anim-fast) var(--ease-standard), 
+              transform var(--anim-fast) var(--ease-standard);
+}
+
+.circle-fill span {
+  display: block;
+  transform: translateY(-1px); 
+}
+
+.circle-fill:hover {
+  background-color: var(--contrast); 
+  opacity: var(--opacitychange);
+}

@@ -31,7 +31,7 @@ export default function GuestMenu({ dict, lang }: GuestMenuProps) {
         className={styles.trigger}
         onClick={() => setOpen((v) => !v)}
         aria-expanded={open}>
-        <Icon name="fingerprint" />
+        <Icon name="menu" />
       </button>
 
       {open && (

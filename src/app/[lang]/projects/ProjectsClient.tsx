@@ -28,7 +28,7 @@ export default function ProjectsClient({lang, dict, initialProjects, }: Projects
   const { showToast } = useContext(ToastContext)!;
   
 
-  const [projects, setProjects] = useState(initialProjects); // elim initial TBD change to []
+  const [projects, setProjects] = useState(initialProjects); // BCK cambiar a [] y eliminar initial projects como prop y en interfa<
   const [openMenuId, setOpenMenuId] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [editing, setEditing] = useState<Project | null>(null);
@@ -42,17 +42,20 @@ export default function ProjectsClient({lang, dict, initialProjects, }: Projects
     return () => window.removeEventListener("click", close);
   }, []);
 
+  // BCK GETTING PROJECTS
+  // usar este formato 
   /* 
   useEffect(() => {
   setLoading(true);
 
   fetch  => {
+    // const data = (function get projecto en base al usuario en sesion)
     setProjects(data);
     setLoading(false);
   });
   }, []); */
 
-  //TBD TODO, fetch loadeing true, after setching set projects y dspesues set loading false
+  
   if (loading) {
     return (
       <div className={styles.center}>

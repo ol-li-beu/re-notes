@@ -32,7 +32,7 @@ export default async function ProjectsPage({ params }: PageProps) {
   const dict = await getDictionary(lang);
 
   // mdidle ware log in protection, here justfetch projects
-
+  
   return (
     <ProjectsClient
       lang={lang}

@@ -10,6 +10,8 @@ import UserMenu from "./UserMenu";
 import { Icon } from "@/components/ui/Icons/Icons";
 
 import styles from "./navbar.module.css";
+import GuestMenu from "./GuestMenu";
+import HamburgerMenu from "./HamburgerMenu";
 
 
 interface NavbarClientProps {
@@ -28,11 +30,15 @@ export default function NavbarClient({ lang, navLinks, user, dict, } : NavbarCli
 
         {/* Left */}
         <div className={styles.left}>
-          <RectangularLogo type="header" />
+          <div className={styles.mobileOnlyGuestMenu}>
+            <HamburgerMenu dict={dict} lang={lang} />
+          </div>
+          <RectangularLogo type="header" /> 
+          
         </div>
 
         {/* Middle */}
-        <div className={`${styles.middle} ${!isLoggedIn ? styles.notloggedin : ''}`}>
+        <div className={`${styles.middle}`}>
           {navLinks.map((link : any) => (
             <Link
               key={link.href}

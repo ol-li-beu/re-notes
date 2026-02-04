@@ -44,6 +44,7 @@ export default function RecycledBinClient({ dict, initialProjects }: RecycledBin
     return () => clearInterval(timer);
   }, [confirmDelete]);
 
+  
   if (loading) {
     return (
       <div className={styles.center}>

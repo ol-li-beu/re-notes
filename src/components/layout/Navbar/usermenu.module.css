@@ -3,12 +3,13 @@
 }
 
 .trigger {
+ font-size: clamp(0.875rem, 1vw + 0.5rem, 1.25rem);
  cursor: pointer;
  display: flex;
  align-items: center;
  gap: var(--space-2xs); 
  padding: var(--space-2xs) var(--space-2xs); 
- min-height: 40px;
+ min-height: 2.5em;
  background: transparent;
  border: none;
  outline: none;
@@ -43,7 +44,7 @@
   word-break: break-word; 
 
 
-  border: 0.5px solid var(--fg);
+  
   
 }
 
@@ -59,6 +60,7 @@
   background-color: var(--bg);
   color: inherit;
   text-decoration: none;
+  border: 2px solid var(--fg);
 
   transition: opacity var(--anim-fast) var(--ease-standard);
 }

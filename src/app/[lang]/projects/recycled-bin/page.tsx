@@ -28,7 +28,8 @@ export default async function RecycledBinPage({ params }: PageProps) {
   const { lang } = await params;
   const dict = await getDictionary(lang);
 
-  // TBD fetch database, middleware auth verif, y tiempo de eliminacion sort
+  // BCK elim initial projects como prop y en interfaz aca y en recycled bin client
+
 
   return (
     <RecycledBinClient

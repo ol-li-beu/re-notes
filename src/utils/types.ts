@@ -1,5 +1,5 @@
 import { Trash2, PlusSquare, PencilLine, Undo2, Mail, LogOut, LogIn, Sun, Moon,
-     Eye, EyeOff, Computer, UserCircle, UserRoundPen, Search, UserRoundPlus, LucideUserRoundX, FingerprintPatternIcon  } from "lucide-react";
+     Eye, EyeOff, Computer, UserCircle, UserRoundPen, Search, UserRoundPlus, LucideUserRoundX, Menu  } from "lucide-react";
 
 import { SiGithub, } from "@icons-pack/react-simple-icons"
 
@@ -37,7 +37,7 @@ export const ICONSTYPE = {
   login: LogIn,
   userx: LucideUserRoundX,
   userplus: UserRoundPlus,
-  fingerprint: FingerprintPatternIcon,
+  menu: Menu,
 
   
 } 

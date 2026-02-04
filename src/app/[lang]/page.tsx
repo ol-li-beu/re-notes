@@ -26,6 +26,7 @@ export default async function HomePage({params} : PageProps) {
         </div>
 
         <div className={styles.logoContainer}>
+          <div className={styles.logoGlow}></div>
           <SquaredLogo />
         </div>
       </header>

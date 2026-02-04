@@ -51,7 +51,11 @@ export default function UserFormClient({ mode, dict, lang, action,}: UserFormCli
   };
   }, [forgotOpen]);
 
-  // FORGOT PASSWORD
+
+
+
+  // BCK 
+  // MODAL FORGOT PASSWORD para mandar mail custom supabase
   const handleForgotPassword = async () => {
     if (!EMAIL_REGEX.test(forgotEmail)) {
       showToast(dict.invalidemail ?? "Invalid email address", "error");
@@ -63,9 +67,12 @@ export default function UserFormClient({ mode, dict, lang, action,}: UserFormCli
     setSending(true);
 
     try {
+      // ELIMINAR AWAIT
       await new Promise((res) => setTimeout(res, 1500));
-    // TODO TBD: supabase reset
-      const error = null;  // use this
+      
+      // THROW ERROR si no funcitona
+      const error = null;  // BCK function supabase send email de reset password llamar
+
       showToast(dict.emailsuccess, "success");
       setCooldown(30);
     } catch (err) {
@@ -73,8 +80,9 @@ export default function UserFormClient({ mode, dict, lang, action,}: UserFormCli
     } finally {
       setSending(false);
     }
-
   };
+
+
 
   useEffect(() => {
     if (cooldown === 0) return;
@@ -87,7 +95,9 @@ export default function UserFormClient({ mode, dict, lang, action,}: UserFormCli
   }, [cooldown]);
 
 
-// SUBMIT 
+
+// SUBMIT for reset password, login, sign up
+
 const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
   e.preventDefault();
   
@@ -101,6 +111,9 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     return;
   }
 
+
+
+  
   const looksLikeEmail = identifier.includes("@");
   const isEmailValid = !looksLikeEmail || EMAIL_REGEX.test(identifier);
 
@@ -115,17 +128,26 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     return;
   }
 
+  
   const formData = new FormData(e.currentTarget);
 
-  const result = await action(formData); // ACTION VARIES DEPENDING ON PAGE
+  // BCK funciones supabase para log in register y change password
+
+  const result = await action(formData); // ACTION VARIES DEPENDING ON PAGE 
+  // BCK
+  // formData.identifier, etc. 
+  // result = {success : "message from dict"} or {error : "messagefrom dict"}
+  // functiones async
+  // getDictionary de utils. NEcesario obtener el [lang] actual para get del diccionario del mismo idioma
+
 
 
   if (result?.error) {
-    showMessage("error", result.error); //TBD lib supabase try send error or {}, if it works set up auth, returns obj after setting session or updating 
-    // result = {success : "message from dict"} or {rerror : "messagefrom dict"} get dict in backedn
+    showMessage("error", result.error); 
   }
 
-  // TBD from database receive success or not after auth. BASED ON MODE, doesnt exist user or wrong password etc? OR HERE
+  
+
 
   //LOG IN
   if (result?.success && mode==="login") {

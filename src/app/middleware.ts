@@ -5,6 +5,13 @@ import { langs, defaultLang } from "../utils/i18n-config";
 
 
 export async function middleware(request : NextRequest) {
+
+    // BCK 
+    // i18n, 
+    // CHECK rutas protegias ( contains containes canvas, projects, recycled-bin, set-password, mandar a login)
+    // CHECK AUTH (SESION)
+    
+
     const { pathname } = request.nextUrl;
     const isProtectedRoute = pathname.includes('/projects') || pathname.includes('/profile') || pathname.includes('/set-password');
      // check session or automatic email for set password basically

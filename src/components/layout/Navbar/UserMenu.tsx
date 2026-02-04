@@ -58,7 +58,7 @@ export default function UserMenu({ username, email, dict, lang }: UserDropdownPr
 
     setDeleting(true);
     try {
-      // TODO: reemplazar con eliminar cuenta supabse y cerrar sesion
+      // BCK functiones para cerrar sesion y elim cuenta
       await new Promise((res) => setTimeout(res, 1500));
 
       showToast(dict.accountdeleted, "error");
@@ -74,7 +74,7 @@ export default function UserMenu({ username, email, dict, lang }: UserDropdownPr
 
   const handleLogOut = async () => {
     try {
-      //cerrar sesion supabse TODO
+      //BCK solo cerrar sesion
     } catch (err) {
       showToast(dict.error, "error");
     } finally {
