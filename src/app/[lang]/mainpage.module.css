@@ -1,27 +1,35 @@
+/* LAyout */
+
 .main {
   display: flex;
-  flex-direction: column; 
-  min-height: 100vh;    
+  flex-direction: column;
+  min-height: 100vh;
   background: var(--bg);
 }
 
 .section {
-  padding: 
+  padding:
     clamp(2rem, 6vw, var(--section-padding))
     clamp(1rem, 4vw, var(--section-gutter));
 }
+
+
+/* Header */
 
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: var(--space-md) var(--space-lg); 
-  z-index: 10;
-  max-width: 1200px;
-  margin: 0 auto;    
+
   width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+
   gap: var(--space-2xl);
-  padding-top: var(--section-padding);    
+  z-index: 10;
+
+  padding: var(--space-md) var(--space-lg);
+  padding-top: var(--section-padding);
   padding-bottom: var(--section-padding);
 }
 
@@ -31,11 +39,15 @@
   gap: 1rem;
 }
 
+
+/* Typo */
+
 .softwareName {
   font-size: var(--font-2xl);
   font-weight: 600;
   line-height: 1.2;
   font-family: var(--font-title);
+
   transition: all var(--anim-normal) var(--ease-standard);
 }
 
@@ -44,17 +56,22 @@
   color: var(--fg);
   max-width: 600px;
   font-style: italic;
+
   transition: all var(--anim-normal) var(--ease-standard);
 }
+
+
+/* Logo */
 
 .logoContainer {
   position: relative;
   display: flex;
   align-items: center;
+  justify-content: center;
+
   gap: var(--space-md);
   flex: 1;
   max-width: 500px;
-  justify-content: center;
   z-index: 1;
 }
 
@@ -64,12 +81,11 @@
   height: 90%;
   background: var(--accent);
   filter: blur(70px);
-  opacity: 0.3; 
+  opacity: 0.3;
 }
 
 
-
-
+/* Actions / Buttons */
 
 .actions {
   display: flex;
@@ -77,15 +93,17 @@
 }
 
 .btn {
-  display: flex;       
+  display: flex;
   align-items: center;
-  justify-content: center; 
+  justify-content: center;
+
   min-width: fit-content;
   min-height: 44px;
   max-width: 280px;
 
-  padding: clamp(0.5rem, 2.5vw, 0.8rem)
-           var(--space-sm);
+  padding:
+    clamp(0.5rem, 2.5vw, 0.8rem)
+    var(--space-sm);
 
   border-radius: 999px;
   font-size: var(--font-md);
@@ -94,8 +112,12 @@
   border: 3px solid;
   text-decoration: 2px underline transparent;
   text-underline-offset: 5px;
+
   transition: all var(--anim-normal) var(--ease-standard);
 }
+
+
+/* Buttons Var */
 
 .btn.primary {
   background: var(--fg);
@@ -130,36 +152,37 @@
 }
 
 
+/* Sections */
+
 .greySection {
-  flex-grow: 1;              
-  background-color: var(--contrast); 
+  flex-grow: 1;
   width: 100%;
+  background-color: var(--contrast);
 }
 
+
+/* Responsive */
 
 @media (max-width: 1024px) {
   .header {
     flex-direction: column;
-    align-items: flex-start;
-    gap: var(--space-xl);
     align-items: center;
+    gap: var(--space-xl);
     text-align: center;
   }
+
   .actions {
-    justify-items: center;
     flex-direction: column;
     align-items: center;
-    
+    justify-items: center;
   }
-  
 }
-
-
 
 @media (max-width: 1024px) {
   .description {
     max-width: 100%;
   }
+
   .btn {
     width: 100%;
   }

@@ -1,3 +1,5 @@
+/* backdrop */
+
 .backdrop {
   position: fixed;
   inset: 0;
@@ -8,12 +10,16 @@
   z-index: 1000;
 }
 
+
+/* modal */
+
 .modal {
   background: var(--bg);
   border-radius: 14px;
   padding: 20px;
   width: 90%;
   max-width: 360px;
+
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -30,6 +36,9 @@
   font-size: 13px;
 }
 
+
+/* actions */
+
 .actions {
   display: flex;
   justify-content: flex-end;
@@ -43,22 +52,25 @@
   border-radius: 8px;
   border: none;
   cursor: pointer;
+
   background: var(--bg);
   border: solid 1px var(--fg);
 
   transition: ease-in-out var(--anim-fast);
 }
 
-.actions button:hover{
+.actions button:hover {
   border-color: var(--accent);
   background: var(--accent);
 }
+
+
+/* action variants */
 
 .actions .confirm {
   color: var(--bg);
   background: var(--fg);
 }
-
 
 .actions .danger {
   background: var(--negativeaccent);
@@ -67,20 +79,22 @@
 }
 
 
+/* disabled states */
+
 .actions .danger:disabled {
   cursor: not-allowed;
   opacity: var(--opacitychange);
   transition: opacity var(--anim-fast) var(--ease-standard);
 }
 
-
 .actions .danger:disabled:hover {
   cursor: not-allowed;
   background: var(--negativeaccent);
-  border-color: var(--negativeaccent);;
+  border-color: var(--negativeaccent);
 }
 
 
+/* animations */
 
 @keyframes pop {
   from {

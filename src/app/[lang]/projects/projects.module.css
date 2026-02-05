@@ -1,15 +1,20 @@
 .wrapper {
-  padding: var(--space-md); 
+  padding: var(--space-md);
 }
+
+
+/*Layout */
 
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
   gap: var(--space-lg);
 
-
   transition: all var(--anim-normal) var(--ease-standard);
 }
+
+
+/* Header / Search */
 
 .header {
   display: flex;
@@ -20,7 +25,7 @@
 
 .search {
   flex: 1;
-  min-width: 0; 
+  min-width: 0;
 }
 
 .searchRow {
@@ -35,6 +40,8 @@
 }
 
 
+/* States */
+
 .loading {
   min-height: 240px;
   display: flex;
@@ -43,12 +50,18 @@
 }
 
 
+/* Responsive */
+
 @media (max-width: 1100px) {
-  .grid { grid-template-columns: repeat(2, 1fr); }
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 @media (max-width: 600px) {
-  .grid { grid-template-columns: 1fr; }
+  .grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (min-width: 768px) {

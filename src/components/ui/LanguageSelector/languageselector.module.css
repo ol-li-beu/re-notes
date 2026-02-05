@@ -1,31 +1,31 @@
+/* container */
+
 .selectContainer {
   display: flex;
   align-items: center;
   position: relative;
 }
 
+
+/* select base */
+
 .select {
   background-color: var(--bg);
   color: var(--fg);
   border: 1px solid var(--bg);
-  
-  
+
   font-size: var(--font-xs);
   font-weight: var(--font-weight);
   padding: var(--space-2xs) var(--space-2xs);
+  padding-right: var(--space-sm); 
+
   border-radius: 6px;
-  
-  
   cursor: pointer;
   outline: none;
-  transition: opacity var(--anim-fast) var(--ease-standard);
-  
-  
+
   appearance: none;
   -webkit-appearance: none;
-  padding-right: var(--space-sm); 
-  
-  
+
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23888888'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 0.1rem center;
@@ -35,6 +35,8 @@
 }
 
 
+/* hover */
+
 .select:hover {
   border-color: var(--bg);
   opacity: var(--opacitychange);
@@ -42,11 +44,15 @@
 }
 
 
+/* focus */
+
 .select:focus {
   border-color: var(--bg);
   box-shadow: 0 0 0 2px rgba(var(--accent-rgb), 0.1);
 }
 
+
+/* options */
 
 .select option {
   background-color: var(--bg);
@@ -54,6 +60,8 @@
   padding: var(--space-xs);
 }
 
+
+/* selected option */
 
 .select option:checked {
   background-color: var(--accent);

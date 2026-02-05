@@ -1,4 +1,5 @@
 :root {
+  /* Color */
   --bg: #eeeeee;
   --fg: #222222;
   --accent: #00aa00;
@@ -6,21 +7,19 @@
   --contrast: #d1d1d1;
   --cardcontrast: #e0e0e0;
   --negativeaccent: #d20000;
-  
 
+  /* Font Families */
   /* each css.module can access font variables loaded in the server */
-  --font-main: var(--font-sans); 
+  --font-main: var(--font-sans);
   --font-title: var(--font-serif);
 
-  
-
-  /* Section/big layouts */
+  /* Layout  */
   --section-gutter: 1rem; /* 16px mobile inline pad */
-  --section-padding: clamp(3.75rem, 8vw, 6.25rem); 
-
+  --section-padding: clamp(3.75rem, 8vw, 6.25rem);
   --content-max-width: 1280px;
 
-  /* Spacing scale */
+  /* Spacing scales */
+
   --space-2xs: 0.25rem;  /* 4px */
   --space-xs:  0.5rem;   /* 8px */
   --space-sm:  0.75rem;  /* 12px */
@@ -29,41 +28,37 @@
   --space-xl:  2rem;     /* 32px */
   --space-2xl: 3rem;     /* 48px */
 
-  --container-gap: clamp(0.6rem, 6vw, 4rem); 
- 
+  --container-gap: clamp(0.6rem, 6vw, 4rem);
 
+  /* Typography Scales */
   --font-xs: clamp(0.25rem, 0.38rem + 0.3vw, 2rem);
   --font-sm: clamp(0.42rem, 0.46rem + 0.4vw, 2rem);
   --font-md: clamp(1rem, 0.7rem + 0.5vw, 1.125rem);
-
   --font-lg: clamp(1.35rem, 1.1rem + 1.2vw, 1.75rem);
   --font-xl: clamp(1.35rem, 1.1rem + 1.2vw, 1.75rem);
   --font-2xl: clamp(2rem, 1.5rem + 2.5vw, 4rem);
 
   --font-weight: 400px;
-
   --underline-sm: 1.5px;
 
-
-  /* Anim Speed */
+  /* Motion Animations*/
   --anim-fast: 0.2s;
   --anim-normal: 0.3s;
   --anim-slow: 0.4s;
 
-  /* motion Ease */
   --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
   --ease-out: cubic-bezier(0.0, 0, 0.2, 1);
 
   --opacitychange: 0.8;
 
+  /* UI Delimiters */
   --touch-target-min: 40px;
   --iconsize: 38px;
   --inline-height: 1.35;
-
 }
 
 
-
+/* Dark Theme overrides */
 
 html.dark {
   --bg: #222222;
@@ -76,6 +71,8 @@ html.dark {
 }
 
 
+/* Reset / Base set */
+
 *, *::before, *::after {
   margin: 0;
   padding: 0;
@@ -83,20 +80,19 @@ html.dark {
 }
 
 html {
-  font-size: var(--font-lg);
   height: 100%;
+  font-size: var(--font-lg);
 }
 
 body {
   display: flex;
   flex-direction: column;
-  background-color: var(--bg);
-  color: var(--fg);
   min-height: 100vh;
   width: 100%;
-  font-size: var(--font-md);
 
-  
+  background-color: var(--bg);
+  color: var(--fg);
+  font-size: var(--font-md);
 
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -104,30 +100,39 @@ body {
 }
 
 main {
-  flex : 1;
-  
+  flex: 1;
 }
 
 
-/* Base case */
-p, span, div, li, input, button {
+/* Typography Default */
+
+p,
+span,
+div,
+li,
+input,
+button {
   font-family: var(--font-main);
 }
 
-h1, h2, h3 {
+h1,
+h2,
+h3 {
   font-family: var(--font-title);
   font-size: var(--font-md);
 }
 
-select {
-  -webkit-appearance: none;  
-  -moz-appearance: none;     
-  appearance: none;           
-  
-  outline: none;             
-  box-shadow: none;         
-}
 
+/* Form Controls */
+
+select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+
+  outline: none;
+  box-shadow: none;
+}
 
 select:focus {
   outline: none;
@@ -135,48 +140,49 @@ select:focus {
 }
 
 
+/* UI UTILS */
+
 .circle-fill {
-  width: var(--touch-target-min); 
+  width: var(--touch-target-min);
   height: var(--touch-target-min);
   flex: 0 0 var(--touch-target-min);
-  padding: 2px;
   aspect-ratio: 1 / 1;
   flex-shrink: 0;
 
   border-radius: 50%;
-  display: inline-flex; 
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  
-  line-height: 1; 
+
+  line-height: 1;
   text-align: center;
-  
-  padding: 0; 
+
+  padding: 0;
   box-sizing: border-box;
   opacity: var(--opacitychange);
 
-  
   background: transparent;
-  transition: opacity var(--anim-slow) ease-in-out, 
-              transform var(--anim-slow) var(--ease-standard),
-              background var(--anim-normal) var(--ease-standard);
-
-              
+  transition:
+    opacity var(--anim-slow) ease-in-out,
+    transform var(--anim-slow) var(--ease-standard),
+    background var(--anim-normal) var(--ease-standard);
 }
 
 .circle-fill span {
   display: block;
-  transform: translateY(-1px); 
+  transform: translateY(-1px);
 }
 
 .circle-fill:hover {
-  background-color: var(--contrast); 
+  background-color: var(--contrast);
   opacity: 0.8;
 }
 
 .toolbutton {
   border-radius: 1em;
 }
+
+/*  Responsive */
 
 @media (max-width: 768px) {
   :root {

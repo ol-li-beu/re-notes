@@ -1,3 +1,4 @@
+/* layout */
 
 .wrapper {
   min-height: 100vh;
@@ -7,20 +8,21 @@
   padding: var(--space-md);
 }
 
-
 .form {
   width: 100%;
   max-width: 520px;
-  min-height:unset;
+  min-height: unset;
   padding: clamp(var(--space-md), 6vh, var(--space-lg));
   border: 2px solid var(--fg);
   background-color: var(--bg);
+
   display: flex;
   flex-direction: column;
   gap: 20px;
-  
 }
 
+
+/* inputs */
 
 .input {
   width: 100%;
@@ -37,6 +39,7 @@
 }
 
 
+/* password field */
 
 .passwordField {
   position: relative;
@@ -51,6 +54,7 @@
   background: none;
   border: none;
   padding: var(--space-2xs) var(--space-xs);
+
   font-size: var(--font-sm);
   font-weight: var(--font-weight);
   letter-spacing: 0.6px;
@@ -66,17 +70,28 @@
 }
 
 
+/* buttons base */
+
 .button,
 .resendbtn {
-  min-height: var(--touch-target-min);           
-  line-height: 1.2;           
+  min-height: var(--touch-target-min);
+  line-height: 1.2;
   padding: 12px 20px;
   font-size: 16px;
   border-radius: 8px;
-  display: inline-flex;     
+
+  display: inline-flex;
   align-items: center;
   justify-content: center;
 }
+
+button:disabled {
+  opacity: var(--opacitychange);
+  cursor: not-allowed;
+}
+
+
+/* Primary button */
 
 .button {
   border: 1px solid var(--fg);
@@ -85,28 +100,24 @@
   transition: opacity var(--anim-fast) var(--ease-standard);
 }
 
+.button:hover {
+  background-color: var(--accent);
+  opacity: var(--opacitychange);
+  border-color: var(--accent);
+}
+
 .button:active {
   transform: scale(0.98);
 }
 
-.button:hover {
-    background-color: var(--accent);
-    opacity: var(--opacitychange);
-    border-color: var(--accent);
-}
 
-
-button:disabled {
-  opacity: var(--opacitychange);
-  cursor: not-allowed;
-}
-
+/* Resend button */
 
 .resendbtn {
   background: var(--fg);
   color: var(--bg);
-  border: 1px solid var(--fg);  
-  transition: opacity var(--anim-fast) var(--ease-standard);    
+  border: 1px solid var(--fg);
+  transition: opacity var(--anim-fast) var(--ease-standard);
 }
 
 .resendbtn:hover {
@@ -122,10 +133,13 @@ button:disabled {
   transition: opacity var(--anim-fast) var(--ease-standard);
 }
 
+
+/* links */
+
 .links {
   margin-top: 15px;
   display: flex;
-  flex-direction: column; 
+  flex-direction: column;
   gap: 10px;
   font-size: var(--font-sm);
   align-items: flex-start;
@@ -135,16 +149,17 @@ button:disabled {
   min-height: var(--space-md);
   display: inline-flex;
   align-items: center;
+
   background: none;
   border: none;
   padding: 0;
   color: var(--accent);
   cursor: pointer;
   text-decoration: underline;
-  text-align: left; 
+  text-align: left;
   width: auto;
-   transition: opacity var(--anim-fast) var(--ease-standard);
-  
+
+  transition: opacity var(--anim-fast) var(--ease-standard);
 }
 
 .link:hover {
@@ -152,27 +167,37 @@ button:disabled {
 }
 
 
+/* modal overlay */
+
 .modalOverlay {
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.4);
+
   display: flex;
   align-items: center;
   justify-content: center;
+
   z-index: 50;
 }
+
+
+/* Modal */
 
 .modal {
   background: var(--bg);
   border: 2px solid var(--fg);
   padding: var(--space-md);
-  max-height: calc(100vh - 32px);
-  max-height: calc(100dvh - 32px);
+
   width: 100%;
   max-width: 420px;
+  max-height: calc(100vh - 32px);
+  max-height: calc(100dvh - 32px);
+
   display: flex;
   flex-direction: column;
   gap: var(--space-md);
+
   margin: var(--space-md);
   overflow-y: auto;
 
@@ -183,10 +208,29 @@ button:disabled {
   display: flex;
   gap: 10px;
   justify-content: flex-end;
-  margin-top: 10px;
   align-items: stretch;
+  margin-top: 10px;
 }
 
+
+
+.hint {
+  font-size: 13px;
+  opacity: var(--opacitychange);
+  text-align: center;
+}
+
+.spinner {
+  width: 14px;
+  height: 14px;
+  border: 2px solid currentColor;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+
+/* Animations */
 
 @keyframes pop {
   from {
@@ -199,16 +243,6 @@ button:disabled {
   }
 }
 
-
-.spinner {
-  width: 14px;
-  height: 14px;
-  border: 2px solid currentColor;
-  border-top-color: transparent;
-  border-radius: 50%;
-  animation: spin 0.8s linear infinite;
-}
-
 @keyframes spin {
   to {
     transform: rotate(360deg);
@@ -216,13 +250,7 @@ button:disabled {
 }
 
 
-
-.hint {
-  font-size: 13px;
-  opacity: var(--opacitychange);
-  text-align: center;
-}
-
+/* responsive */
 
 @media (max-width: 768px) {
   .modalActions {

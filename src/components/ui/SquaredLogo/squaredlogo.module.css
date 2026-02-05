@@ -1,13 +1,14 @@
+/* container */
+
 .container {
   --logo-size: clamp(220px, 50vw, 420px);
 
-
   display: flex;
-  align-items: center; 
+  align-items: center;
   justify-content: center;
 
-  height: var(--logo-size);
   width: var(--logo-size);
+  height: var(--logo-size);
 
   cursor: pointer;
   border-radius: 50%;
@@ -16,6 +17,9 @@
 
   transition: border-color var(--anim-normal) var(--ease-standard);
 }
+
+
+/* logo icon */
 
 .logoIcon {
   width: calc(var(--logo-size) * 0.77);
@@ -28,17 +32,19 @@
 
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
+
   -webkit-mask-size: contain;
   mask-size: contain;
+
   -webkit-mask-position: center;
   mask-position: center;
 
-  /* Smooth transform for scale animation */
   transition: all var(--anim-normal) var(--ease-standard);
 }
 
 
-/* Better control */
+/* responsive */
+
 @media (max-width: 360px) {
   .container {
     --logo-size: 160px;

@@ -1,3 +1,5 @@
+/*  Backdrop*/
+
 .backdrop {
   position: fixed;
   inset: 0;
@@ -6,6 +8,9 @@
   align-items: center;
   justify-content: center;
 }
+
+
+/* Modal Container */
 
 .modal {
   width: 100%;
@@ -16,34 +21,48 @@
   border-radius: 12px;
   padding: var(--space-md);
   gap: var(--space-xs);
+
   display: flex;
   flex-direction: column;
   overflow-y: auto;
+
   animation: pop var(--anim-slow) var(--ease-out) forwards;
 }
+
+
+/* Form Inputs*/
 
 .modal input {
   font-family: var(--font-title);
   font-size: var(--font-sm);
   min-height: 30px;
 }
+
 .modal textarea {
   font-family: var(--font-main);
   font-size: var(--font-sm);
   padding: 2px 4px;
   resize: none;
   overflow-y: auto;
-  min-height: 100px;    
-  max-height: 200px; 
+
+  min-height: 100px;
+  max-height: 200px;
 }
 
+
+/*  Counter*/
+
 .counter {
-  text-align: right;
-  color: var(--muted);
-  font-size: var(--font-xs);
-  margin-bottom: 8px;
   display: block;
+  margin-bottom: 8px;
+
+  text-align: right;
+  font-size: var(--font-xs);
+  color: var(--muted);
 }
+
+
+/* Actions Layout*/
 
 .actions {
   display: flex;
@@ -52,11 +71,13 @@
 }
 
 
+/* Buttons */
 
 .buttons {
-  font-size: var(--font-sm);
-  padding: var(--space-xs) var(--space-sm);
   min-width: 120px;
+  padding: var(--space-xs) var(--space-sm);
+
+  font-size: var(--font-sm);
   border: solid 2px;
   border-radius: 6px;
   outline: none;
@@ -66,7 +87,6 @@
     border-color 0.15s ease,
     color 0.15s ease;
 }
-
 
 .primary {
   background: var(--fg);
@@ -80,29 +100,30 @@
   border-color: var(--fg);
 }
 
-.primary:hover, .ghost:hover  {
-  border-color: var(--accent);
+.primary:hover,
+.ghost:hover {
   background-color: var(--accent);
+  border-color: var(--accent);
   opacity: var(--opacitychange);
 }
 
 
+/* Feedback Animations*/
 
 .shake {
   animation: shake .3s;
 }
 
 
+/* Keyframes*/
 
 @keyframes shake {
-  0% { transform: translateX(0); }
-  25% { transform: translateX(-3px); }
-  50% { transform: translateX(3px); }
-  75% { transform: translateX(-3px); }
+  0%   { transform: translateX(0); }
+  25%  { transform: translateX(-3px); }
+  50%  { transform: translateX(3px); }
+  75%  { transform: translateX(-3px); }
   100% { transform: translateX(0); }
 }
-
-
 
 @keyframes pop {
   from {
@@ -114,5 +135,3 @@
     opacity: 1;
   }
 }
-
-

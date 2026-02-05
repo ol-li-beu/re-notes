@@ -1,21 +1,30 @@
+/* button */
+
 .button {
   width: var(--touch-target-min);
   height: var(--touch-target-min);
+  position: relative;
+
+  display: grid;
+  place-items: center;
+
   border-radius: 50%;
   background: transparent;
   border: none;
   cursor: pointer;
-  position: relative;
-  display: grid;
-  place-items: center;
 }
+
+
+/* icon base */
 
 .icon {
   position: absolute;
   width: var(--touch-target-min);
   height: var(--touch-target-min);
   flex: 0 0 auto;
+
   color: var(--fg);
+
   transition:
     transform var(--anim-slow) var(--ease-standard),
     opacity var(--anim-normal) ease;
@@ -24,13 +33,14 @@
 .button svg {
   width: var(--icon-size);
   height: var(--icon-size);
-
 }
 
 .button:hover .icon {
   color: var(--accent);
 }
 
+
+/* icon variants */
 
 .sun {
   transform: scale(1) rotate(0deg);
@@ -40,7 +50,9 @@
   transform: scale(0.5) rotate(-40deg);
 }
 
-/* Visibility State*/
+
+/* visibility state */
+
 .visible {
   opacity: 1;
   transform: scale(1) rotate(0deg);
@@ -51,8 +63,3 @@
   transform: scale(0.3) rotate(60deg);
   pointer-events: none;
 }
-
-
-
-
-

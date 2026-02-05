@@ -1,70 +1,89 @@
+/* Base */
+
 .footer {
   background-color: var(--bg);
   color: var(--fg);
-  border-top: 3px solid var(--grid); 
+  border-top: 3px solid var(--grid);
   font-family: var(--font-main);
 }
 
-/*this makes separation between divs*/
+
+/* Layout */
+
+
 .footer-container {
   display: flex;
-  justify-content: space-between; 
+  justify-content: space-between;
   align-items: center;
-  padding: var(--space-sm) var(--space-xs);
+
   width: 100%;
-  margin: 0 auto;    /*for centering*/
+  margin: 0 auto; /* for centering */
+  padding: var(--space-sm) var(--space-xs);
+
   font-size: var(--font-xs);
-  
 }
+
+
+/* Footer Links */
 
 .footer-container a {
   text-decoration: none;
-  color: var(--accent); 
-  opacity: var(--opacitychange);     
+  color: var(--accent);
+  opacity: var(--opacitychange);
   transition: opacity var(--anim-fast) var(--ease-standard);
 }
 
 .footer-container a:hover {
   text-decoration: underline;
-  color: var(--fg); 
+  color: var(--fg);
   opacity: 1;
 }
+
+
+/* Socials */
 
 .social-list {
   list-style: none;
   padding: 0;
   margin: 0;
+
   display: flex;
-  flex-direction: column; 
-  gap: var(--space-2xs); 
-  text-align: right; 
+  flex-direction: column;
+  gap: var(--space-2xs);
+  text-align: right;
 }
 
 .social-list a {
-  /*font-family: var(--font-title); */
-  display: inline-flex;       
-  align-items: center;       
-  gap: var(--space-xs); 
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+
   text-decoration: none;
-  color: var(--fg); 
-  opacity: var(--opacitychange);     
-  transition: opacity var(--anim-normal) var(--ease-standard);
+  color: var(--fg);
+  opacity: var(--opacitychange);
   white-space: nowrap;
+
+  transition: opacity var(--anim-normal) var(--ease-standard);
 }
 
 .social-list a:hover {
   text-decoration: underline;
-  color: var(--accent); 
+  color: var(--accent);
   opacity: 1;
 }
+
+
+/* Logo */
 
 .logocontainer {
   display: flex;
   align-items: center;
-  height: 50%;
   width: 50%;
+  height: 50%;
 }
 
+
+/* Responsive */
 
 @media (max-width: 768px) {
   .footer-container {
@@ -73,5 +92,4 @@
     gap: var(--section-gutter);
     text-align: center;
   }
-
 }

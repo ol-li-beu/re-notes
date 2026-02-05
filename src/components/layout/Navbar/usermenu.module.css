@@ -1,66 +1,80 @@
+/* User menu wrapper */
+
 .userMenu {
   position: relative;
 }
 
+
+/* Trigger button */
+
 .trigger {
- width: var(--touch-target-min);
- height: var(--touch-target-min);
- cursor: pointer;
- display: flex;
- align-items: center;
- gap: var(--space-2xs); 
- padding: var(--space-2xs) var(--space-2xs);  
- background: transparent;
- border: none;
- outline: none;
- transition: opacity var(--anim-fast) var(--ease-standard);
+  width: var(--touch-target-min);
+  height: var(--touch-target-min);
+  padding: var(--space-2xs) var(--space-2xs);
+
+  display: flex;
+  align-items: center;
+  gap: var(--space-2xs);
+
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  outline: none;
+
+  transition: opacity var(--anim-fast) var(--ease-standard);
 }
 
 .trigger:hover {
-  color: var(--accent);  
+  color: var(--accent);
   opacity: var(--opacitychange);
-} 
-
+}
 
 .trigger svg {
-  display:block;
+  display: block;
   width: var(--iconsize);
   height: var(--iconsize);
 }
 
 
+/* Dropdown container */
+
 .dropdown {
   position: absolute;
   right: 0;
   top: calc(100% + 4px);
+
   width: max-content;
   min-width: clamp(140px, 40vw, 200px);
   max-width: min(90vw, 320px);
-  background: var(--bg);
-  box-shadow: 0 6px 10px rgba(0,0,0,0.1);
-  animation: fadeIn 0.15s ease;
 
+  background: var(--bg);
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1);
 
   white-space: normal;
-  word-break: break-word; 
+  word-break: break-word;
 
-
-  
-  
+  animation: fadeIn 0.15s ease;
 }
 
+
+/* Dropdown items */
+
 .item {
-  display: flex; 
+  display: flex;
   align-items: center;
-  gap: clamp(4px, 1vw, var(--space-2xs)); 
+  gap: clamp(4px, 1vw, var(--space-2xs));
+
   width: 100%;
   padding: var(--space-xs) var(--space-2xs);
+
   font-size: var(--font-xs);
   cursor: pointer;
   white-space: normal;
+
   background-color: var(--bg);
   color: inherit;
   text-decoration: none;
+
   border: 2px solid var(--fg);
 
   transition: opacity var(--anim-fast) var(--ease-standard);
@@ -76,6 +90,9 @@
   color: inherit;
 }
 
+
+/* Item variants */
+
 .dataItem {
   word-break: break-all;
 }
@@ -87,6 +104,8 @@
 }
 
 
+/* Animations */
+
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -97,4 +116,3 @@
     transform: translateY(0);
   }
 }
-

@@ -1,7 +1,8 @@
+/* wrapper */
+
 .wrapper {
   margin: clamp(3rem, 12vh, 12rem) auto;
   max-width: min(90vw, 420px);
-  text-align: center;
 
   display: flex;
   flex-direction: column;
@@ -9,9 +10,10 @@
   gap: clamp(4px, 1.5vw, 8px);
 
   text-align: center;
-
-  
 }
+
+
+/* icon */
 
 .icon {
   font-size: var(--font-xl);
@@ -19,12 +21,18 @@
   margin-bottom: 6px;
 }
 
+
+/* title */
+
 .title {
   font-size: var(--font-lg);
   font-weight: 800;
   color: var(--fg);
   line-height: 1.4;
 }
+
+
+/* description */
 
 .description {
   font-size: var(--font-md);

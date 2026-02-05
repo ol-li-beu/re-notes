@@ -1,4 +1,5 @@
-/* trigger button */
+/* Trigger button */
+
 .burger {
   font-size: var(--font-md);
   background: none;
@@ -10,10 +11,12 @@
 }
 
 .burger:hover {
-    color: var(--accent);
-    opacity: var(--opacity-change);
+  color: var(--accent);
+  opacity: var(--opacity-change);
 }
 
+
+/* Overlay */
 
 .overlay {
   position: fixed;
@@ -22,7 +25,9 @@
   z-index: 998;
 }
 
+
 /* Side menu */
+
 .menu {
   position: fixed;
   top: 0;
@@ -45,6 +50,8 @@
 }
 
 
+/* Close button */
+
 .close {
   align-self: flex-start;
   background: none;
@@ -56,12 +63,13 @@
 }
 
 .close:hover {
-    color: var(--accent);
-    opacity: var(--opacity-change);
-
+  color: var(--accent);
+  opacity: var(--opacity-change);
 }
 
-/* Menu links */
+
+/* Menu list */
+
 .menu ul {
   list-style: none;
   padding: var(--space-xs);
@@ -73,68 +81,77 @@
 }
 
 
+/* Menu links */
+
 .menu ul {
   list-style: none;
   padding: 0;
+
   display: flex;
   flex-direction: column;
-  gap: var(--space-sm); 
+  gap: var(--space-sm);
 
   transition: opacity var(--anim-fast) var(--ease-standard);
 }
 
 .menu a {
-
   text-decoration: none;
   color: inherit;
   font-size: var(--font-md);
-  
 }
+
+
+/* Menu buttons */
 
 .button {
   display: flex;
   align-items: center;
 
   min-width: 200px;
-  width: 100%; 
+  width: 100%;
   max-width: 600px;
-  
-  padding: var(--space-xs) var(--space-sm); 
+
+  padding: var(--space-xs) var(--space-sm);
   border-radius: 4px;
-  
+
   background: transparent;
   color: var(--fg);
   text-decoration: none;
-  transition: all var(--anim-fast) var(--ease-standard);
-  
+
   border: none;
   cursor: pointer;
+
+  transition: all var(--anim-fast) var(--ease-standard);
 }
 
 .button:hover {
   background-color: var(--bg);
   opacity: var(--opacity-change);
   color: var(--accent);
-} 
+}
 
 .button.active {
   background-color: var(--contrast);
   color: var(--accent);
-  border-left: 4px solid var(--accent); 
+  border-left: 4px solid var(--accent);
 }
 
 .button.active:hover {
   background-color: var(--bg);
 }
 
+
+/* Close button variant */
+
 .close.button {
   align-self: flex-start;
   margin-bottom: var(--space-md);
-  padding: var(--space-xs) var(--space-md); 
+  padding: var(--space-xs) var(--space-md);
 }
 
 
 /* Animation */
+
 @keyframes slideInLeft {
   from {
     transform: translateX(-100%);
