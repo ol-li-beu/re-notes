@@ -1,13 +1,19 @@
 "use client";
 
 import { useState, useContext, useEffect } from "react";
+
+
 import ProjectCard from "@/components/layout/ProjectCard/ProjectCard";
 import SearchController from "@/components/ui/SearchBar/SearchBarController";
 import ConfirmModal from "@/components/ui/ConfirmModal/ConfirmModal";
 import { Project } from "@/utils/types";
-import { ToastContext } from "@/hooks/ToastContext";
 import Spinner from "@/components/ui/Spinner/Spinner";
 import EmptyState from "@/components/ui/EmptyState/EmptyState";
+
+import { ToastContext } from "@/hooks/ToastContext";
+import { useLockBodyScroll } from "@/hooks/useLockBodyScroll"; 
+
+
 import styles from "@/app/[lang]/projects/projects.module.css";
 
 interface RecycledBinProps {
@@ -24,6 +30,45 @@ export default function RecycledBinClient({ dict, initialProjects }: RecycledBin
 
   const [deleting, setDeleting] = useState(false);
   const [cooldown, setCooldown] = useState(0);
+
+  useLockBodyScroll(!!confirmDelete);
+
+  // TODO SUPABSE HANDLERS need return obj { result or success? same pattern? }
+  // PROJECT SOFT DELETE?
+
+  const handleRestore = async (project : Project) => {
+    //const result = await SiBackendless(project.id);
+
+    /*
+     if (result.error) {
+      showToast(result.error, "error");
+      return;   }
+    */
+      setProjects((ps) => ps.filter((x) => x.id !== project.id));
+      showToast(dict.projectrestored, "success");
+      //showToast(result.success!, "success");
+  }
+
+  const handlePermanentDelete = async () => {
+    if (!confirmDelete || deleting || cooldown > 0) return;
+
+    setDeleting(true); // here 30s cooldown occurs
+    /*
+    const result: ActionResult = await backend(confirmDelete.id);
+    */
+    setDeleting(false);
+    /*
+    if (result.error) {
+      showToast(result.error, "error");
+      return;
+    } */
+
+    setProjects((ps) => ps.filter((x) => x.id !== confirmDelete.id));
+    //showToast(result.success!, "error"); // destructive success
+    showToast(dict.permadelete, "error");
+    setConfirmDelete(null);
+  };
+
 
   // interval when open modal
   useEffect(() => {
@@ -45,6 +90,8 @@ export default function RecycledBinClient({ dict, initialProjects }: RecycledBin
   }, [confirmDelete]);
 
   
+
+  // Projects Fetching time, state loading
   if (loading) {
     return (
       <div className={styles.center}>
@@ -53,6 +100,7 @@ export default function RecycledBinClient({ dict, initialProjects }: RecycledBin
     );
   }
 
+  // No Projects Found
   if (projects.length === 0) {
     return (
       <div className={styles.center}>
@@ -80,10 +128,7 @@ export default function RecycledBinClient({ dict, initialProjects }: RecycledBin
                   project={project}
                   mode="trash"
                   dict={dict}
-                  onRestore={(p) => {
-                    setProjects((ps) => ps.filter((x) => x.id !== p.id));
-                    showToast(dict.projectrestored, "success");
-                  }}
+                  onRestore={handleRestore}
                   onPermanentDelete={(p) => setConfirmDelete(p)}
                 />
               ))}
@@ -99,15 +144,7 @@ export default function RecycledBinClient({ dict, initialProjects }: RecycledBin
           btncancel={dict.btncanceldelete}
           btnconfirm={cooldown > 0 ? `${dict.deletein ?? "Delete in"} ${cooldown}s` : dict.btnconfirmdelete}
           onCancel={() => setConfirmDelete(null)}
-          onConfirm={() => {
-            if (deleting || cooldown > 0) return;
-
-            setDeleting(true);
-            setProjects((ps) => ps.filter((x) => x.id !== confirmDelete.id));
-            showToast(dict.permadelete, "error");
-            setConfirmDelete(null);
-            setDeleting(false);
-          }}
+          onConfirm={handlePermanentDelete}
           disabled={deleting || cooldown > 0} 
         />
       )}

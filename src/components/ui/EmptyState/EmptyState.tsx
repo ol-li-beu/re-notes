@@ -10,6 +10,7 @@ export default function EmptyState({
   title,
   description,
 }: EmptyStateProps) {
+  
   return (
     <div className={styles.wrapper}>
       <div className={styles.icon}>

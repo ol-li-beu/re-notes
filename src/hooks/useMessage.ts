@@ -9,6 +9,8 @@ interface MessageState {
   text: string;
 }
 
+// Hook for using messages, show them and clear them (mostly on click)
+
 export function useMessage() {
   const [message, setMessage] = useState<MessageState | null>(null);
 

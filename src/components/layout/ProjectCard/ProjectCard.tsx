@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+
 import { Project } from "@/utils/types";
 import { Icon } from "@/components/ui/Icons/Icons";
+
 import styles from "./projectcard.module.css";
 
 type CardMode = "normal" | "trash";
@@ -28,15 +29,12 @@ export default function ProjectCard({project, lang, mode = "normal", isMenuOpen,
   const router = useRouter();
   
 
-  
-
-
   return (
     <div
       className={styles.card}
       onClick={() => {
         if (mode === "normal" && lang) {
-          router.push(`/${lang}/canvas/${project.id}`);
+          router.push(`/${lang}/canvas/${project.id}`); // TODO THis will hit layout were get data and check perms, then redirect to root
         }
       }}
     >

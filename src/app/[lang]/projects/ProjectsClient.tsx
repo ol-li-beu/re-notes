@@ -9,19 +9,20 @@ import ProjectModal from "@/components/layout/ProjectCard/ProjectModal";
 import SearchController from "@/components/ui/SearchBar/SearchBarController";
 import ConfirmModal from "@/components/ui/ConfirmModal/ConfirmModal";
 import Spinner from "@/components/ui/Spinner/Spinner";
-
-
 import { Project } from "@/utils/types";
+
 import { ToastContext } from "@/hooks/ToastContext";
+import { useLockBodyScroll } from "@/hooks/useLockBodyScroll";
 
 import styles from "./projects.module.css";
+import { resumeToPipeableStream } from "react-dom/server";
 
 interface ProjectsProp {
   lang: string;
   dict: any;
   initialProjects: Project[];
 }
-// TBD SUPABSE UPDATE
+
 export default function ProjectsClient({lang, dict, initialProjects, }: ProjectsProp) {
 
   const router = useRouter();
@@ -42,6 +43,9 @@ export default function ProjectsClient({lang, dict, initialProjects, }: Projects
     return () => window.removeEventListener("click", close);
   }, []);
 
+  useLockBodyScroll(modalOpen);
+  useLockBodyScroll(!!toDelete);
+
   // BCK GETTING PROJECTS
   // usar este formato 
   /* 
@@ -54,6 +58,70 @@ export default function ProjectsClient({lang, dict, initialProjects, }: Projects
     setLoading(false);
   });
   }, []); */
+
+
+  const handleCreateProject = async (data: Partial<Project>) => { // Partial Just in Case need to add stuff like last updated or perms
+    //setLoading(true);?
+
+    //const result = await backend
+
+    //setLoading(false);??
+    /*
+    if (result.error) {
+      showToast(result.error, "error");
+      return;
+    } */
+
+    //setProjects((ps) => [...ps, result.project]); // sets project and gives me back, truth in server
+    showToast(dict.projectcreated, "success");
+  };
+
+  const handleEditProject = async (
+    projectId: string,
+    data: Partial<Project>) => {
+
+    // set loading?
+    //const result = await backend(projectId, data);
+
+   
+
+    /*if (result.error) {
+      showToast(result.error, "error");
+      return;
+    }  */
+    
+    /*
+    setProjects((ps) =>
+      ps.map((p) =>
+        p.id === projectId ? { ...p, ...result.project } : p
+      )
+    ); */
+
+    showToast(dict.projectupdated, "success");
+  };  
+
+
+
+  
+  const handleMoveToTrash = async () => {
+    if (!toDelete) return;
+
+  
+  //const { result } await backend(toDelete)
+    
+  /*
+  if (result.error) {
+    showToast(result.error, "error");
+    return;
+  } */
+
+
+    setProjects((ps) => ps.filter((p) => p.id !== toDelete.id));
+
+ 
+    setToDelete(null);
+    showToast("Project deleted", "success");
+};
 
   
   if (loading) {
@@ -89,7 +157,8 @@ export default function ProjectsClient({lang, dict, initialProjects, }: Projects
               }}
               iconName="create"/>
 
-            {filteredProjects.map((p) => (
+          
+            {filteredProjects.map((p) => ( // TODO ORDER BY UPDATE TIME
               <ProjectCard
                 key={p.id}
                 project={p}
@@ -136,21 +205,12 @@ export default function ProjectsClient({lang, dict, initialProjects, }: Projects
           onClose={() => setModalOpen(false)}
           onSave={(data) => {
             if (editing) {
-              setProjects((ps) =>
-                ps.map((p) =>
-                  p.id === editing.id ? { ...p, ...data } : p
-                )
-              );
-              showToast(dict.projectupdated, "success");
+              handleEditProject(editing.id, data);
             } else {
-              setProjects((ps) => [
-                ...ps,
-                { id: crypto.randomUUID(), ...data },
-              ]);
-              showToast(dict.projectcreated, "success");
+              handleCreateProject(data);
             }
             setModalOpen(false);
-          }}
+            }}
         />
       )}
 
@@ -160,18 +220,11 @@ export default function ProjectsClient({lang, dict, initialProjects, }: Projects
           title={dict.confirmdelete ?? "Delete project?"}
           description={
             dict.descriptiondelete ??
-            "You can restore it later from trash."
-          }
+            "You can restore it later from trash."}
           btncancel={dict.btncanceldelete}
           btnconfirm={dict.btnconfirmdelete}
           onCancel={() => setToDelete(null)}
-          onConfirm={() => {
-            setProjects((ps) =>
-              ps.filter((x) => x.id !== toDelete.id)
-            );
-            showToast(dict.movedtrash, "error");
-            setToDelete(null);
-          }}
+          onConfirm={handleMoveToTrash}
         />
       )}
     </>

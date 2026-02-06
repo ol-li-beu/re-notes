@@ -3,7 +3,9 @@
 import { useEffect, useState } from "react";
 import { usePathname, } from "next/navigation";
 import Link from "next/link";
+
 import { Icon } from "@/components/ui/Icons/Icons";
+import { useLockBodyScroll } from "@/hooks/useLockBodyScroll";
 
 import styles from "./hamburgermenu.module.css";
 
@@ -22,16 +24,8 @@ export default function HamburgerMenu({dict, lang} : HamburgerProps) {
     { name: dict.projects, href: `/${lang}/projects` },
   ] : [];
 
-// ANTI SCROLLING PARENT
-  useEffect(() => {
-    document.body.style.overflow = open ? "hidden" : "";
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [open]);
-
+  useLockBodyScroll(open);
   
-
   return (
     <>
       <button

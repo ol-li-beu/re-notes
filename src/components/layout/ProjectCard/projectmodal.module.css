@@ -100,11 +100,15 @@
   border-color: var(--fg);
 }
 
-.primary:hover,
-.ghost:hover {
+.buttons:not(:disabled):hover {
   background-color: var(--accent);
   border-color: var(--accent);
   opacity: var(--opacitychange);
+}
+
+.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 

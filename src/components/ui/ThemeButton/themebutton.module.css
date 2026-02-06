@@ -31,8 +31,8 @@
 }
 
 .button svg {
-  width: var(--icon-size);
-  height: var(--icon-size);
+  width: var(--font-md);
+  height: var(--font-md);
 }
 
 .button:hover .icon {

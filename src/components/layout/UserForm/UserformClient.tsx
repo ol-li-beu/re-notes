@@ -2,14 +2,18 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+
 import { Icon } from "@/components/ui/Icons/Icons";
 import Message from "@/components/ui/Message/Message";
 
 import { useToast } from "@/hooks/useToast";
 import { useRouter } from "next/navigation";
 import { useMessage } from "@/hooks/useMessage";
+import { useLockBodyScroll } from "@/hooks/useLockBodyScroll";
 
 import styles from "./userform.module.css";
+import { resumePluginState } from "next/dist/build/build-context";
+import { resumeToPipeableStream } from "react-dom/server";
 
 
 interface UserFormClientProps {
@@ -37,25 +41,11 @@ export default function UserFormClient({ mode, dict, lang, action,}: UserFormCli
   const { showToast } = useToast();
   const router = useRouter();
 
-
-  // ANTI Scroll ON MODAL
-  useEffect(() => {
-  if (forgotOpen) {
-    document.body.style.overflow = "hidden";
-  } else {
-    document.body.style.overflow = "";
-  }
-
-  return () => {
-    document.body.style.overflow = "";
-  };
-  }, [forgotOpen]);
-
-
+  useLockBodyScroll(forgotOpen);
 
 
   // BCK 
-  // MODAL FORGOT PASSWORD para mandar mail custom supabase
+  // TODO MODAL FORGOT PASSWORD para mandar mail custom supabase
   const handleForgotPassword = async () => {
     if (!EMAIL_REGEX.test(forgotEmail)) {
       showToast(dict.invalidemail ?? "Invalid email address", "error");
@@ -66,20 +56,22 @@ export default function UserFormClient({ mode, dict, lang, action,}: UserFormCli
 
     setSending(true);
 
-    try {
-      // ELIMINAR AWAIT
-      await new Promise((res) => setTimeout(res, 1500));
+    
+     // ELIMINAR AWAIT
+    await new Promise((res) => setTimeout(res, 1500));
       
       // THROW ERROR si no funcitona
-      const error = null;  // BCK function supabase send email de reset password llamar
+    const result = null;  // TODO function supabase send email de reset password llamar
 
-      showToast(dict.emailsuccess, "success");
-      setCooldown(30);
-    } catch (err) {
+    /*
+    if (result.error) {
       showToast(dict.error, "error");
-    } finally {
-      setSending(false);
-    }
+    } */
+      
+
+    showToast(dict.emailsuccess, "success");
+    setCooldown(30);
+    setSending(false);
   };
 
 
@@ -96,7 +88,9 @@ export default function UserFormClient({ mode, dict, lang, action,}: UserFormCli
 
 
 
-// SUBMIT for reset password, login, sign up
+//TODO Supabase updat 
+//  SUBMIT for reset password, login, sign up
+//  handler calls depending on mode? Optimize client side
 
 const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
   e.preventDefault();
@@ -243,35 +237,51 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         )}
 
         <div className={styles.links}>
-          {mode === "login" && (
-            <>
-              <button
-                type="button"
-                className={styles.link}
-                onClick={() => setForgotOpen(true)}
-              >
-                {dict.forgotpassword}
-              </button>
+    {mode === "login" && (
+    <>
+      <div className={styles.row}>
+    <button
+      type="button"
+      className={styles.link}
+      onClick={() => setForgotOpen(true)}
+    >
+      {dict.forgotpassword}
+    </button>
+  </div>
 
-              <span>
-                {dict.changeregister}{" "}
-                <Link href={`/${lang}/register`} className={styles.link}>
-                  {dict.register}
-                </Link>
-              </span>
-            </>
-          )}
+  <div className={styles.row}>
+    <div className={styles.inlineRow}>
+      <span className={styles.inlineText}>
+        {dict.changeregister}
+      </span>
 
-          {mode === "register" && (
-            <span>
-              {dict.changelogin}{" "}
-              <Link href={`/${lang}/login`} className={styles.link}>
-                {dict.login}
-              </Link>
-            </span>
-          )}
-        </div>
-      </form>
+      <Link
+        href={`/${lang}/register`}
+        className={styles.link}
+      >
+        {dict.register}
+      </Link>
+    </div>
+  </div>
+    </>
+  )}
+
+  {mode === "register" && (
+    <div className={styles.inlineRow}>
+      <span className={styles.inlineText}>
+        {dict.changelogin}
+      </span>
+
+      <Link
+        href={`/${lang}/login`}
+        className={styles.link}
+      >
+        {dict.login}
+      </Link>
+    </div>
+  )}
+</div>
+  </form>
 
       {forgotOpen && (
         <div className={styles.modalOverlay}>

@@ -8,10 +8,9 @@ import ThemeButton from "@/components/ui/ThemeButton/ThemeButton";
 import LanguageSelector from "@/components/ui/LanguageSelector/LanguageSelector";
 import UserMenu from "./UserMenu";
 import { Icon } from "@/components/ui/Icons/Icons";
-
-import styles from "./navbar.module.css";
 import HamburgerMenu from "./HamburgerMenu";
 
+import styles from "./navbar.module.css";
 
 interface NavbarClientProps {
     lang : string;
@@ -19,7 +18,9 @@ interface NavbarClientProps {
     user : any;
     dict: any;
 }
+
 export default function NavbarClient({ lang, navLinks, user, dict, } : NavbarClientProps) {
+  
   const pathname = usePathname();
   const isLoggedIn = !!user;
 

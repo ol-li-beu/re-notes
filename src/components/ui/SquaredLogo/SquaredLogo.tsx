@@ -18,6 +18,8 @@ export default function SquaredLogo() {
   const containerLastTimeRef = useRef<number | null>(null);
   const logoLastTimeRef = useRef<number | null>(null);
 
+
+  // Opted for mostly useref for performance capabilities (as to not trigger to many re render)
   useEffect(() => {
     let animationFrame: number;
     const maxDelta = 0.05; // seconds
@@ -30,7 +32,7 @@ export default function SquaredLogo() {
         let deltaContainer = (timestamp - containerLastTimeRef.current) / 1000;
         let deltaLogo = (timestamp - logoLastTimeRef.current) / 1000;
 
-        // prevent jumps
+        // prevent jumps by calculating time elapsed and using it for final angle/position
         deltaContainer = Math.min(deltaContainer, maxDelta);
         deltaLogo = Math.min(deltaLogo, maxDelta);
 
