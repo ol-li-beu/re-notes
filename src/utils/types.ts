@@ -6,8 +6,10 @@ import { SiGithub, } from "@icons-pack/react-simple-icons"
 
 export type Project = {
   id: string;
-  title: string;
+  name?: string;  // Lo que viene de Supabase
+  title: string;  // Lo que usa el Frontend
   description: string;
+  // Agregar created_at si queres mostrar fechas
 };
 
 export interface PageProps {

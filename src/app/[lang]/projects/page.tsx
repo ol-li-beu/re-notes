@@ -1,43 +1,50 @@
-import { getDictionary } from '@/utils/get-dictionary';
-import ProjectsClient from './ProjectsClient';
-import { Project } from '@/utils/types';
+import { createClient } from "@/utils/supabase/server";
+import { redirect } from "next/navigation";
+import ProjectsClient from "./ProjectsClient"; 
+import { getDictionary } from "@/utils/get-dictionary"; // 1. Importar diccionario
 
-import { PageProps } from '@/utils/types';
+// Importamos el tipo para que TypeScript no se queje del mapeo
+import { Project } from "@/utils/types"; 
 
-// ejemplo, also id es id del canva donde esta el nodo root etc
-const initialProjects: Project[] = [
-  { "id": "6", "title": "Eco Tracker", "description": "An application for monitoring personal carbon footprints." },
-  { "id": "7", "title": "Code Catalyst", "description": "An open-source initiative for mentoring junior developers." },
-  { "id": "8", "title": "Urban Harvest", "description": "A guide to sustainable rooftop gardening in city environments." },
-  { "id": "9", "title": "Sound Sphere", "description": "An experimental spatial audio project using Web Audio API." },
-  { "id": "10", "title": "Data Stream", "description": "Visualizing real-time global stock market fluctuations." },
-  { "id": "11", "title": "Mindful Minutes", "description": "A productivity tool focused on interval-based meditation." },
-  { "id": "12", "title": "Neon Nights", "description": "A collection of cyberpunk-themed digital illustrations." },
-  { "id": "13", "title": "Swift Logic", "description": "High-performance algorithm implementations in modern languages." },
-  { "id": "14", "title": "Blue Horizon", "description": "Research on ocean plastic cleanup technologies." },
-  { "id": "15", "title": "Velocity Kit", "description": "A lightweight boilerplate for building fast React applications." },
-  { "id": "16", "title": "The Long Game", "description": "A strategic guide to personal finance and long-term investing." },
-  { "id": "17", "title": "Circuit Flow", "description": "Exploring minimalist hardware design and IoT connectivity." },
-  { "id": "18", "title": "Abstract Reality", "description": "A series of VR environments based on surrealist paintings." },
-  { "id": "19", "title": "Golden Ratio", "description": "Designing layouts using classical mathematical proportions." },
-  { "id": "20", "title": "Terraform Pro", "description": "Infrastructure as code templates for multi-cloud deployments." },
-  { "id": "21", "title": "Silent Pulse", "description": "Monitoring biometric data for stress management." },
-  { "id": "22", "title": "Peak Performance", "description": "A workout logging app for professional athletes." },
-  { "id": "23", "title": "Lunar Phase", "description": "Tracking celestial events and their impact on tides." },
-  { "id": "24", "title": "Infinity Scroll", "description": "A creative writing blog exploring endless storytelling." }
-];
-
-export default async function ProjectsPage({ params }: PageProps) {
+export default async function ProjectsDashboard({ params }: { params: Promise<{ lang: string }> }) {
   const { lang } = await params;
+  const supabase = await createClient();
+
+  // 2. Verificar usuario
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) {
+    redirect(`/${lang}/login`);
+  }
+
+  // 3. Obtener el diccionario (Porque ProjectsClient lo pide)
   const dict = await getDictionary(lang);
 
-  // mdidle ware log in protection, here justfetch projects
-  
+  // 4. Obtener proyectos de la base de datos
+  const { data: rawProjects } = await supabase
+    .from('projects')
+    .select('*')
+    .eq('user_id', user.id)
+    .eq('is_in_trash', false)
+    .order('created_at', { ascending: false });
+
+  // 5. Mapear los datos (Adaptador DB -> Frontend)
+  // Tu tipo Project espera 'title', pero la DB devuelve 'name'. Aquí lo arreglamos.
+  const validProjects: Project[] = (rawProjects || []).map((p) => ({
+    id: p.id,
+    title: p.name,       // <-- Mapeo importante
+    name: p.name,
+    description: p.description || "",
+  }));
+
+  // 6. Renderizar enviando LO QUE PIDE LA INTERFAZ
+  // Usamos 'initialProjects' y 'dict' en lugar de 'projects' y 'user'
   return (
-    <ProjectsClient
-      lang={lang}
-      dict={dict.projects}
-      initialProjects={initialProjects ?? []}
-    />
+    <div className="min-h-screen bg-gray-50">
+      <ProjectsClient 
+        lang={lang} 
+        dict={dict} 
+        initialProjects={validProjects} 
+      />
+    </div>
   );
 }

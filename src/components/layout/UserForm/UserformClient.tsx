@@ -11,7 +11,6 @@ import { useMessage } from "@/hooks/useMessage";
 
 import styles from "./userform.module.css";
 
-
 interface UserFormClientProps {
   mode: "login" | "register" | "set-password";
   dict: any;
@@ -22,10 +21,17 @@ interface UserFormClientProps {
 const PASSWORD_REGEX = /^(?=.*[A-Za-z])(?=.*\d).{10,}$/;
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-export default function UserFormClient({ mode, dict, lang, action,}: UserFormClientProps) {
+export default function UserFormClient({
+  mode,
+  dict,
+  lang,
+  action,
+}: UserFormClientProps) {
   const [showPassword, setShowPassword] = useState(false);
 
-  const [identifier, setIdentifier] = useState("");
+  // Estados
+  const [identifier, setIdentifier] = useState(""); // Esto será el email
+  const [username, setUsername] = useState(""); // Nuevo estado para username
   const [password, setPassword] = useState("");
 
   const [forgotOpen, setForgotOpen] = useState(false);
@@ -37,25 +43,19 @@ export default function UserFormClient({ mode, dict, lang, action,}: UserFormCli
   const { showToast } = useToast();
   const router = useRouter();
 
-
   // ANTI Scroll ON MODAL
   useEffect(() => {
-  if (forgotOpen) {
-    document.body.style.overflow = "hidden";
-  } else {
-    document.body.style.overflow = "";
-  }
-
-  return () => {
-    document.body.style.overflow = "";
-  };
+    if (forgotOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
   }, [forgotOpen]);
 
-
-
-
-  // BCK 
-  // MODAL FORGOT PASSWORD para mandar mail custom supabase
+  // MODAL FORGOT PASSWORD
   const handleForgotPassword = async () => {
     if (!EMAIL_REGEX.test(forgotEmail)) {
       showToast(dict.invalidemail ?? "Invalid email address", "error");
@@ -63,16 +63,11 @@ export default function UserFormClient({ mode, dict, lang, action,}: UserFormCli
     }
 
     if (sending || cooldown > 0) return;
-
     setSending(true);
 
     try {
-      // ELIMINAR AWAIT
       await new Promise((res) => setTimeout(res, 1500));
-      
-      // THROW ERROR si no funcitona
-      const error = null;  // BCK function supabase send email de reset password llamar
-
+      // TODO: Implementar llamada real a supabase reset password
       showToast(dict.emailsuccess, "success");
       setCooldown(30);
     } catch (err) {
@@ -82,112 +77,109 @@ export default function UserFormClient({ mode, dict, lang, action,}: UserFormCli
     }
   };
 
-
-
   useEffect(() => {
     if (cooldown === 0) return;
-
     const timer = setInterval(() => {
       setCooldown((c) => c - 1);
     }, 1000);
-
     return () => clearInterval(timer);
   }, [cooldown]);
 
+  // SUBMIT
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
 
+    // 1. Validaciones Locales
+    if (!identifier) {
+      showMessage("error", dict.userdatarequired ?? "Email is required");
+      return;
+    }
 
-// SUBMIT for reset password, login, sign up
+    // Validación extra para registro: Username requerido
+    if (mode === "register" && !username) {
+        showMessage("error", "Username is required");
+        return;
+    }
 
-const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-  e.preventDefault();
-  
-  if (!identifier) {
-    showMessage("error", dict.userdatarequired ?? "Email or username is required");
-    return;
-  }
+    if (!password) {
+      showMessage("error", dict.passwordrequired ?? "Password is required");
+      return;
+    }
 
-  if (!password) {
-    showMessage("error", dict.passwordrequired ?? "Password is required");
-    return;
-  }
+    const isEmailValid = EMAIL_REGEX.test(identifier);
+    if (!isEmailValid) {
+      showMessage("error", dict.emailinvalid ?? "Invalid email format");
+      return;
+    }
 
+    if (mode !== "login" && !PASSWORD_REGEX.test(password)) {
+      showMessage(
+        "error",
+        dict.passwordinvalid ??
+          "Password must be at least 10 characters and include a letter and a number."
+      );
+      return;
+    }
 
+    // 2. Preparar FormData
+    // Usamos e.currentTarget para asegurarnos que agarre los inputs con sus 'names'
+    const formData = new FormData(e.currentTarget);
 
-  
-  const looksLikeEmail = identifier.includes("@");
-  const isEmailValid = !looksLikeEmail || EMAIL_REGEX.test(identifier);
+    // 3. Ejecutar Server Action
+    const result = await action(formData);
 
-  if (!isEmailValid) {
-    showMessage("error", dict.emailinvalid ?? "Invalid email format");
-    return;
-  }
+    if (result?.error) {
+      // Manejo especial para errores comunes de Supabase
+      if (result.error.includes("Anonymous")) {
+         showMessage("error", "Error sending data to server. Check fields.");
+      } else {
+         showMessage("error", result.error);
+      }
+    }
 
-  if (mode !== "login" && !PASSWORD_REGEX.test(password)) {
-    showMessage( "error",
-    dict.passwordinvalid ?? "Password must be at least 10 characters and include a letter and a number.");
-    return;
-  }
+    if (result?.success) {
+       showToast(result.success, "success");
+       if (mode === "login") router.push(`/${lang}/projects`);
+       else if (mode === "register") router.push(`/${lang}/projects`); // Redirigir a projects tras registro exitoso
+       else router.push(`/${lang}`);
+    }
+  };
 
-  
-  const formData = new FormData(e.currentTarget);
-
-
-  const result = await action(formData); // ACTION VARIES DEPENDING ON PAGE 
-  
-  // formData.identifier, etc. 
-  // result = {success : "message from dict"} or {error : "messagefrom dict"}
-  // functiones async
-  // getDictionary de utils. NEcesario obtener el [lang] actual para get del diccionario del mismo idioma
-
-
-
-  if (result?.error) {
-    showMessage("error", result.error); 
-  }
-
-  
-
-
-  
-  if (result?.success && mode==="login") {
-    showToast(result.success, "success"); // logged in successfully
-    router.push(`/${lang}/projects`);
-  }
-
-  if (result?.success && mode==="register") {
-    showToast(result.success, "success"); // registered successfully
-    router.push(`/${lang}`);
-  }
-
-  if (result?.success && mode==="set-password") {
-    showToast(result.success, "success"); // password changed successfully
-    router.push(`/${lang}`);
-  }
-
-  
-
-};
-
-// REndering
-
+  // RENDERING
   return (
     <div className={styles.wrapper}>
       <form className={styles.form} onSubmit={handleSubmit}>
+        
+        {/* 1. INPUT USERNAME (Solo en Register) */}
+        {mode === "register" && (
+            <input
+            name="username" // 👈 CRÍTICO: Este nombre lo busca auth-actions.ts
+            type="text"
+            placeholder={dict.username ?? "Username"} // Asegúrate de tener esta key en tu dict o pon un string fijo
+            className={styles.input}
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            autoComplete="name"
+            />
+        )}
 
+        {/* 2. INPUT EMAIL (Antes 'identifier') */}
         {(mode === "login" || mode === "register") && (
           <input
-            name="identifier"
-            type="text"
-            placeholder={dict.userdata} // "Email or username"
+            name="email" // 👈 CRÍTICO: Cambiado de 'identifier' a 'email' para Supabase
+            type="email" // Cambiado a 'email' para mejor teclado en móvil
+            placeholder={dict.email ?? "Email"} // Usar 'email' en lugar de 'userdata'
             className={styles.input}
             value={identifier}
-            onChange={(e) => 
-              {setIdentifier(e.target.value.trim()); 
-              if (message) clearMessage(); }}
-            autoComplete="username"
+            onChange={(e) => {
+              setIdentifier(e.target.value.trim());
+              if (message) clearMessage();
+            }}
+            autoComplete="email"
           />
         )}
 
+        {/* 3. PASSWORD */}
         {mode !== "set-password" && (
           <div className={styles.passwordField}>
             <input
@@ -214,9 +206,10 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
           </div>
         )}
 
+        {/* 4. SET PASSWORD (Recuperación) */}
         {mode === "set-password" && (
           <input
-            name="newPassword"
+            name="password" // Ojo: auth-actions suele buscar 'password', no 'newPassword' a menos que lo cambies allá. Lo dejé como 'password' por seguridad.
             type="password"
             placeholder={dict.newpassword}
             required
@@ -227,19 +220,16 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
           />
         )}
 
-        <button
-          type="submit"
-          className={styles.button}
-        >
+        <button type="submit" className={styles.button}>
           {mode === "login" && dict.btnlogin}
           {mode === "register" && dict.btnregister}
           {mode === "set-password" && dict.btnsetpassword}
         </button>
 
         {message && (
-        <Message type={message.type} onClose={clearMessage}>
-          {message.text}
-        </Message>
+          <Message type={message.type} onClose={clearMessage}>
+            {message.text}
+          </Message>
         )}
 
         <div className={styles.links}>
@@ -273,11 +263,11 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         </div>
       </form>
 
+      {/* MODAL (Sin cambios) */}
       {forgotOpen && (
         <div className={styles.modalOverlay}>
           <div className={styles.modal}>
             <h3>{dict.resettitle}</h3>
-
             <input
               type="email"
               placeholder={dict.email}
@@ -286,9 +276,7 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
               className={styles.input}
               disabled={sending}
             />
-
             <div className={styles.modalActions}>
-
               <button
                 className={styles.button}
                 onClick={() => setForgotOpen(false)}
@@ -296,7 +284,6 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
               >
                 {dict.closeresend}
               </button>
-              
               <button
                 className={styles.resendbtn}
                 onClick={handleForgotPassword}
@@ -310,8 +297,6 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
                   dict.sendreset
                 )}
               </button>
-
-              
             </div>
           </div>
         </div>

@@ -1,18 +1,22 @@
 import UserFormClient from "./UserformClient";
-import { testAction } from "./test";
+// 1. Importamos las acciones REALES (no las de test)
+import { handleLogin, handleRegister } from "@/utils/auth-actions";
 
 export default function UserForm({ mode, dict, lang }: any) {
 
-  // BCK import functiones de login register y set password de backend y pasarlo como prop action={function} dependiendo del modo
+  // 2. Elegimos qué función usar según el "mode" ('login' o 'register')
+  // Usamos .bind(null, lang) para "pre-cargar" el idioma en la función,
+  // ya que tu Server Action espera (lang, formData).
+  const action = mode === 'login' 
+    ? handleLogin.bind(null, lang) 
+    : handleRegister.bind(null, lang);
 
-  // usar el modo importado 
-  
   return (
     <UserFormClient
       mode={mode}
       lang={lang}
       dict={dict}
-      action={testAction}
+      action={action} // Aquí pasamos la función real conectada a Supabase
     />
   );
 }

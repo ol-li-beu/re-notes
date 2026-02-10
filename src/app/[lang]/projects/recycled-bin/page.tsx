@@ -1,40 +1,43 @@
-import RecycledBinClient from "./RecycledBinClient";
+import { createClient } from "@/utils/supabase/server";
 import { getDictionary } from "@/utils/get-dictionary";
-import { Project, PageProps } from "@/utils/types";
-
-const deletedProjects: Project[] = [
-  { "id": "6", "title": "Eco Tracker", "description": "An application for monitoring personal carbon footprints." },
-  { "id": "7", "title": "Code Catalyst", "description": "An open-source initiative for mentoring junior developers." },
-  { "id": "8", "title": "Urban Harvest", "description": "A guide to sustainable rooftop gardening in city environments." },
-  { "id": "9", "title": "Sound Sphere", "description": "An experimental spatial audio project using Web Audio API." },
-  { "id": "10", "title": "Data Stream", "description": "Visualizing real-time global stock market fluctuations." },
-  { "id": "11", "title": "Mindful Minutes", "description": "A productivity tool focused on interval-based meditation." },
-  { "id": "12", "title": "Neon Nights", "description": "A collection of cyberpunk-themed digital illustrations." },
-  { "id": "13", "title": "Swift Logic", "description": "High-performance algorithm implementations in modern languages." },
-  { "id": "14", "title": "Blue Horizon", "description": "Research on ocean plastic cleanup technologies." },
-  { "id": "15", "title": "Velocity Kit", "description": "A lightweight boilerplate for building fast React applications." },
-  { "id": "16", "title": "The Long Game", "description": "A strategic guide to personal finance and long-term investing." },
-  { "id": "17", "title": "Circuit Flow", "description": "Exploring minimalist hardware design and IoT connectivity." },
-  { "id": "18", "title": "Abstract Reality", "description": "A series of VR environments based on surrealist paintings." },
-  { "id": "19", "title": "Golden Ratio", "description": "Designing layouts using classical mathematical proportions." },
-  { "id": "20", "title": "Terraform Pro", "description": "Infrastructure as code templates for multi-cloud deployments." },
-  { "id": "21", "title": "Silent Pulse", "description": "Monitoring biometric data for stress management." },
-  { "id": "22", "title": "Peak Performance", "description": "A workout logging app for professional athletes." },
-  { "id": "23", "title": "Lunar Phase", "description": "Tracking celestial events and their impact on tides." },
-  { "id": "24", "title": "Infinity Scroll", "description": "A creative writing blog exploring endless storytelling." }
-];
+import { Project, PageProps } from "@/utils/types"; 
+import RecycledBinClient from "./RecycledBinClient"; 
 
 export default async function RecycledBinPage({ params }: PageProps) {
   const { lang } = await params;
   const dict = await getDictionary(lang);
+  const supabase = await createClient();
 
-  // BCK elim initial projects como prop y en interfaz aca y en recycled bin client
+  // 1. Obtener Usuario
+  const { data: { user } } = await supabase.auth.getUser();
 
+  let trashProjects: any[] = [];
+  
+  if (user) {
+    // 2. Pedir SOLO los que están en la papelera (is_in_trash: true)
+    const { data } = await supabase
+      .from("projects")
+      .select("*")
+      .eq("user_id", user.id)
+      .eq("is_in_trash", true) // FILTRO CLAVE
+      .order("updated_at", { ascending: false }); // Mostrar los recién borrados primero
+      
+    if (data) trashProjects = data;
+  }
+
+  // 3. Adaptar datos (name -> title)
+  const mappedProjects: Project[] = trashProjects.map((p) => ({
+    id: p.id,
+    title: p.name,
+    name: p.name,
+    description: p.description || "",
+  }));
 
   return (
     <RecycledBinClient
-      dict={dict.recycled}
-      initialProjects={deletedProjects}
+      lang={lang}
+      dict={dict.projects} 
+      initialProjects={mappedProjects} // Pasamos los datos REALES
     />
   );
 }

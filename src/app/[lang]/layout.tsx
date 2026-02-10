@@ -1,11 +1,7 @@
-
 import { getDictionary } from "@/utils/get-dictionary";
-
-import { getAuthUser } from "@/utils/auth-actions"; // TBD ELIMINATE, TEMPORARY 
-
+import { createClient } from "@/utils/supabase/server"; // <--- 1. Importar cliente Server
 import Navbar from "@/components/layout/Navbar/Navbar";
 import { Footer } from "@/components/layout/Footer/Footer";
-
 import "@/app/globals.css";
 
 interface LayoutProps {
@@ -14,23 +10,26 @@ interface LayoutProps {
 }
 
 export default async function LangLayout({children, params} : LayoutProps) {
- 
   const { lang } = await params;
   const dictionary = await getDictionary(lang as any);
-  //const user = await getAuthUser(); //TBD Supabase built-in authentication from session that is set in log in
 
-  // test userlogged in
-  //
-  
-  const user = {name:"agustin", email:"agustin.lee2006@gmail.com"}
+  // 2. OBTENER EL USUARIO REAL (Server Side)
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+
+  // El objeto 'user' ahora contiene todo: email, id, user_metadata, etc.
+  // Si no está logueado, 'user' será null.
 
   return (
     <>
-            <Navbar lang = {lang} dict={dictionary} user={user} />
-            <main className="flex-grow"> 
-                {children} 
-            </main>
-            <Footer dict={dictionary} />
+        {/* Pasamos el usuario real (o null) al Navbar */}
+        <Navbar lang={lang} dict={dictionary} user={user} />
+        
+        <main className="flex-grow"> 
+            {children} 
+        </main>
+        
+        <Footer dict={dictionary} />
     </>
   );
 }

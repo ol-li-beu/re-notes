@@ -9,28 +9,36 @@ import { ToastContext } from "@/hooks/ToastContext";
 import Spinner from "@/components/ui/Spinner/Spinner";
 import EmptyState from "@/components/ui/EmptyState/EmptyState";
 import styles from "@/app/[lang]/projects/projects.module.css";
+// 1. IMPORTAR LAS ACCIONES REALES
+import { restoreProject, deleteProjectForever } from "@/utils/project-actions";
+import { useRouter } from "next/navigation";
 
 interface RecycledBinProps {
   dict: any;
   initialProjects: Project[];
+  lang: string; // 2. AGREGAR LANG AQUÍ
 }
 
-export default function RecycledBinClient({ dict, initialProjects }: RecycledBinProps) {
+export default function RecycledBinClient({ dict, initialProjects, lang }: RecycledBinProps) {
   const { showToast } = useContext(ToastContext)!;
+  const router = useRouter(); // Para refrescar datos
 
+  // Sincronizar estado inicial (importante para que se actualice tras un refresh)
   const [projects, setProjects] = useState<Project[]>(initialProjects);
+  useEffect(() => {
+    setProjects(initialProjects);
+  }, [initialProjects]);
+
   const [confirmDelete, setConfirmDelete] = useState<Project | null>(null);
   const [loading, setLoading] = useState(false);
 
   const [deleting, setDeleting] = useState(false);
   const [cooldown, setCooldown] = useState(0);
 
-  // interval when open modal
+  // Intervalo de seguridad para borrar
   useEffect(() => {
     if (!confirmDelete) return;
-
-    setCooldown(5); // 5-second cooldown
-
+    setCooldown(5); 
     const timer = setInterval(() => {
       setCooldown((c) => {
         if (c <= 1) {
@@ -40,11 +48,9 @@ export default function RecycledBinClient({ dict, initialProjects }: RecycledBin
         return c - 1;
       });
     }, 1000);
-
     return () => clearInterval(timer);
   }, [confirmDelete]);
 
-  
   if (loading) {
     return (
       <div className={styles.center}>
@@ -56,7 +62,7 @@ export default function RecycledBinClient({ dict, initialProjects }: RecycledBin
   if (projects.length === 0) {
     return (
       <div className={styles.center}>
-        <EmptyState title={dict.empty} />
+        <EmptyState title={dict.empty || "Papelera vacía"} />
       </div>
     );
   }
@@ -67,8 +73,8 @@ export default function RecycledBinClient({ dict, initialProjects }: RecycledBin
         items={projects}
         placeholder={dict.searchbar ?? "Search ..."}
         filterFn={(project, query) =>
-          project.title.toLowerCase().includes(query.toLowerCase()) ||
-          project.description.toLowerCase().includes(query.toLowerCase())
+          (project.title?.toLowerCase().includes(query.toLowerCase()) || false) ||
+          (project.description?.toLowerCase().includes(query.toLowerCase()) || false)
         }
       >
         {(filteredProjects) => (
@@ -78,12 +84,26 @@ export default function RecycledBinClient({ dict, initialProjects }: RecycledBin
                 <ProjectCard
                   key={project.id}
                   project={project}
-                  mode="trash"
+                  mode="trash" // Esto activa los botones de Restore/Delete
                   dict={dict}
-                  onRestore={(p) => {
+                  
+                  // 3. LOGICA DE RESTAURAR CONECTADA
+                  onRestore={async (p) => {
+                    // Optimistic UI: Lo sacamos de la lista visualmente
                     setProjects((ps) => ps.filter((x) => x.id !== p.id));
-                    showToast(dict.projectrestored, "success");
+                    
+                    // Server Action
+                    const res = await restoreProject(lang, p.id);
+                    
+                    if (res?.error) {
+                        showToast("Error restoring", "error");
+                        router.refresh(); // Si falla, que vuelva a aparecer
+                    } else {
+                        showToast(dict.projectrestored, "success");
+                        router.refresh(); // Para asegurar consistencia
+                    }
                   }}
+                  
                   onPermanentDelete={(p) => setConfirmDelete(p)}
                 />
               ))}
@@ -92,6 +112,7 @@ export default function RecycledBinClient({ dict, initialProjects }: RecycledBin
         )}
       </SearchController>
 
+      {/* MODAL DE BORRADO DEFINITIVO */}
       {confirmDelete && (
         <ConfirmModal
           title={dict.confirmdelete ?? "Delete forever?"}
@@ -99,12 +120,25 @@ export default function RecycledBinClient({ dict, initialProjects }: RecycledBin
           btncancel={dict.btncanceldelete}
           btnconfirm={cooldown > 0 ? `${dict.deletein ?? "Delete in"} ${cooldown}s` : dict.btnconfirmdelete}
           onCancel={() => setConfirmDelete(null)}
-          onConfirm={() => {
+          onConfirm={async () => {
             if (deleting || cooldown > 0) return;
 
             setDeleting(true);
+            
+            // Optimistic UI
             setProjects((ps) => ps.filter((x) => x.id !== confirmDelete.id));
-            showToast(dict.permadelete, "error");
+            
+            // Server Action (DELETE REAL)
+            const res = await deleteProjectForever(lang, confirmDelete.id);
+
+            if (res?.error) {
+                 showToast("Error deleting", "error");
+                 router.refresh(); 
+            } else {
+                 showToast(dict.permadelete, "error"); // Mensaje rojo de "Borrado para siempre"
+                 router.refresh();
+            }
+
             setConfirmDelete(null);
             setDeleting(false);
           }}
