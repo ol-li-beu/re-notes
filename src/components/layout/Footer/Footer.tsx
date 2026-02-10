@@ -1,13 +1,11 @@
-
-
 import RectangularLogo from '@/components/ui/RectangularLogo/RectangularLogo';
 import { Icon } from '@/components/ui/Icons/Icons';
+
 import styles from './footer.module.css'
 
 interface FooterProps {
     dict: any
 }
-
 
 export function Footer({dict} : FooterProps) {
     const socials = { name: dict.footer.repo , url: 'https://github.com/ol-li-beu/re-notes' };

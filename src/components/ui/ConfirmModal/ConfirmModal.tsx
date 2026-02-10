@@ -3,16 +3,11 @@
 import { useEffect } from "react";
 import styles from "./confirmmodal.module.css";
 
-export default function ConfirmModal({title, description, btncancel, btnconfirm, onConfirm, onCancel, disabled=false,}: 
-  {title: string; description: string; btncancel : string; btnconfirm : string; onConfirm: () => void; onCancel: () => void; disabled?: boolean}) {
+export default function ConfirmModal({title, description, btncancel, btnconfirm,  
+  onConfirm, onCancel, disabled=false,}: 
+  {title: string; description: string; btncancel : string; btnconfirm : string; 
+  onConfirm: () => void; onCancel: () => void; disabled?: boolean}) {
   
-    useEffect(() => {
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.body.style.overflow = "";
-    };
-    }, []);
-
 
   return (
     <div className={styles.backdrop} onClick={onCancel}>

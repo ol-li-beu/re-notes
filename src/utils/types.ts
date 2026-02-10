@@ -47,3 +47,10 @@ export const ICONSTYPE = {
 } 
 
 export type IconName = keyof typeof ICONSTYPE;
+
+
+// for future and current backend results
+type ActionResult = {
+  success?: string;
+  error?: string;
+};

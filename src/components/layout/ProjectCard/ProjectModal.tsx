@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Project } from "@/utils/types";
 import styles from "./projectmodal.module.css";
 
@@ -8,23 +8,35 @@ import styles from "./projectmodal.module.css";
 const MAX_TITLE = 30;
 const MAX_DESC = 120;
 
-export default function ProjectModal({project,onClose,onSave, dict}: {project: Project | null; onClose: () => void; 
+export default function ProjectModal({project ,onClose, onSave, dict}: {project: Project | null; onClose: () => void; 
   onSave: (data: { title: string; description: string }) => void; dict: any;}, ) {
 
   const [title, setTitle] = useState("");
   const [desc, setDesc] = useState("");
   const [shakeTitle, setShakeTitle] = useState(false);
   const [shakeDesc, setShakeDesc] = useState(false);
+  const initial = useRef<{ title: string; desc: string }>({ title: "", desc: "", });
 
+  // edit or new
   useEffect(() => {
     if (project) {
       setTitle(project.title);
       setDesc(project.description);
+      initial.current = {
+        title: project.title,
+        desc: project.description,
+      };
     } else {
       setTitle("");
       setDesc("");
+        initial.current = {
+        title: "",
+        desc: "",
+      };
     }
   }, [project]);
+
+  const isDirty = title.trim() !== initial.current.title || desc.trim() !== initial.current.desc;
 
 
   useEffect(() => {
@@ -32,13 +44,7 @@ export default function ProjectModal({project,onClose,onSave, dict}: {project: P
     if (shakeDesc) setTimeout(() => setShakeDesc(false), 300);
   }, [shakeTitle, shakeDesc]);
 
-  // ANTI SCROLL ON MODAL
-  useEffect(() => {
-  document.body.style.overflow = "hidden";
-  return () => {
-    document.body.style.overflow = "";
-  };
-  }, []);
+
 
   // BCK Functiones para guardar ediciones y eliminaciones de proyectos
 
@@ -86,7 +92,8 @@ export default function ProjectModal({project,onClose,onSave, dict}: {project: P
 
         <div className={styles.actions}>
           <button className={`${styles.buttons} ${styles.ghost}`} onClick={onClose}> {dict.cancel} </button>
-          <button className={`${styles.buttons} ${styles.primary}`}  disabled={!title.trim()}
+          <button className={`${styles.buttons} ${styles.primary}`} 
+            disabled={!title.trim() || (!!project && !isDirty)} // !! force boolean
             onClick={() =>
               onSave({ title: title.trim(), description: desc.trim() })
             }

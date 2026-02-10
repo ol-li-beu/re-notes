@@ -19,12 +19,15 @@ export default function SearchController<T>({
   actions,
   children,
 }: Props<T>) {
-  const [query, setQuery] = useState('');
+  const [query, setQuery] = useState(''); // persist
 
   const filtered = useMemo(
     () => items.filter(item => filterFn(item, query)),
     [items, query, filterFn]
-  );
+  ); 
+  // useMemo for better performance, only on change
+
+  // reusable searchBar component with filtering functionality via input queries
 
   return (
     <>

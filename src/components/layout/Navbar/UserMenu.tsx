@@ -1,10 +1,14 @@
 "use client";
 
 import { useState, useRef, useEffect, useContext } from "react";
-import ConfirmModal from "@/components/ui/ConfirmModal/ConfirmModal";
-import { ToastContext } from "@/hooks/ToastContext";
-import { Icon } from "@/components/ui/Icons/Icons";
 import { useRouter } from "next/navigation";
+
+import ConfirmModal from "@/components/ui/ConfirmModal/ConfirmModal";
+import { Icon } from "@/components/ui/Icons/Icons";
+
+import { ToastContext } from "@/hooks/ToastContext";
+import { useLockBodyScroll } from "@/hooks/useLockBodyScroll";
+
 import styles from "./usermenu.module.css";
 
 interface UserDropdownProps {
@@ -24,7 +28,9 @@ export default function UserMenu({ username, email, dict, lang }: UserDropdownPr
   const { showToast } = useContext(ToastContext)!;
   const ref = useRef<HTMLDivElement>(null);
 
-  
+  useLockBodyScroll(confirmDelete);
+
+  // Click outside close handler based on ref.current
   useEffect(() => {
     const handler = (e: MouseEvent) => {
       if (ref.current && !ref.current.contains(e.target as Node)) {
@@ -34,6 +40,7 @@ export default function UserMenu({ username, email, dict, lang }: UserDropdownPr
     document.addEventListener("mousedown", handler);
     return () => document.removeEventListener("mousedown", handler);
   }, []);
+
 
   // 5-second cooldown when modal CONFIRM DELETE opens
   useEffect(() => {
@@ -53,6 +60,10 @@ export default function UserMenu({ username, email, dict, lang }: UserDropdownPr
     return () => clearInterval(timer);
   }, [confirmDelete]);
 
+  
+  // TODO SUPABASE UPDATE HANDLERS 
+  // CHANGE IT ALL TO RESULT ERROR DEVOLU?
+
   const handleDeleteAccount = async () => {
     if (deleting || cooldown > 0) return;
 
@@ -70,6 +81,7 @@ export default function UserMenu({ username, email, dict, lang }: UserDropdownPr
       setDeleting(false);
       router.push(`/${lang}`);
     }
+
   };
 
   const handleLogOut = async () => {

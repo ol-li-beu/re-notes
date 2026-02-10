@@ -44,20 +44,20 @@
 .passwordField {
   position: relative;
   width: 100%;
+  display: flex; 
+  align-items: center;
 }
 
 .toggle {
   position: absolute;
   right: 10px;
-  top: 50%;
-  transform: translateY(-50%);
+
   background: none;
   border: none;
-  padding: var(--space-2xs) var(--space-xs);
+  padding: var(--space-xs) var(--space-2xs);
+  
+  font-size: 0.8rem;
 
-  font-size: var(--font-sm);
-  font-weight: var(--font-weight);
-  letter-spacing: 0.6px;
   text-transform: uppercase;
   cursor: pointer;
   color: var(--fg);
@@ -137,27 +137,25 @@ button:disabled {
 /* links */
 
 .links {
-  margin-top: 15px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  font-size: var(--font-sm);
-  align-items: flex-start;
+  gap: 6px;
 }
 
 .link {
-  min-height: var(--space-md);
-  display: inline-flex;
-  align-items: center;
-
   background: none;
   border: none;
   padding: 0;
+
   color: var(--accent);
   cursor: pointer;
+
   text-decoration: underline;
+  text-underline-offset: 3px;
   text-align: left;
   width: auto;
+
+  font-size: var(--font-xs);
 
   transition: opacity var(--anim-fast) var(--ease-standard);
 }
@@ -166,6 +164,21 @@ button:disabled {
   opacity: var(--opacitychange);
 }
 
+.row {
+  display: flex;
+  align-items: center;
+}
+
+.inlineRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.inlineText {
+  line-height: 1;
+  font-size: var(--font-xs);
+}
 
 /* modal overlay */
 
