@@ -2,12 +2,12 @@
 
 import { redirect } from 'next/navigation'
 import { createClient } from '@/utils/supabase/server'
+import { revalidatePath } from 'next/cache'
+import { cookies } from 'next/headers'
 
 // ------------------------------------------------------------------
-// 1. REGISTRO (Antes: handleRegister)
+// 1. REGISTRO
 // ------------------------------------------------------------------
-// Nota: Asumimos que usas .bind(null, lang) en el formulario, 
-// por eso 'lang' llega primero.
 export async function handleRegister(lang: string, formData: FormData) {
   const supabase = await createClient()
 
@@ -15,13 +15,12 @@ export async function handleRegister(lang: string, formData: FormData) {
   const password = formData.get('password') as string
   const fullName = formData.get('username') as string 
 
-  // Enviamos a Supabase
   const { error } = await supabase.auth.signUp({
     email,
     password,
     options: {
       data: {
-        full_name: fullName, // Esto activa tu trigger de SQL
+        full_name: fullName,
       },
     },
   })
@@ -34,7 +33,7 @@ export async function handleRegister(lang: string, formData: FormData) {
 }
 
 // ------------------------------------------------------------------
-// 2. LOGIN (Antes: handleLogin)
+// 2. LOGIN
 // ------------------------------------------------------------------
 export async function handleLogin(lang: string, formData: FormData) {
   const supabase = await createClient()
@@ -55,9 +54,8 @@ export async function handleLogin(lang: string, formData: FormData) {
 }
 
 // ------------------------------------------------------------------
-// 3. OBTENER USUARIO (Antes: getAuthUser)
+// 3. OBTENER USUARIO
 // ------------------------------------------------------------------
-// Restauramos esta función para que tu Layout/Navbar no se rompa
 export async function getAuthUser() {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
@@ -65,50 +63,29 @@ export async function getAuthUser() {
 }
 
 // ------------------------------------------------------------------
-// 4. LOGOUT
+// 4. LOGOUT (NUCLEAR - Borra cookies a la fuerza)
 // ------------------------------------------------------------------
 export async function logout(lang: string) {
   const supabase = await createClient()
+  
+  // 1. Intentamos el logout oficial
   await supabase.auth.signOut()
-  return redirect(`/${lang}/login`)
-}
-/*
-'use server'
 
-// for lib, just structure
-// could expand with 2fa
-
-import { redirect } from 'next/navigation'
-
-// session and log in automatic
-
-export async function handleRegister(formData: FormData, lang: string = 'en') {
-  const password = formData.get("password") as string;
-
-  //TBD supabase built-in, error if fails register
+  // 2. FUERZA BRUTA: Borramos las cookies manualmente
+  const cookieStore = await cookies()
+  const allCookies = cookieStore.getAll()
   
-  redirect(`/${lang}/login`);
+  allCookies.forEach((cookie) => {
+    // Las cookies de Supabase suelen empezar con 'sb-'
+    if (cookie.name.startsWith('sb-')) {
+      cookieStore.delete(cookie.name)
+    }
+  })
+
+  // 3. Limpiamos la caché
+  revalidatePath('/', 'layout')
+  revalidatePath(`/${lang}`, 'layout')
+
+  // 4. Redirigir
+  redirect(`/${lang}/login`)
 }
-
-  
-
-export async function handleLogin(formData: FormData, lang: string = 'en') {
-    const password = formData.get("password") as string;
-    
-    // supabase built-in, error if fails log in 
-
-    redirect(`/${lang}/projects`);
-}
-
-
-// HANDLE LOG OUT AUTOMATIC?
-
-export async function logout(lang: string = 'en') {
-  redirect(`/${lang}`) // Redirect to "home" page
-}
-
-// USER AUTH AUTOM
-
-export async function getAuthUser() { // TEMPORARY FOR LAYOUT
-  return null;
-}*/

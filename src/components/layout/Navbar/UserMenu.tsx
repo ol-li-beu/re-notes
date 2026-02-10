@@ -1,10 +1,12 @@
 "use client";
 
 import { useState, useRef, useEffect, useContext } from "react";
-import { useRouter } from "next/navigation";
+// import { useRouter } from "next/navigation"; // Ya no es estrictamente necesario para logout, pero lo dejamos por si acaso
+import { logout } from "@/utils/auth-actions"; // <--- 1. IMPORTAR LA ACCIÓN REAL
 
 import ConfirmModal from "@/components/ui/ConfirmModal/ConfirmModal";
-import { Icon } from "@/components/ui/Icons/Icons";
+// Asegúrate de que la ruta de Icon sea correcta según tu proyecto
+import { Icon } from "@/components/ui/Icons/Icons"; 
 
 import { ToastContext } from "@/hooks/ToastContext";
 import { useLockBodyScroll } from "@/hooks/useLockBodyScroll";
@@ -15,7 +17,7 @@ interface UserDropdownProps {
   username: string;
   email: string;
   dict: any;
-  lang : string;
+  lang: string;
 }
 
 export default function UserMenu({ username, email, dict, lang }: UserDropdownProps) {
@@ -23,14 +25,14 @@ export default function UserMenu({ username, email, dict, lang }: UserDropdownPr
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [deleting, setDeleting] = useState(false);
   const [cooldown, setCooldown] = useState(0);
-  const router = useRouter();
-
+  
+  // const router = useRouter(); // La acción de logout del servidor ya hace redirect
   const { showToast } = useContext(ToastContext)!;
   const ref = useRef<HTMLDivElement>(null);
 
   useLockBodyScroll(confirmDelete);
 
-  // Click outside close handler based on ref.current
+  // Click outside close handler
   useEffect(() => {
     const handler = (e: MouseEvent) => {
       if (ref.current && !ref.current.contains(e.target as Node)) {
@@ -42,7 +44,7 @@ export default function UserMenu({ username, email, dict, lang }: UserDropdownPr
   }, []);
 
 
-  // 5-second cooldown when modal CONFIRM DELETE opens
+  // 5-second cooldown logic
   useEffect(() => {
     if (!confirmDelete) return;
 
@@ -61,38 +63,37 @@ export default function UserMenu({ username, email, dict, lang }: UserDropdownPr
   }, [confirmDelete]);
 
   
-  // TODO SUPABASE UPDATE HANDLERS 
-  // CHANGE IT ALL TO RESULT ERROR DEVOLU?
-
   const handleDeleteAccount = async () => {
     if (deleting || cooldown > 0) return;
 
     setDeleting(true);
     try {
-      // BCK functiones para cerrar sesion y elim cuenta
+      // AQUÍ IRÁ TU LÓGICA DE BORRADO REAL MÁS ADELANTE
       await new Promise((res) => setTimeout(res, 1500));
 
-      showToast(dict.accountdeleted, "error");
+      showToast(dict?.accountdeleted || "Cuenta eliminada", "error");
       setConfirmDelete(false);
 
     } catch (err) {
-      showToast(dict.error, "error");
+      showToast(dict?.error || "Error", "error");
     } finally {
       setDeleting(false);
-      router.push(`/${lang}`);
+      // router.push(`/${lang}`);
     }
-
   };
 
+  // --- 2. FUNCIÓN LOGOUT INTEGRADA ---
   const handleLogOut = async () => {
     try {
-      //BCK solo cerrar sesion
+      // Llamamos a la Server Action. 
+      // Esta función borra cookies, invalida caché y redirige.
+      await logout(lang); 
+      
     } catch (err) {
-      showToast(dict.error, "error");
-    } finally {
-      showToast(dict.logoutsuccess, "success")
-      router.push(`/${lang}`)
-    }
+      console.error(err);
+      showToast(dict?.error || "Error al cerrar sesión", "error");
+    } 
+    // No necesitamos 'finally' con router.push porque logout() ya hace redirect en el servidor
   } 
 
   return (
@@ -100,22 +101,32 @@ export default function UserMenu({ username, email, dict, lang }: UserDropdownPr
       <div ref={ref} className={styles.userMenu}>
         <button
           onClick={() => setOpen((v) => !v)}
-          className={`circle-fill ${styles.trigger}`}
+          className={`circle-fill ${styles.trigger}`} // Mantenemos tus clases
           aria-expanded={open}>
           <Icon name="user" />  
         </button>
 
         {open && (
           <div className={styles.dropdown}>
-            <button className={`${styles.item} ${styles.dataItem}`} onClick= {() => {showToast("WIP", "error")}}>
-              <Icon name="userpen" /> {username}
-            </button>
-            <button className={`${styles.item} ${styles.dataItem}`}>
-              <Icon name="mail" /> {email}
-            </button>
+            {/* Items informativos */}
+            <div className={`${styles.item} ${styles.dataItem}`} onClick={() => showToast("WIP", "success")}> 
+              <Icon name="userpen" /> 
+              <span className="truncate max-w-[150px]">{username}</span>
+            </div>
+            
+            <div className={`${styles.item} ${styles.dataItem}`}>
+              <Icon name="mail" /> 
+              <span className="truncate max-w-[150px]">{email}</span>
+            </div>
+
+            <hr className="my-1 border-gray-200" />
+
+            {/* BOTÓN LOGOUT REAL */}
             <button className={styles.item} onClick={handleLogOut}>
-              <Icon name="logout" /> {dict.logout}
+              <Icon name="logout" /> {dict?.logout || "Logout"}
             </button>
+
+            {/* BOTÓN DELETE */}
             <button
               className={`${styles.item} ${styles.danger}`}
               onClick={() => {
@@ -123,7 +134,7 @@ export default function UserMenu({ username, email, dict, lang }: UserDropdownPr
                 setOpen(false);
               }}
             >
-              <Icon name="userx" /> {dict.delete}
+              <Icon name="userx" /> {dict?.delete || "Delete"}
             </button>
           </div>
         )}
@@ -131,11 +142,11 @@ export default function UserMenu({ username, email, dict, lang }: UserDropdownPr
 
       {confirmDelete && (
         <ConfirmModal
-          title={dict.confirmtitle}
-          description={dict.confirmdescription}
-          btncancel={dict.confirmcancel}
+          title={dict?.confirmtitle}
+          description={dict?.confirmdescription}
+          btncancel={dict?.confirmcancel}
           btnconfirm={
-            cooldown > 0 ? `${dict.deletein} ${cooldown}s` : dict.confirmdelete
+            cooldown > 0 ? `${dict?.deletein || "Wait"} ${cooldown}s` : (dict?.confirmdelete || "Delete")
           }
           onCancel={() => setConfirmDelete(false)}
           onConfirm={handleDeleteAccount}
