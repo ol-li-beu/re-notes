@@ -45,7 +45,7 @@ export default function UserFormClient({
   const router = useRouter();
 
   useLockBodyScroll(forgotOpen);
-  
+
   // MODAL FORGOT PASSWORD
   const handleForgotPassword = async () => {
     if (!EMAIL_REGEX.test(forgotEmail)) {
@@ -225,34 +225,50 @@ export default function UserFormClient({
 
         <div className={styles.links}>
           {mode === "login" && (
-            <>
-              <button
-                type="button"
-                className={styles.link}
-                onClick={() => setForgotOpen(true)}
-              >
-                {dict.forgotpassword}
-              </button>
+    <>
+      <div className={styles.row}>
+    <button
+      type="button"
+      className={styles.link}
+      onClick={() => setForgotOpen(true)}
+    >
+      {dict.forgotpassword}
+    </button>
+  </div>
 
-              <span>
-                {dict.changeregister}{" "}
-                <Link href={`/${lang}/register`} className={styles.link}>
-                  {dict.register}
-                </Link>
-              </span>
-            </>
-          )}
+  <div className={styles.row}>
+    <div className={styles.inlineRow}>
+      <span className={styles.inlineText}>
+        {dict.changeregister}
+      </span>
 
-          {mode === "register" && (
-            <span>
-              {dict.changelogin}{" "}
-              <Link href={`/${lang}/login`} className={styles.link}>
-                {dict.login}
-              </Link>
-            </span>
-          )}
-        </div>
-      </form>
+      <Link
+        href={`/${lang}/register`}
+        className={styles.link}
+      >
+        {dict.register}
+      </Link>
+    </div>
+  </div>
+    </>
+  )}
+
+  {mode === "register" && (
+    <div className={styles.inlineRow}>
+      <span className={styles.inlineText}>
+        {dict.changelogin}
+      </span>
+
+      <Link
+        href={`/${lang}/login`}
+        className={styles.link}
+      >
+        {dict.login}
+      </Link>
+    </div>
+  )}
+</div>
+  </form>
 
       {/* MODAL (Sin cambios) */}
       {forgotOpen && (
