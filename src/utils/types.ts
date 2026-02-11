@@ -10,6 +10,7 @@ export type Project = {
   title: string;  // Lo que usa el Frontend
   description: string;
   // Agregar created_at si queres mostrar fechas
+  // updated at
 };
 
 export interface PageProps {

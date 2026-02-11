@@ -13,6 +13,7 @@ import Spinner from "@/components/ui/Spinner/Spinner";
 
 import { Project } from "@/utils/types";
 import { ToastContext } from "@/hooks/ToastContext";
+import { useLockBodyScroll } from "@/hooks/useLockBodyScroll";
 // 1. IMPORTAR LAS ACCIONES REALES
 import { createProject, updateProject, softDeleteProject } from "@/utils/project-actions";
 
@@ -48,6 +49,9 @@ export default function ProjectsClient({ lang, dict, initialProjects }: Projects
     window.addEventListener("click", close);
     return () => window.removeEventListener("click", close);
   }, []);
+
+  useLockBodyScroll(modalOpen);
+  useLockBodyScroll(!!toDelete);
 
   if (loading) {
     return (

@@ -39,12 +39,10 @@ export default async function ProjectsDashboard({ params }: { params: Promise<{ 
   // 6. Renderizar enviando LO QUE PIDE LA INTERFAZ
   // Usamos 'initialProjects' y 'dict' en lugar de 'projects' y 'user'
   return (
-    <div className="min-h-screen bg-gray-50">
       <ProjectsClient 
         lang={lang} 
-        dict={dict} 
+        dict={dict.projects} 
         initialProjects={validProjects} 
       />
-    </div>
   );
 }

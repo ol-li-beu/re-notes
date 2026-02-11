@@ -36,7 +36,7 @@ export default async function RecycledBinPage({ params }: PageProps) {
   return (
     <RecycledBinClient
       lang={lang}
-      dict={dict.projects} 
+      dict={dict.recycled} 
       initialProjects={mappedProjects} // Pasamos los datos REALES
     />
   );

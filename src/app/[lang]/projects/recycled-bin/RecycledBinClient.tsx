@@ -8,6 +8,8 @@ import { Project } from "@/utils/types";
 import { ToastContext } from "@/hooks/ToastContext";
 import Spinner from "@/components/ui/Spinner/Spinner";
 import EmptyState from "@/components/ui/EmptyState/EmptyState";
+import { useLockBodyScroll } from "@/hooks/useLockBodyScroll";
+
 import styles from "@/app/[lang]/projects/projects.module.css";
 // 1. IMPORTAR LAS ACCIONES REALES
 import { restoreProject, deleteProjectForever } from "@/utils/project-actions";
@@ -58,6 +60,9 @@ export default function RecycledBinClient({ dict, initialProjects, lang }: Recyc
       </div>
     );
   }
+ 
+  useLockBodyScroll(!!confirmDelete);
+
 
   if (projects.length === 0) {
     return (

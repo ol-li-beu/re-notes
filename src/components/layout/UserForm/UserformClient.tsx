@@ -8,6 +8,7 @@ import Message from "@/components/ui/Message/Message";
 import { useToast } from "@/hooks/useToast";
 import { useRouter } from "next/navigation";
 import { useMessage } from "@/hooks/useMessage";
+import { useLockBodyScroll } from "@/hooks/useLockBodyScroll";
 
 import styles from "./userform.module.css";
 
@@ -43,18 +44,8 @@ export default function UserFormClient({
   const { showToast } = useToast();
   const router = useRouter();
 
-  // ANTI Scroll ON MODAL
-  useEffect(() => {
-    if (forgotOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [forgotOpen]);
-
+  useLockBodyScroll(forgotOpen);
+  
   // MODAL FORGOT PASSWORD
   const handleForgotPassword = async () => {
     if (!EMAIL_REGEX.test(forgotEmail)) {
