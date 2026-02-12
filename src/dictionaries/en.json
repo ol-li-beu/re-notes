@@ -74,7 +74,8 @@
         "cancel" : "Cancel",
 
         "trash" : "Recycle Bin",
-        "gototrash" : "Go to Recycle Bin"
+        "gototrash" : "Go to Recycle Bin",
+        "gotoproject" : "Go to Project"
 
         
     },

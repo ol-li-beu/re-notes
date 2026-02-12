@@ -75,7 +75,8 @@
         "cancel" : "Cancelar",
 
         "trash" : "Papelera",
-        "gototrash" : "Ir a la Papelera"
+        "gototrash" : "Ir a la Papelera",
+        "gotoproject" : "Ir al Proyecto"
 
         
     },

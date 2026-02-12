@@ -1,6 +1,6 @@
 import { Trash2, PlusSquare, PencilLine, Undo2, Mail, LogOut, LogIn, Sun, Moon,
     Eye, EyeOff, Computer, UserCircle, UserRoundPen, Search, UserRoundPlus, LucideUserRoundX, Menu,
-    EllipsisVertical,  } from "lucide-react";
+    EllipsisVertical, ArrowRight,  } from "lucide-react";
 
 import { SiGithub, } from "@icons-pack/react-simple-icons"
 
@@ -43,6 +43,7 @@ export const ICONSTYPE = {
   userplus: UserRoundPlus,
   menu: Menu,
   ellipsisvertical: EllipsisVertical,
+  arrowright: ArrowRight,
 
   
 } 

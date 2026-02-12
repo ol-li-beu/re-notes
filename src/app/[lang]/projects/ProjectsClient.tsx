@@ -91,13 +91,8 @@ export default function ProjectsClient({ lang, dict, initialProjects }: Projects
                   {/* LISTA DE PROYECTOS */}
                   {filteredProjects.map((p) => (
                     // 1. Envolvemos la tarjeta en un Link que lleva a la página /[id]
-                    <Link 
-                      key={p.id} 
-                      href={`/${lang}/projects/${p.id}`} 
-                      style={{ textDecoration: 'none', display: 'block' }}
-                    >
                       <ProjectCard
-                        // key={p.id}  <-- QUITA DE KEY DE AQUÍ, PASA AL LINK DE ARRIBA
+                        key={p.id} 
                         project={p}
                         lang={lang}
                         mode="normal"
@@ -123,7 +118,6 @@ export default function ProjectsClient({ lang, dict, initialProjects }: Projects
                           setToDelete(project);
                         }}
                       />
-                    </Link>
                   ))}
 
                   {/* BOTÓN PAPELERA */}
