@@ -101,8 +101,12 @@
 
     },
 
+    "canvas" : {},
+
     "messages" : {},
     "toasts" : {}
+
+    
 
 
 }

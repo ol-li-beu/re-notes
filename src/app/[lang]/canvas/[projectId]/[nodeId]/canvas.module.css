@@ -1,0 +1,58 @@
+
+/* Canvas styling */
+.canvasPage {
+  width: 100%;
+  background: var(--bg);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem
+}
+
+.reactFlowWrapper {
+  width: 95%;
+  align-self: center;
+  height: 75vh; 
+  background: var(--bg);
+  position: relative; 
+  border: 1px solid var(--contrast);
+  border-radius: 4px;
+  margin: var(--space-sm) 0;
+}
+
+.nodeMinimap {
+  stroke: var(--bg);  
+  stroke-width: 5;
+  width: clamp(70px, 9vw, 130px);
+  height: clamp(50px, 7vh, 90px);
+}
+
+:global(.react-flow__controls) {
+  background: var(--contrast);
+  border: 2px solid var(--contrast);
+}
+
+:global(.react-flow__controls-button) {
+  width: clamp(20px, 2.5vw, 28px);
+  height: clamp(20px, 2.5vw, 28px);
+  font-size: var(--font-md);
+
+  color: var(--fg);
+  background: var(--bg);
+  
+}
+
+
+:global(.react-flow__controls-button):hover {
+  background: var(--accent);
+}
+
+
+@media (max-width: 768px) {
+  .hideOnMobile {
+    display: none;
+  }
+  
+  .reactFlowWrapper {
+    height: 85vh; 
+  }
+}

@@ -2,6 +2,7 @@
 import { ThemeProvider } from "next-themes";
 import { ToastProvider } from "@/hooks/ToastContext";
 import { Inter, Merriweather } from 'next/font/google';
+import "@xyflow/react/dist/style.css";
 import "@/app/globals.css";
 
 

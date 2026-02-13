@@ -2,7 +2,8 @@ import { getDictionary } from "@/utils/get-dictionary";
 import { createClient } from "@/utils/supabase/server"; // <--- 1. Importar cliente Server
 import Navbar from "@/components/layout/Navbar/Navbar";
 import { Footer } from "@/components/layout/Footer/Footer";
-import "@/app/globals.css";
+import "@/app/globals.css";7
+import styles from "./mainpage.module.css";
 
 interface LayoutProps {
   children : React.ReactNode;
@@ -22,14 +23,17 @@ export default async function LangLayout({children, params} : LayoutProps) {
 
   return (
     <>
+      <div className={styles.pagewrapper} >
         {/* Pasamos el usuario real (o null) al Navbar */}
+        
         <Navbar lang={lang} dict={dictionary} user={user} />
         
-        <main className="flex-grow"> 
+        <main className={styles.mainlayout}> 
             {children} 
         </main>
-        
-        <Footer dict={dictionary} />
+      </div>
+
+      <Footer dict={dictionary} />
     </>
   );
 }

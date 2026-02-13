@@ -1,3 +1,7 @@
+"use client"; 
+
+import { usePathname } from 'next/navigation';
+
 import RectangularLogo from '@/components/ui/RectangularLogo/RectangularLogo';
 import { Icon } from '@/components/ui/Icons/Icons';
 
@@ -8,6 +12,11 @@ interface FooterProps {
 }
 
 export function Footer({dict} : FooterProps) {
+
+    // not rendering when on canvas
+    const pathname = usePathname();
+    const inCanvas = pathname.includes('/canvas');
+
     const socials = { name: dict.footer.repo , url: 'https://github.com/ol-li-beu/re-notes' };
     const collaborators = [
         { name: 'agustnlee', url: 'https://github.com/agustnlee' },
@@ -16,7 +25,7 @@ export function Footer({dict} : FooterProps) {
 
     return (
         <footer className={styles['footer']} >
-            <div className={styles['footer-container']}>
+            <div className={`${styles['footer-container']}`}>
             {/* Left Panel LogoOnly */}
                 <div>
                     <RectangularLogo type="footer"/>
