@@ -1,6 +1,7 @@
 import { Trash2, PlusSquare, PencilLine, Undo2, Mail, LogOut, LogIn, Sun, Moon,
     Eye, EyeOff, Computer, UserCircle, UserRoundPen, Search, UserRoundPlus, LucideUserRoundX, Menu,
-    EllipsisVertical, ArrowRight,  } from "lucide-react";
+    EllipsisVertical, ArrowRight,
+    Save, Undo, Redo, Lock, LockOpen, ArrowDownToLine, ArrowUpToLine, Palette, Plus, Copy, Clipboard, X  } from "lucide-react";
 
 import { SiGithub, } from "@icons-pack/react-simple-icons"
 
@@ -44,6 +45,19 @@ export const ICONSTYPE = {
   menu: Menu,
   ellipsisvertical: EllipsisVertical,
   arrowright: ArrowRight,
+
+  canvassave: Save,
+  canvasundo: Undo,
+  canvasredo: Redo,
+  canvaslock: Lock,
+  canvaslockopen: LockOpen,
+  canvasarrowdowntoline: ArrowDownToLine,
+  canvasarrowuptoline: ArrowUpToLine,
+  canvaspalette: Palette,
+  canvasplus: Plus,
+  canvasdelete: X,
+  canvascopy: Copy,
+  canvaspaste: Clipboard,
 
   
 } 
