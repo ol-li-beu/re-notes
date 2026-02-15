@@ -6,14 +6,21 @@ import type {
   EdgeChange,
   Connection,
 } from "@xyflow/react";
+import { DefaultNodeString } from "./store/NodeFactory";
+import NoteNode from "./nodes/NoteNode";
+import SubNodeNode from "./nodes/SubNodeNode";
+
+
 export interface FlowState {
   nodes: NodeObj[];
   edges: Edge[];
 
-  past: { nodes: NodeObj[]; edges: Edge[] }[];
-  future: { nodes: NodeObj[]; edges: Edge[] }[];
+  past: FlowSnapshot[];
+  future: FlowSnapshot[];
 
   isBatching: boolean;
+  
+  commitHistory: () => void;
   startBatch: () => void;
   endBatch: () => void;
 
@@ -25,38 +32,62 @@ export interface FlowState {
 
   addNodeAtPosition: (
     type: NodeTypes,
-    pos: { x: number; y: number }
+    pos: { x: number; y: number },
+    strings: DefaultNodeString,
+  ) => void;
+
+  updateNodeData: <T extends NodeData["type"]>(
+  id: string,
+  type: T,
+  updates: Omit<Partial<Extract<NodeData, { type: T }>>, "type">
   ) => void;
 
   undo: () => void;
   redo: () => void;
 }
 
+export type FlowSnapshot = {
+  nodes: NodeObj[];
+  edges: Edge[];
+};
+
+
+export const NodeClasses = {
+  note: NoteNode,
+  subnode: SubNodeNode,
+};
 
 
 export type NodeTypes = "note" | "subnode";
 
 // data before creation (positions)
-export type NoteNodeData = {
+export type BaseNodeData = {
   label: string;
-  content?: string;
+  description?: string;
   color?: string;
-}
+  expanded?: boolean;
+  width?: number;   
+  height?: number;
+  locked?: boolean;
+};
 
+export type NoteNodeData = BaseNodeData & {
+  type: "note";
+  content?: string;
+};
 
-export type SubNodeData = {
-    label: string;
-    redirectId: string;
-    color?: string;
-}
+export type SubNodeData = BaseNodeData & {
+  type: "subnode";
+  redirectId: string;
+  projectId: string;
+};
 
+export type NodeData = NoteNodeData | SubNodeData;
 // TODO 
 
 export type TaskNodeData = {
 
 }
 
-
-export type NodeData = NoteNodeData | SubNodeData;
 
 export type NodeObj = Node<NodeData>;

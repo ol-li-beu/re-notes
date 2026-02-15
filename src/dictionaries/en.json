@@ -101,7 +101,13 @@
 
     },
 
-    "canvas" : {},
+    "canvas" : {
+        "canvasclient" : {},
+        "toolbar" : {},
+        "basenode" : {
+            "palette" : "Change Color"
+        }
+},
 
     "messages" : {},
     "toasts" : {}

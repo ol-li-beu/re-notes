@@ -2,7 +2,7 @@
 import { useEffect } from "react";
 
 import { ReactFlow, Background, BackgroundVariant, Controls, MiniMap, ReactFlowProvider, } from "@xyflow/react";
-import { NodeTypes } from "@/components/flow/types";
+import { NodeTypes, NodeClasses, NodeObj } from "@/components/flow/types";
 
 import { useFlowStore } from "@/components/flow/store/useFlowStore";
 import { createNode } from "@/components/flow/store/NodeFactory";
@@ -14,15 +14,15 @@ import styles from "./canvas.module.css";
 interface CanvasClientProps {
     lang: string,
     dict: any,
+    projectId: string,
 }
 
-// MOCK DATA 
-
-// test only
 
 
-export default function CanvasClient({lang, dict} : CanvasClientProps) { // TODO props initial loaded from page.tsx (SUPABASE)
-  const lang2 = lang
+
+export default function CanvasClient({lang, dict, projectId} : CanvasClientProps) { // TODO props initial loaded from page.tsx (SUPABASE)
+
+  console.log("CanvasClient projectId:", projectId);
 
   const nodeTypes = {note : "component class", subnode: "", }
   
@@ -35,14 +35,15 @@ export default function CanvasClient({lang, dict} : CanvasClientProps) { // TODO
   const redo = useFlowStore((s) => s.redo);  
 
   useEffect(() => {
-  const store = useFlowStore.getState();
-
-  if (store.nodes.length === 0) {
-    store.addNodeAtPosition("note", { x: 100, y: 100 });
-    store.addNodeAtPosition("subnode", { x: 400, y: 150 });
-  }
+    const store = useFlowStore.getState();
+    if (store.nodes.length === 0) {
+        store.addNodeAtPosition("note", { x: 100, y: 100 }, {label: "new NOte Node", description: "hello", projectId: ""});
+        store.addNodeAtPosition("subnode", { x: 400, y: 150 }, {label: "New SUbonde Node", description: "bye", projectId: projectId});
+        store.addNodeAtPosition("subnode", { x: 700, y: 150 }, {label: "New SUbonde Node", description: "bye2", projectId: projectId});
+    }
   }, []);
 
+  
 
 
   return (
@@ -54,8 +55,9 @@ export default function CanvasClient({lang, dict} : CanvasClientProps) { // TODO
         </div>
 
      <div className={styles.reactFlowWrapper}>
-      <ReactFlow
-        
+
+      <ReactFlow<NodeObj>
+        nodeTypes={NodeClasses}
         nodes={nodes}
         edges={edges}
         onNodesChange={onNodesChange}

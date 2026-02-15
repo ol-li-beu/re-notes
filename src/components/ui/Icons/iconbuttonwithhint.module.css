@@ -1,0 +1,44 @@
+.container {
+  width: 36px;
+  height: 36px;
+
+  background: inherit;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 10px;
+  cursor: pointer;
+
+  transition: opacity var(--anim-fast) var(--ease-standard);
+}
+
+.container:hover {
+  background: var(--accent);
+  opacity: var(--opacitychange);
+}
+
+.icon {
+  color: var(--fg);
+  pointer-events: none; 
+}
+
+/* label on hover */
+.tooltip {
+  position: fixed;
+  z-index: 9999;
+
+  background: var(--contrast);
+  border: 1px solid var(--bg);
+  color: var(--fg);
+
+  padding: var(--space-2xs) var(--space-xs);
+  font-size: var(--font-xs);
+  border-radius: 999px;
+
+  white-space: nowrap;
+  pointer-events: none;
+
+  opacity: var(--opacitychange);
+}

@@ -2,22 +2,47 @@
 import { NodeObj, NodeTypes } from "../types";
 
 
+export interface DefaultNodeString {
+      // general
+      label: string;
+      description: string;
 
-export function createNode(type: NodeTypes, position: { x: number; y: number }, ): NodeObj {
+      // specific for SubNodeNode
+      projectId: string;
+}
+
+
+export function createNode(type: NodeTypes, position: { x: number; y: number }, strings : Partial<DefaultNodeString> = {}): NodeObj {
   const id = crypto.randomUUID();
+  const { label, description, projectId } = strings;
+
+
+  if (type === "subnode" && !strings.projectId) {
+    throw new Error("subnode requires projectId"); 
+  }
+
+
+  // defautl size
+  let width = 300;
+  let height = 180;
 
   switch (type) {
-
     // at first default fg color then switch possible
-
     case "note":
       return {
         id,
         type: "note",
         position,
         data: {
-          label: "New Note Node",
+          type: "note",
+          label: label,
+          description: description,
           content: "",
+          expanded: false,
+          color: "",
+          width: width,
+          height: height,
+          locked: false,
         } 
       } as NodeObj; 
 
@@ -27,9 +52,22 @@ export function createNode(type: NodeTypes, position: { x: number; y: number }, 
         type: "subnode",
         position,
         data: {
+          type: "subnode",
+          label: label,
+          description: description,
           redirectId: id,
-          label: "New Subspace Node"
+          projectId: projectId,
+          color: "",
+          width: width,
+          height: height,
+          locked: false,
         },
       } as NodeObj;
+
+
+    default:
+      throw new Error(`Unsupported node type: ${type}`);
   }
+
+  
 }
