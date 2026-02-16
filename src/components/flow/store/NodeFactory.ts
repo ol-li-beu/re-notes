@@ -1,5 +1,6 @@
 
 import { NodeObj, NodeTypes } from "../types";
+import { minheight, minwidth } from "../types";
 
 
 export interface DefaultNodeString {
@@ -23,8 +24,7 @@ export function createNode(type: NodeTypes, position: { x: number; y: number }, 
 
 
   // defautl size
-  let width = 300;
-  let height = 180;
+  
 
   switch (type) {
     // at first default fg color then switch possible
@@ -40,8 +40,9 @@ export function createNode(type: NodeTypes, position: { x: number; y: number }, 
           content: "",
           expanded: false,
           color: "",
-          width: width,
-          height: height,
+          width: minwidth,
+          height: minheight,
+          collapsedHeight: minheight,
           locked: false,
         } 
       } as NodeObj; 
@@ -56,10 +57,12 @@ export function createNode(type: NodeTypes, position: { x: number; y: number }, 
           label: label,
           description: description,
           redirectId: id,
+          expanded: false,
           projectId: projectId,
           color: "",
-          width: width,
-          height: height,
+          width: minwidth,
+          height: minheight,
+          collapsedHeight: minheight,
           locked: false,
         },
       } as NodeObj;

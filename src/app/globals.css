@@ -70,6 +70,10 @@
   --touch-target-min: 40px;
   --iconsize: 38px;
   --inline-height: 1.35;
+
+
+  /* Canvas*/
+  --canvasbackground: #8e8e8e;
 }
 
 
@@ -95,6 +99,9 @@ html.dark {
   --color-green: #0d3d0d;
   --color-purple: #B18FFF;
   --color-teal: #4DD6CC;
+
+  /* Canvas */
+  --canvasbackground: var(--contrast);
 }
 
 

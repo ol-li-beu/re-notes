@@ -1,106 +1,155 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
-import { Project } from "@/utils/types";
+import { NodeData } from "../types";
 import styles from "./basenodemodal.module.css";
 
-
 const MAX_TITLE = 30;
-const MAX_DESC = 120;
+const MAX_DESC = 60;
 
-export default function ProjectModal({project ,onClose, onSave, dict}: {project: Project | null; onClose: () => void; 
-  onSave: (data: { title: string; description: string }) => void; dict: any;}, ) {
+// 🔧 CHANGED: Taller modal to fit all content without scrolling
+const MODAL_WIDTH = 400;
+const MODAL_HEIGHT = 520; // Increased from 350 to 420
 
-  const [title, setTitle] = useState("");
+export default function BaseNodeModal({
+  nodeData,
+  nodeSize,
+  onClose,
+  onSave,
+  dict,
+}: {
+  nodeData: NodeData | null;
+  nodeSize?: { width: number; height: number };
+  onClose: () => void;
+  onSave: (data: { label: string; description: string }) => void;
+  dict: any;
+}) {
+  const [label, setLabel] = useState("");
   const [desc, setDesc] = useState("");
-  const [shakeTitle, setShakeTitle] = useState(false);
+  const [shakeLabel, setShakeLabel] = useState(false);
   const [shakeDesc, setShakeDesc] = useState(false);
-  const initial = useRef<{ title: string; desc: string }>({ title: "", desc: "", });
+  const modalRef = useRef<HTMLDivElement>(null);
+  const initial = useRef<{ label: string; desc: string }>({
+    label: "",
+    desc: "",
+  });
 
-  // edit or new
   useEffect(() => {
-    if (project) {
-      setTitle(project.title);
-      setDesc(project.description);
+    if (nodeData) {
+      setLabel(nodeData.label);
+      setDesc(nodeData.description || "");
       initial.current = {
-        title: project.title,
-        desc: project.description,
-      };
-    } else {
-      setTitle("");
-      setDesc("");
-        initial.current = {
-        title: "",
-        desc: "",
+        label: nodeData.label,
+        desc: nodeData.description || "",
       };
     }
-  }, [project]);
+  }, [nodeData]);
 
-  const isDirty = title.trim() !== initial.current.title || desc.trim() !== initial.current.desc;
+  // Handle Escape key
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        onClose();
+      }
+    };
+    document.addEventListener('keydown', handleEscape);
+    return () => document.removeEventListener('keydown', handleEscape);
+  }, [onClose]);
 
+  // Click outside to close modal
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
+        onClose();
+      }
+    };
+    
+    const timer = setTimeout(() => {
+      document.addEventListener('mousedown', handleClickOutside);
+    }, 100);
+
+    return () => {
+      clearTimeout(timer);
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [onClose]);
+
+  const isDirty =
+    label.trim() !== initial.current.label ||
+    desc.trim() !== initial.current.desc;
 
   useEffect(() => {
-    if (shakeTitle) setTimeout(() => setShakeTitle(false), 300);
+    if (shakeLabel) setTimeout(() => setShakeLabel(false), 300);
     if (shakeDesc) setTimeout(() => setShakeDesc(false), 300);
-  }, [shakeTitle, shakeDesc]);
-
-
-
-  // BCK Functiones para guardar ediciones y eliminaciones de proyectos
+  }, [shakeLabel, shakeDesc]);
 
   return (
-    <div className={styles.backdrop} onClick={onClose}>
-      <div
-        className={styles.modal}
-        onClick={(e) => e.stopPropagation()}
-      >
-        <h2>{project ? dict.editproject : dict.createproject}</h2>
+    <div
+      ref={modalRef}
+      className={styles.modal}
+      style={{
+        width: `${MODAL_WIDTH}px`,
+        height: `${MODAL_HEIGHT}px`,
+      }}
+      onClick={(e) => e.stopPropagation()}
+    >
+      <h2>{dict.editnode || "Edit Node"}</h2>
 
-        <input
-          value={title}
-          maxLength={MAX_TITLE}
-          className={shakeTitle ? styles.shake : ""}
-          onChange={(e) => {
-            if (e.target.value.length === MAX_TITLE) {
-              setShakeTitle(true);
-            }
-            setTitle(e.target.value);
-          }}
-          placeholder={dict.projecttitle}
-        />
-        <span className={styles.counter}>
-          {title.length}/{MAX_TITLE}
-        </span>
-
-        
-        
-        <textarea
-          value={desc}
-          maxLength={MAX_DESC}
-          className={shakeDesc ? styles.shake : ""}
-          onChange={(e) => {
-            if (e.target.value.length === MAX_DESC) {
-              setShakeDesc(true);
-            }
-            setDesc(e.target.value);
-          }}
-          placeholder={dict.projectdescription}
-        />
-        <span className={styles.counter}>
-          {desc.length}/{MAX_DESC}
-        </span>
-
-        <div className={styles.actions}>
-          <button className={`${styles.buttons} ${styles.ghost}`} onClick={onClose}> {dict.cancel} </button>
-          <button className={`${styles.buttons} ${styles.primary}`} 
-            disabled={!title.trim() || (!!project && !isDirty)} // !! force boolean
-            onClick={() =>
-              onSave({ title: title.trim(), description: desc.trim() })
-            }
-          >
-            {project ? dict.save : dict.create}
-          </button>
+      <div className={styles.formContent}>
+        <div className={styles.inputGroup}>
+          <input
+            value={label}
+            maxLength={MAX_TITLE}
+            className={shakeLabel ? styles.shake : ""}
+            onChange={(e) => {
+              if (e.target.value.length === MAX_TITLE) {
+                setShakeLabel(true);
+              }
+              setLabel(e.target.value);
+            }}
+            placeholder={dict.nodelabel || "Node label"}
+            autoFocus
+          />
+          <span className={styles.counter}>
+            {label.length}/{MAX_TITLE}
+          </span>
         </div>
+
+        <div className={styles.inputGroup}>
+          <textarea
+            value={desc}
+            maxLength={MAX_DESC}
+            className={shakeDesc ? styles.shake : ""}
+            onChange={(e) => {
+              if (e.target.value.length === MAX_DESC) {
+                setShakeDesc(true);
+              }
+              setDesc(e.target.value);
+            }}
+            placeholder={dict.nodedescription || "Node description"}
+          />
+          <span className={styles.counter}>
+            {desc.length}/{MAX_DESC}
+          </span>
+        </div>
+      </div>
+
+      <div className={styles.actions}>
+        <button
+          className={`${styles.buttons} ${styles.ghost}`}
+          onClick={onClose}
+        >
+          {dict.cancel || "Cancel"}
+        </button>
+        <button
+          className={`${styles.buttons} ${styles.primary}`}
+          disabled={!label.trim() || !isDirty}
+          onClick={() =>
+            onSave({ label: label.trim(), description: desc.trim() })
+          }
+        >
+          {dict.save || "Save"}
+        </button>
       </div>
     </div>
   );

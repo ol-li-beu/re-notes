@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 import { NodeProps } from "@xyflow/react";
 import { NodeObj } from "../types";
 import BaseNode from "./BaseNode";
@@ -13,6 +13,13 @@ export default function NoteNode(props: NodeProps<NodeObj>) {
 
   // CHeck typing union
   if (data.type !== "note") return null;
+  
+ useEffect(() => {
+  return () => {
+    
+    endBatch(); 
+  };
+  }, [endBatch]);
 
   const handleChange = useCallback(
     (e: React.ChangeEvent<HTMLTextAreaElement>) => {

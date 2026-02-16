@@ -13,7 +13,7 @@ type Props = {
   onClick?: () => void;
 };
 
-export default function IconButtonWithHint({iconName, description, size = 18, onClick, }: Props) {
+export default function IconButtonWithHint({iconName, description, size = 20, onClick, }: Props) {
   const IconComponent = ICONSTYPE[iconName];
 
   const [hover, setHover] = useState(false);
@@ -41,7 +41,7 @@ export default function IconButtonWithHint({iconName, description, size = 18, on
       </div>
 
       {hover &&
-      
+
   createPortal(
     <div
       className={styles.tooltip}

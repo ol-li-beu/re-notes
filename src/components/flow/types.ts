@@ -6,9 +6,13 @@ import type {
   EdgeChange,
   Connection,
 } from "@xyflow/react";
+
 import { DefaultNodeString } from "./store/NodeFactory";
 import NoteNode from "./nodes/NoteNode";
 import SubNodeNode from "./nodes/SubNodeNode";
+
+export let minwidth: 300;
+export let minheight: 220;
 
 
 export interface FlowState {
@@ -19,7 +23,7 @@ export interface FlowState {
   future: FlowSnapshot[];
 
   isBatching: boolean;
-  
+
   commitHistory: () => void;
   startBatch: () => void;
   endBatch: () => void;
@@ -44,6 +48,15 @@ export interface FlowState {
 
   undo: () => void;
   redo: () => void;
+
+
+  deleteNode: (id: string) => void;
+  duplicateNode: (id: string) => void;
+  copyNode: (id: string) => void;
+  pasteNode: (position?: { x: number; y: number }) => void;
+  cutNode: (id: string) => void;
+  
+  clipboard: NodeObj | null;
 }
 
 export type FlowSnapshot = {
@@ -68,7 +81,9 @@ export type BaseNodeData = {
   expanded?: boolean;
   width?: number;   
   height?: number;
+  collapsedHeight?: number;
   locked?: boolean;
+
 };
 
 export type NoteNodeData = BaseNodeData & {

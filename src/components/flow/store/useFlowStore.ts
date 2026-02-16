@@ -3,10 +3,39 @@ import { applyNodeChanges, applyEdgeChanges, addEdge, NodeChange, EdgeChange, Co
 } from "@xyflow/react";
 
 import { createNode, DefaultNodeString } from "./NodeFactory";
-import { FlowState, NodeObj } from "../types";
-import { NodeData, NodeTypes } from "../types";
+import { FlowState, NodeObj,  NodeTypes, minheight } from "../types";
 
+// HELPER IN CASE NO COLLAPSED HEIGHT and force close
+const migrateNodeData = (node: NodeObj): NodeObj => {
+  // If already has collapsedHeight
+  if (node.data.collapsedHeight !== undefined) {
+    return node;
+  }
 
+  const currentHeight = node.data.height || minheight;
+  const isExpanded = node.data.expanded || false;
+
+  if (isExpanded) {
+    return {
+      ...node,
+      data: {
+        ...node.data,
+        expanded: false,
+        height: minheight, 
+        collapsedHeight: minheight, 
+      },
+    };
+  }
+
+  // Node is already collapsed
+  return {
+    ...node,
+    data: {
+      ...node.data,
+      collapsedHeight: currentHeight,
+    },
+  };
+};
 
 export const useFlowStore = create<FlowState>((set, get) => ({
   nodes: [],
@@ -37,7 +66,7 @@ export const useFlowStore = create<FlowState>((set, get) => ({
 
     if (state.isBatching) return;
 
-    state.commitHistory(); // snapshot before the batches
+    state.commitHistory();
     set({ isBatching: true });
   },
 
@@ -46,47 +75,46 @@ export const useFlowStore = create<FlowState>((set, get) => ({
   },
 
   undo: () => {
-  const { past, nodes, edges, future } = get();
-  if (past.length === 0) return;
+    const { past, nodes, edges, future } = get();
+    if (past.length === 0) return;
 
-  const previous = past[past.length - 1];
-  if (!previous) return;
+    const previous = past[past.length - 1];
+    if (!previous) return;
 
-  set({
-    nodes: structuredClone(previous.nodes),
-    edges: structuredClone(previous.edges),
-    past: past.slice(0, -1),
-    future: [
-      {
-        nodes: structuredClone(nodes),
-        edges: structuredClone(edges),
-      },
-      ...future,
-    ],
-  });
+    set({
+      nodes: structuredClone(previous.nodes),
+      edges: structuredClone(previous.edges),
+      past: past.slice(0, -1),
+      future: [
+        {
+          nodes: structuredClone(nodes),
+          edges: structuredClone(edges),
+        },
+        ...future,
+      ],
+    });
   },
 
   redo: () => {
-  const { future, nodes, edges, past } = get();
-  if (future.length === 0) return;
+    const { future, nodes, edges, past } = get();
+    if (future.length === 0) return;
 
-  const next = future[0];
-  if (!next) return;
+    const next = future[0];
+    if (!next) return;
 
-  set({
-    nodes: structuredClone(next.nodes),
-    edges: structuredClone(next.edges),
-    future: future.slice(1),
-    past: [
-      ...past,
-      {
-        nodes: structuredClone(nodes),
-        edges: structuredClone(edges),
-      },
-    ],
-  });
+    set({
+      nodes: structuredClone(next.nodes),
+      edges: structuredClone(next.edges),
+      future: future.slice(1),
+      past: [
+        ...past,
+        {
+          nodes: structuredClone(nodes),
+          edges: structuredClone(edges),
+        },
+      ],
+    });
   },
-
 
   setFlow: (nodes, edges) => {
     const state = get();
@@ -95,7 +123,10 @@ export const useFlowStore = create<FlowState>((set, get) => ({
       state.commitHistory();
     }
 
-    set({ nodes, edges });
+    
+    const migratedNodes = nodes.map(migrateNodeData);
+
+    set({ nodes: migratedNodes, edges });
   },
 
   // REACT flow handlers
@@ -130,20 +161,19 @@ export const useFlowStore = create<FlowState>((set, get) => ({
     }
 
     const newEdge = {
-    ...connection,
-    id: crypto.randomUUID(),
-    style: {
-      stroke: "var(--fg)",
-      strokeWidth: 3,
-    },
-    type: "default",
+      ...connection,
+      id: crypto.randomUUID(),
+      style: {
+        stroke: "var(--fg)",
+        strokeWidth: 3,
+      },
+      type: "default",
     };
 
     set({
       edges: [...state.edges, newEdge],
     });
   },
-
 
   // Node operations
 
@@ -164,28 +194,128 @@ export const useFlowStore = create<FlowState>((set, get) => ({
     });
   },
 
-
   updateNodeData: (id, type, updates) => {
-  const state = get();
+    const state = get();
 
-  if (!state.isBatching) {
-    state.commitHistory();
-  }
+    if (!state.isBatching) {
+      state.commitHistory();
+    }
 
-  const newNodes = state.nodes.map((node) => {
-    if (node.id !== id) return node;
-    if (node.data.type !== type) return node;
+    const newNodes = state.nodes.map((node) => {
+      if (node.id !== id) return node;
+      if (node.data.type !== type) return node;
 
-    return {
-      ...node,
-      data: {
-        ...node.data,
-        ...updates,
-      },
-    };
-  });
+      return {
+        ...node,
+        data: {
+          ...node.data,
+          ...updates,
+        },
+      };
+    });
 
-  set({ nodes: newNodes });
+    set({ nodes: newNodes });
   },
-  
+
+  clipboard: null,
+
+  deleteNode: (id: string) => {
+    const state = get();
+    
+    if (!state.isBatching) {
+      state.commitHistory();
+    }
+
+    const newNodes = state.nodes.filter((node) => node.id !== id);
+    const newEdges = state.edges.filter(
+      (edge) => edge.source !== id && edge.target !== id
+    );
+
+    set({ 
+      nodes: newNodes,
+      edges: newEdges 
+    });
+  },
+
+  duplicateNode: (id: string) => {
+    const state = get();
+    const nodeToDuplicate = state.nodes.find((n) => n.id === id);
+    if (!nodeToDuplicate) return;
+
+    if (!state.isBatching) {
+      state.commitHistory();
+    }
+
+    const newNode: NodeObj = {
+      ...structuredClone(nodeToDuplicate),
+      id: crypto.randomUUID(),
+      position: {
+        x: nodeToDuplicate.position.x + 50,
+        y: nodeToDuplicate.position.y + 50,
+      },
+      selected: false, 
+    };
+
+    set({
+      nodes: [...state.nodes, newNode],
+    });
+  },
+
+  copyNode: (id: string) => {
+    const state = get();
+    const nodeToCopy = state.nodes.find((n) => n.id === id);
+    if (!nodeToCopy) return;
+
+    set({ 
+      clipboard: structuredClone(nodeToCopy) 
+    });
+  },
+
+  cutNode: (id: string) => {
+    const state = get();
+    state.copyNode(id);
+    state.deleteNode(id);
+  },
+
+  pasteNode: (position?: { x: number; y: number }) => {
+    const state = get();
+    if (!state.clipboard) return;
+
+    if (!state.isBatching) {
+      state.commitHistory();
+    }
+
+    let newPosition: { x: number; y: number };
+    
+    if (position) {
+      newPosition = position;
+    } else {
+      const clipboardPosition = state.clipboard.position;
+
+      const existingPastes = state.nodes.filter(
+        node => 
+          Math.abs(node.position.x - clipboardPosition.x) < 200 &&
+          Math.abs(node.position.y - clipboardPosition.y) < 200
+      );
+      
+      const offset = (existingPastes.length + 1) * 50;
+      newPosition = {
+        x: state.clipboard.position.x + offset,
+        y: state.clipboard.position.y + offset,
+      };
+    }
+
+    const newNode: NodeObj = {
+      ...structuredClone(state.clipboard),
+      id: crypto.randomUUID(),
+      position: newPosition,
+      selected: false,
+    };
+
+    set({
+      nodes: [...state.nodes, newNode],
+    });
+
+    return newNode.id;
+  },
 }));

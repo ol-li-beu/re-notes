@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect } from "react";
 import styles from "./confirmmodal.module.css";
 
 export default function ConfirmModal({title, description, btncancel, btnconfirm,  
