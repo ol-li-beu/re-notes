@@ -1,176 +1,36 @@
-.node {
-  position: relative;
-  border-radius: 6px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
-  color: var(--fg);
-  display: flex;
-  flex-direction: column;
-  padding: 12px;
-  box-sizing: border-box;
-  outline: none;
-  user-select: none;
-  border: 3px solid var(--fg);
-  background: var(--bg);
-  z-index: 1;
-  /* 🔧 CRITICAL: No extra space for ghost area */
-  overflow: hidden;
-}
-
-.topBar {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  flex-shrink: 0;
-  margin-bottom: 8px;
-}
-
-.topRow {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 12px;
-}
-
-.leftBlock {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  flex: 1;
-  min-width: 0;
-}
-
-.rightBlock {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 6px;
-  flex-shrink: 0;
-}
-
-.label {
-  font-size: var(--font-canvastitle);
-  font-weight: var(--font-weight);
-  font-family: var(--font-title);
-  word-break: break-word;
-}
-
-.description {
-  font-size: var(--font-canvastext);
-  font-family: var(--font-main);
-  opacity: 0.7;
-  word-break: break-word;
-}
-
-.specialAction {
-  display: flex;
-  justify-content: center;
+/* Note Node Textarea - No scrollbars, grows with content */
+.noteTextarea {
   width: 100%;
-}
-
-.dropdown {
-  position: absolute;
-  right: 100%;
-  top: 0;
-  margin-right: 8px;
-  background: #2a2a2a;
-  padding: 8px;
-  border-radius: 8px;
-  z-index: 100;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
-}
-
-.dropdown button {
-  background: transparent;
-  border: none;
-  color: var(--fg);
-  padding: 8px 12px;
-  text-align: left;
-  cursor: pointer;
-  border-radius: 4px;
-  font-size: var(--font-sm);
-  transition: background-color 0.15s ease;
-  white-space: nowrap;
-}
-
-.dropdown button:hover {
-  background: rgba(255, 255, 255, 0.1);
-}
-
-.colorGrid {
-  display: grid;
-  grid-template-columns: repeat(5, 24px);
-  gap: 8px;
-}
-
-.colorOption {
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  cursor: pointer;
-  position: relative;
-  transition: transform 0.15s ease;
-  border: 2px solid transparent;
-  padding: 0;
-}
-
-.colorOption:hover {
-  transform: scale(1.2);
-  border-color: var(--fg);
-}
-
-/* 🔧 CRITICAL: Content fills remaining space perfectly */
-.content {
-  flex: 1 1 auto;
-  display: flex;
-  flex-direction: column;
-  min-height: 0;
-  /* 🔧 CRITICAL: No overflow on content container */
-  overflow: hidden;
-}
-
-/* 🔧 CRITICAL: Textarea fills content area completely */
-.content textarea {
-  width: 100%;
-  height: 100%;
-  min-height: 0;
+  min-height: 150px;
   font-family: var(--font-main);
-  font-size: var(--font-sm);
-  resize: none;
+  font-size: var(--font-xs);
+  
+  resize: vertical;
   overflow-y: auto;
+  
+  flex: 1 1 auto;
   border: 2px solid var(--fg);
   border-radius: 6px;
-  padding: 12px;
-  background: var(--bg);
+  padding: var(--space-xs);
+  background: var(--contrast);
   color: var(--fg);
   outline: none;
-  box-sizing: border-box;
   
-  transition: border-color 0.2s ease;
-    
-  line-height: 1.6;
+
+  transition: 
+    border-color 0.2s ease,
+    opacity 0.3s ease;
+  
+  line-height: 1.5;
   word-wrap: break-word;
   white-space: pre-wrap;
 }
 
-.content textarea:focus {
+.noteTextarea:focus {
   border-color: var(--accent);
 }
 
-.content textarea::placeholder {
+.noteTextarea::placeholder {
   color: var(--fg);
-  opacity: 0.4;
-}
-
-.handle {
-  pointer-events: all !important;
-  width: 14px !important;
-  height: 14px !important;
-  border-radius: 50% !important;
-  background: var(--fg) !important;
-  border: 2px solid var(--bg) !important;
-  z-index: 10 !important;
+  opacity: 0.5;
 }

@@ -1,41 +1,15 @@
 import { create } from "zustand";
-import { applyNodeChanges, applyEdgeChanges, addEdge, NodeChange, EdgeChange, Connection, Edge,
+import {
+  applyNodeChanges,
+  applyEdgeChanges,
+  NodeChange,
+  EdgeChange,
+  Connection,
+  Edge,
 } from "@xyflow/react";
 
 import { createNode, DefaultNodeString } from "./NodeFactory";
-import { FlowState, NodeObj,  NodeTypes, minheight } from "../types";
-
-// HELPER IN CASE NO COLLAPSED HEIGHT and force close
-const migrateNodeData = (node: NodeObj): NodeObj => {
-  // If already has collapsedHeight
-  if (node.data.collapsedHeight !== undefined) {
-    return node;
-  }
-
-  const currentHeight = node.data.height || minheight;
-  const isExpanded = node.data.expanded || false;
-
-  if (isExpanded) {
-    return {
-      ...node,
-      data: {
-        ...node.data,
-        expanded: false,
-        height: minheight, 
-        collapsedHeight: minheight, 
-      },
-    };
-  }
-
-  // Node is already collapsed
-  return {
-    ...node,
-    data: {
-      ...node.data,
-      collapsedHeight: currentHeight,
-    },
-  };
-};
+import { FlowState, NodeObj, NodeTypes } from "../types";
 
 export const useFlowStore = create<FlowState>((set, get) => ({
   nodes: [],
@@ -45,6 +19,8 @@ export const useFlowStore = create<FlowState>((set, get) => ({
   future: [],
 
   isBatching: false,
+
+  /* HIstory logging */
 
   commitHistory: () => {
     const state = get();
@@ -63,7 +39,6 @@ export const useFlowStore = create<FlowState>((set, get) => ({
 
   startBatch: () => {
     const state = get();
-
     if (state.isBatching) return;
 
     state.commitHistory();
@@ -119,6 +94,8 @@ export const useFlowStore = create<FlowState>((set, get) => ({
   canUndo: () => get().past.length > 0,
   canRedo: () => get().future.length > 0,
 
+  /* initial load */
+
   setFlow: (nodes, edges) => {
     const state = get();
 
@@ -127,28 +104,21 @@ export const useFlowStore = create<FlowState>((set, get) => ({
     }
 
     
-    const migratedNodes = nodes.map(migrateNodeData);
-
-    set({ nodes: migratedNodes, edges });
+    set({ nodes, edges });
   },
 
-  // REACT flow handlers
+  /* React flow handlers */
 
   onNodesChange: (changes: NodeChange<NodeObj>[]) => {
     const state = get();
 
-    const hasDimensionChange = changes.some(
-      change => change.type === 'dimensions'
-    );
-
-    if (!state.isBatching && !hasDimensionChange) {
+    if (!state.isBatching) {
       state.commitHistory();
     }
 
     const newNodes = applyNodeChanges<NodeObj>(changes, state.nodes);
     set({ nodes: newNodes });
   },
-
 
   onEdgesChange: (changes: EdgeChange<Edge>[]) => {
     const state = get();
@@ -168,7 +138,7 @@ export const useFlowStore = create<FlowState>((set, get) => ({
       state.commitHistory();
     }
 
-    const newEdge = {
+    const newEdge: Edge = {
       ...connection,
       id: crypto.randomUUID(),
       style: {
@@ -183,12 +153,12 @@ export const useFlowStore = create<FlowState>((set, get) => ({
     });
   },
 
-  // Node operations
+  /* Operation on nodes */
 
   addNodeAtPosition: (
     type: NodeTypes,
     pos: { x: number; y: number },
-    strings: DefaultNodeString,
+    strings: DefaultNodeString
   ) => {
     const state = get();
 
@@ -197,6 +167,7 @@ export const useFlowStore = create<FlowState>((set, get) => ({
     }
 
     const newNode = createNode(type, pos, strings);
+
     set({
       nodes: [...state.nodes, newNode],
     });
@@ -225,11 +196,13 @@ export const useFlowStore = create<FlowState>((set, get) => ({
     set({ nodes: newNodes });
   },
 
+  /* clipboard feature */
+
   clipboard: null,
 
   deleteNode: (id: string) => {
     const state = get();
-    
+
     if (!state.isBatching) {
       state.commitHistory();
     }
@@ -239,9 +212,9 @@ export const useFlowStore = create<FlowState>((set, get) => ({
       (edge) => edge.source !== id && edge.target !== id
     );
 
-    set({ 
+    set({
       nodes: newNodes,
-      edges: newEdges 
+      edges: newEdges,
     });
   },
 
@@ -261,7 +234,7 @@ export const useFlowStore = create<FlowState>((set, get) => ({
         x: nodeToDuplicate.position.x + 50,
         y: nodeToDuplicate.position.y + 50,
       },
-      selected: false, 
+      selected: false,
     };
 
     set({
@@ -274,8 +247,8 @@ export const useFlowStore = create<FlowState>((set, get) => ({
     const nodeToCopy = state.nodes.find((n) => n.id === id);
     if (!nodeToCopy) return;
 
-    set({ 
-      clipboard: structuredClone(nodeToCopy) 
+    set({
+      clipboard: structuredClone(nodeToCopy),
     });
   },
 
@@ -294,22 +267,23 @@ export const useFlowStore = create<FlowState>((set, get) => ({
     }
 
     let newPosition: { x: number; y: number };
-    
+
     if (position) {
       newPosition = position;
     } else {
       const clipboardPosition = state.clipboard.position;
 
       const existingPastes = state.nodes.filter(
-        node => 
+        (node) =>
           Math.abs(node.position.x - clipboardPosition.x) < 200 &&
           Math.abs(node.position.y - clipboardPosition.y) < 200
       );
-      
+
       const offset = (existingPastes.length + 1) * 50;
+
       newPosition = {
-        x: state.clipboard.position.x + offset,
-        y: state.clipboard.position.y + offset,
+        x: clipboardPosition.x + offset,
+        y: clipboardPosition.y + offset,
       };
     }
 

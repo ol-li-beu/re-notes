@@ -14,6 +14,7 @@
   border-radius: 6px;
   border-width: 3px;
   z-index: 1; 
+  overflow: visible;
 }
 
 .topBar {
@@ -67,8 +68,8 @@
   right: 100%; 
   top: 0;
   margin-right: 8px;
-  background: #2a2a2a;
-  padding: 8px;
+  background: var(--contrast);
+  padding: 2px 6px;
   border-radius: 8px;
   z-index: 20;
   display: flex;
@@ -78,32 +79,50 @@
 }
 
 .dropdown button {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+
   background: transparent;
   border: none;
   color: var(--fg);
-  padding: 8px 12px;
+  padding: 6px 10px; 
   text-align: left;
   cursor: pointer;
   border-radius: 4px;
-  font-size: var(--font-sm);
-  transition: background-color 0.15s ease;
+  font-size: var(--font-xs);
+  transition: background-color var(--anim-fast) var(--ease-standard), transform var(--anim-fast) var(--ease-standard);
 }
 
 .dropdown button:hover {
   background: rgba(255, 255, 255, 0.1);
+  transform: scale(1.15);
+  border-radius: 8px;
 }
 
 .colorGrid {
   display: grid;
-  grid-template-columns: repeat(5, 20px);
-  gap: 12px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;                              
   margin-top: 6px;
+  background: var(--contrast);
+
+  padding: 8px;      
+  min-width: 160px; 
 }
 
+.colorPreview {
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+/* 
 .colorOption {
-  width: 22px;
+  width: 100%;
   height: 22px;
-  border-radius: 50%;
+  border-radius: 8px;
   cursor: pointer;
   position: relative;
   transition: transform 0.15s ease;
@@ -115,50 +134,63 @@
   transform: scale(1.15);
 }
 
-.colorOption::after {
-  content: "";
-  position: absolute;
-  inset: -3px;
-  border-radius: 50%;
-  border: 2px solid var(--fg);
-  opacity: 0;
-  transition: opacity 0.15s ease;
-}
 
-.colorOption:hover::after {
-  opacity: 1;
+.colorOption::after {
+  display: none;
 }
+*/
 
 .content {
   margin-top: var(--space-sm);
   margin-bottom: var(--space-sm);
   flex: 1 1 auto;
-  overflow: visible;
   padding: var(--space-xs);
-  min-height: 150px;
+  min-height: 0;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
-  overflow: visible;
+
+
+  opacity: 0;
+  transform: translateY(-8px);
+  transition:
+    opacity var(--anim-normal) var(--ease-standard),
+    transform var(--anim-normal) var(--ease-standard);
+
+  pointer-events: none;
+}
+
+.contentExpanded {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.contentCollapsed {
+  opacity: 0;
+  transform: translateY(-8px);
+  pointer-events: none;
 }
 
 .content textarea {
   width: 100%;
-  min-height: 150px;
+  height: 100%;
+  min-height: 0;
   font-family: var(--font-main);
-  font-size: var(--font-sm);
-  resize: vertical;
+  font-size: 18px;
+  resize: none;
   flex: 1 1 auto;
   border: 2px solid var(--fg);
   border-radius: 6px;
   padding: var(--space-xs);
-  background: var(--bg);
+  background: inherit;
   color: var(--fg);
   outline: none;
-  overflow: hidden !important;
+  overflow: auto;
   
   transition: 
-    border-color 0.2s ease,
-    height 0.25s ease-out;
+    border-color var(--anim-normal) var(--ease-standard),
+    height var(--anim-normal) var(--ease-standard);
     
   line-height: 1.5;
   word-wrap: break-word;
@@ -171,10 +203,24 @@
 
 .handle {
   pointer-events: all !important;
-  width: 13px !important;
-  height: 13px !important;
+  width: 18px !important;
+  height: 18px !important;
   border-radius: 50% !important;
   background: var(--fg) !important;
-  border: 1px solid var(--contrast) !important;
+  border: none;
   z-index: 10 !important; 
+}
+
+
+.content textarea::-webkit-scrollbar {
+  width: 10px;
+}
+
+.content textarea::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.3);
+  border-radius: 6px;
+}
+
+.dropdown .danger {
+    color: var(--negativeaccent);
 }

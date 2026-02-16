@@ -1,161 +1,59 @@
 "use client";
 
-import { Handle, Position, NodeProps, NodeResizer, useStore, useUpdateNodeInternals } from "@xyflow/react";
-import { useState, useEffect, useRef, useCallback} from "react";
+import {
+  Handle,
+  Position,
+  NodeProps,
+  NodeResizer,
+  useUpdateNodeInternals,
+} from "@xyflow/react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { useRouter } from "next/navigation";
+import { Icon } from "@/components/ui/Icons/Icons";
 
-import { NodeObj } from "../types";
+import {
+  NodeObj,
+  COLLAPSED_WIDTH,
+  COLLAPSED_HEIGHT,
+  EXPANDED_MIN_WIDTH,
+  EXPANDED_MIN_HEIGHT,
+  EXPANDED_MAX_WIDTH,
+  EXPANDED_MAX_HEIGHT,
+} from "../types";
+
 import { useFlowStore } from "../store/useFlowStore";
 import { useDictionary } from "@/utils/CanvasDictionaryContext";
-import { useDebouncedCallback } from 'use-debounce';
 
 import IconButtonWithHint from "@/components/ui/Icons/IconButtonWithHint";
 import BaseNodeModal from "../utils/BaseNodeModal";
-import { Icon } from "@/components/ui/Icons/Icons";
 
 import styles from "./basenode.module.css";
 
 type BaseNodeProps = NodeProps<NodeObj> & { children?: React.ReactNode };
-
 type OpenMenu = "palette" | "menu" | null;
 
 export default function BaseNode({ id, data, children }: BaseNodeProps) {
   const router = useRouter();
   const dict = useDictionary();
-  const zoom = useStore((state) => state.transform[2]);
+  const updateNodeInternals = useUpdateNodeInternals();
 
   const updateNodeData = useFlowStore((s) => s.updateNodeData);
-  const updateNodeInternals = useUpdateNodeInternals();
   const deleteNode = useFlowStore((s) => s.deleteNode);
   const pasteNode = useFlowStore((s) => s.pasteNode);
   const copyNode = useFlowStore((s) => s.copyNode);
   const cutNode = useFlowStore((s) => s.cutNode);
 
-  const nodeRef = useRef<HTMLDivElement>(null);
-  const paletteRef = useRef<HTMLDivElement>(null);   
-  const menuRef = useRef<HTMLDivElement>(null); 
-  const contentRef = useRef<HTMLDivElement>(null);
-  
+  const paletteRef = useRef<HTMLDivElement>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
+
   const [openMenu, setOpenMenu] = useState<OpenMenu>(null);
-  const [isDraggingNode, setIsDraggingNode] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [isResizing, setIsResizing] = useState(false);
+  const [isDraggingNode, setIsDraggingNode] = useState(false);
 
-  const [localSize, setLocalSize] = useState({
-    width: data.width || 300,
-    height: data.height || 220,
-  });
+  const nodeRef = useRef<HTMLDivElement>(null);
 
-  const [contentConstraints, setContentConstraints] = useState({
-    minHeight: 220,
-    maxHeight: 2000,
-  });
-
-  // Sync with data changes
-  useEffect(() => {
-    setLocalSize({
-      width: data.width || 300,
-      height: data.height || 220,
-    });
-  }, [data.width, data.height]);
-
-  // 🔧 FIXED: Smart expansion logic that preserves collapsed height
-  useEffect(() => {
-    if (!contentRef.current) return;
-
-    const timeoutId = setTimeout(() => {
-      if (data.expanded && !isResizing) {
-        const contentHeight = contentRef.current!.scrollHeight;
-        const topBarHeight = 110;
-        const padding = 40;
-        const calculatedHeight = topBarHeight + contentHeight + padding;
-        const newHeight = Math.max(calculatedHeight, 350);
-        
-        setContentConstraints({
-          minHeight: Math.max(newHeight - 50, 300),
-          maxHeight: Math.max(newHeight + 400, 800),
-        });
-        
-        if (Math.abs(newHeight - localSize.height) > 20) {
-          setLocalSize(prev => ({ ...prev, height: newHeight }));
-          // 🔧 CRITICAL: When expanded, only update height, NOT collapsedHeight
-          updateNodeData(id, data.type, { height: newHeight });
-          
-          requestAnimationFrame(() => {
-            updateNodeInternals(id);
-          });
-        }
-      } else if (!data.expanded && !isResizing) {
-        // Collapsing: restore saved collapsed height
-        const restoredHeight = data.collapsedHeight || 220;
-        
-        setContentConstraints({ minHeight: 220, maxHeight: 2000 });
-        
-        if (Math.abs(localSize.height - restoredHeight) > 5) {
-          setLocalSize(prev => ({ ...prev, height: restoredHeight }));
-          updateNodeData(id, data.type, { height: restoredHeight });
-        }
-      }
-    }, 100);
-
-    return () => clearTimeout(timeoutId);
-  }, [data.expanded, children, isResizing, id, data.type, data.collapsedHeight, localSize.height, updateNodeData, updateNodeInternals]);
-
-  // 🔧 FIXED: Save collapsed height before expanding
-  const toggleExpand = useCallback(() => {
-    if (!data.expanded) {
-      // Expanding: save current height as collapsed height
-      updateNodeData(id, data.type, { 
-        expanded: true,
-        collapsedHeight: localSize.height,
-      });
-    } else {
-      // Collapsing: restore to saved height
-      const restoredHeight = data.collapsedHeight || 220;
-      setLocalSize(prev => ({ ...prev, height: restoredHeight }));
-      updateNodeData(id, data.type, { 
-        expanded: false,
-        height: restoredHeight,
-      });
-    }
-  }, [id, data.type, data.expanded, data.collapsedHeight, localSize.height, updateNodeData]);
-
-  const changeColor = useCallback((color: string) => {
-    updateNodeData(id, data.type, { color });
-  }, [id, data.type, updateNodeData]); 
-
-  const handleSaveEdit = useCallback(
-    (editData: { label: string; description: string }) => {
-      updateNodeData(id, data.type, {
-        label: editData.label,
-        description: editData.description,
-      });
-      setShowEditModal(false);
-    },
-    [id, data.type, updateNodeData]
-  );
-
-  const handleDelete = useCallback(() => {
-    deleteNode(id);
-    setOpenMenu(null);
-  }, [id, deleteNode]);
-
-  const handlePaste = useCallback(() => {
-    pasteNode();
-    setOpenMenu(null);
-  }, [pasteNode]);
-
-  const handleCopy = useCallback(() => {
-    copyNode(id);
-    setOpenMenu(null);
-  }, [id, copyNode]);
-
-  const handleCut = useCallback(() => {
-    cutNode(id);
-    setOpenMenu(null);
-  }, [id, cutNode]);
-
-  
+  // CLICK OUTSIDE HANDLER ON MODAL
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (isDraggingNode || showEditModal) return;
@@ -192,30 +90,113 @@ export default function BaseNode({ id, data, children }: BaseNodeProps) {
     };
   }, [isDraggingNode, showEditModal]);
 
+  /* SIZE LOGIC */
+
+  const isExpanded = !!data.expanded;
+
+  const computedWidth = isExpanded
+    ? data.width ?? EXPANDED_MIN_WIDTH
+    : COLLAPSED_WIDTH;
+
+  const computedHeight = isExpanded
+    ? data.height ?? EXPANDED_MIN_HEIGHT
+    : COLLAPSED_HEIGHT;
+
+  const [localSize, setLocalSize] = useState({
+    width: computedWidth,
+    height: computedHeight,
+  });
+
+  // Sync when data changes (undo/redo etc.)
+  useEffect(() => {
+    setLocalSize({
+      width: computedWidth,
+      height: computedHeight,
+    });
+  }, [computedWidth, computedHeight]);
+
+  /* EDGE UPDATE based on observer for optimal performance*/
+  useEffect(() => {
+    if (!nodeRef.current) return;
+
+    const observer = new ResizeObserver(() => {
+      updateNodeInternals(id);
+    });
+
+    observer.observe(nodeRef.current);
+
+    return () => {
+      observer.disconnect();
+    };
+    }, [id, updateNodeInternals]);
+   
+  const toggleExpand = useCallback(() => {
+    updateNodeData(id, data.type, {
+    expanded: !isExpanded,
+    });
+  }, [id, data.type, isExpanded, updateNodeData])
 
   const handleResizeEnd = useCallback(() => {
     setIsResizing(false);
-    
-    const dataUpdate: any = {
+    if (!isExpanded) return;
+
+    updateNodeData(id, data.type, {
       width: localSize.width,
       height: localSize.height,
-    };
-    
+    });
+  }, [id, data.type, isExpanded, localSize, updateNodeData]);
 
-    if (!data.expanded) {
-      dataUpdate.collapsedHeight = localSize.height;
-    }
-    // If expanded, keep old collapsedHeight unchanged
-    
-    updateNodeData(id, data.type, dataUpdate);
-    updateNodeInternals(id);
-  }, [id, data.type, data.expanded, localSize, updateNodeData, updateNodeInternals]);
 
-  return ( 
+
+
+
+  /* MENU ACTIONS */
+
+  const changeColor = useCallback(
+    (color: string) => {
+      updateNodeData(id, data.type, { color });
+    },
+    [id, data.type, updateNodeData]
+  );
+
+  const handleSaveEdit = useCallback(
+    (editData: { label: string; description: string }) => {
+      updateNodeData(id, data.type, {
+        label: editData.label,
+        description: editData.description,
+      });
+      setShowEditModal(false);
+    },
+    [id, data.type, updateNodeData]
+  );
+
+  const handleDelete = useCallback(() => {
+    deleteNode(id);
+    setOpenMenu(null);
+  }, [id, deleteNode]);
+
+  const handleCopy = useCallback(() => {
+    copyNode(id);
+    setOpenMenu(null);
+  }, [id, copyNode]);
+
+  const handleCut = useCallback(() => {
+    cutNode(id);
+    setOpenMenu(null);
+  }, [id, cutNode]);
+
+  const handlePaste = useCallback(() => {
+    pasteNode();
+    setOpenMenu(null);
+  }, [pasteNode]);
+
+  /* RENDER*/
+
+  return (
     <>
       <div
+        className={styles.node}
         ref={nodeRef}
-        className={`${styles.node}`}
         style={{
           background: data.color || "var(--color-default)",
           width: localSize.width,
@@ -224,7 +205,6 @@ export default function BaseNode({ id, data, children }: BaseNodeProps) {
           fontWeight: "var(--font-weight)",
           visibility: showEditModal ? "hidden" : "visible",
           pointerEvents: showEditModal ? 'none' : 'auto',
-          transition: isResizing ? 'none' : 'height 0.25s ease-out',
         }}
         onDragStart={() => { setIsDraggingNode(true); }}
         onDragEnd={() => {
@@ -237,35 +217,34 @@ export default function BaseNode({ id, data, children }: BaseNodeProps) {
           }
         }}
       >
-        {!data.locked && !showEditModal && (
+        {/* Resizer only when expanded */}
+        {!data.locked && !showEditModal && isExpanded && (
           <NodeResizer
-            minWidth={300}
-            minHeight={data.expanded ? contentConstraints.minHeight : 220}
-            maxHeight={data.expanded ? contentConstraints.maxHeight : undefined}
-            isVisible={!data.locked && !showEditModal}
-            handleStyle={{ 
-              width: 2, 
-              height: 2,
-              backgroundColor: "transparent", 
-              border: "1px solid transparent", 
-              borderRadius: 2,
-              padding: 6, 
-              boxSizing: "content-box",
-            }}
+            minWidth={EXPANDED_MIN_WIDTH}
+            minHeight={EXPANDED_MIN_HEIGHT}
+            maxWidth={EXPANDED_MAX_WIDTH}
+            maxHeight={EXPANDED_MAX_HEIGHT}
+            isVisible
             lineStyle={{ display: "none" }}
-            onResizeStart={() => {
-              setIsResizing(true);
+            handleStyle={{
+            width: 12,
+            height: 12,
+            background: "transparent",
+            border: "none",
             }}
-            onResize={(e, { width, height }) => {
-              setLocalSize({ width, height });
-            }}
+            onResizeStart={() => setIsResizing(true)}
+            onResize={(e, { width, height }) =>
+              setLocalSize({ width, height })
+            }
             onResizeEnd={handleResizeEnd}
+            
           />
         )}
 
+        {/* TOP BAR */}
         <div className={styles.topBar}>
           <div className={styles.topRow}>
-            <div className={styles.leftBlock}>
+            <div>
               <div className={styles.label}>{data.label}</div>
               <div className={styles.description}>{data.description}</div>
             </div>
@@ -273,95 +252,74 @@ export default function BaseNode({ id, data, children }: BaseNodeProps) {
             <div className={styles.rightBlock}>
               <IconButtonWithHint
                 iconName="ellipsisvertical"
-                onClick={() => setOpenMenu(openMenu === "menu" ? null : "menu")}
-                description="Menu"
-                data-menu-trigger="true"
+                description="menu"
+                onClick={() =>
+                  setOpenMenu(openMenu === "menu" ? null : "menu")
+                }
               />
 
               <IconButtonWithHint
                 iconName="canvaspalette"
-                onClick={() => setOpenMenu(openMenu === "palette" ? null : "palette")}
-                description={dict.basenode.palette}
-                data-menu-trigger="true"
+                description="change color"
+                onClick={() =>
+                  setOpenMenu(openMenu === "palette" ? null : "palette")
+                }
               />
 
               <IconButtonWithHint
                 iconName={data.locked ? "canvaslock" : "canvaslockopen"}
+                description={data.locked ? "Unlock resizing" : "Lock resizing"}
                 onClick={() =>
-                  updateNodeData(id, data.type, { locked: !data.locked })
-                }
-                description={
-                  data.locked ? "Unlock Resizing" : "Lock Resizing"
+                  updateNodeData(id, data.type, {
+                    locked: !data.locked,
+                  })
                 }
               />
 
-              {openMenu === "palette" && (
-                <div className={styles.dropdown} ref={paletteRef}>
-                  <div className={styles.colorGrid}>
-                    {[
-                      "var(--color-default)",
-                      "var(--color-blue)",
-                      "var(--color-red)",
-                      "var(--color-green)",
-                      "var(--color-yellow)",
-                      "var(--color-orange)",
-                      "var(--color-purple)",
-                      "var(--color-teal)",
-                    ].map((c) => (
-                      <button
-                        key={c}
-                        className={styles.colorOption}
-                        style={{ background: c }}
-                        onClick={(e) => {
-                          e.stopPropagation();  
-                          changeColor(c);
-                          setOpenMenu(null);
-                        }}
-                      />
-                    ))}
-                  </div>
-                </div>
-              )}
-
               {openMenu === "menu" && (
                 <div className={styles.dropdown} ref={menuRef}>
-                  <button onClick={(e) => {
-                    e.stopPropagation();
-                    setShowEditModal(true);
-                    setOpenMenu(null);
-                  }}>
-                    Edit
+                  <button onClick={() => setShowEditModal(true)}>
+                    <Icon name="edit"/> Edit
                   </button>
-
-                  <button onClick={(e) => {
-                    e.stopPropagation();
-                    handleCopy();
-                  }}>
-                    Copy
-                  </button>
-
-                  <button onClick={(e) => {
-                    e.stopPropagation();
-                    handleCut();
-                  }}>
-                    Cut
-                  </button>
-
-                  <button onClick={(e) => {
-                    e.stopPropagation();
-                    handlePaste();
-                  }}>
-                    Paste
-                  </button>
-
-                  <button onClick={(e) => {
-                    e.stopPropagation();
-                    handleDelete();
-                  }}>
-                    Delete
+                  <button onClick={handleCopy}><Icon name="canvascopy"/> Copy</button>
+                  <button onClick={handleCut}><Icon name="canvascut"/> Cut</button>
+                  <button onClick={handlePaste}><Icon name="canvaspaste"/> Paste</button>
+                  <button
+                    className={styles.danger}
+                    onClick={handleDelete}
+                  >
+                    <Icon name="canvasdelete"/> Delete
                   </button>
                 </div>
               )}
+
+              {openMenu === "palette" && (
+                <div className={styles.dropdown} ref={paletteRef}>
+                  {[
+  "var(--color-default)",
+  "var(--color-blue)",
+  "var(--color-red)",
+  "var(--color-green)",
+  "var(--color-yellow)",
+  "var(--color-orange)",
+  "var(--color-purple)",
+  "var(--color-teal)",
+].map((c) => (
+  <button
+    key={c}
+    onClick={() => {
+      changeColor(c);
+      setOpenMenu(null);
+    }}
+  >
+    <span
+      className={styles.colorPreview}
+      style={{ background: c }}
+    />
+    {c.replace("var(--color-", "").replace(")", "")}
+  </button>
+))}
+                </div> )}
             </div>
           </div>
 
@@ -369,31 +327,44 @@ export default function BaseNode({ id, data, children }: BaseNodeProps) {
             {data.type === "subnode" && data.redirectId ? (
               <IconButtonWithHint
                 iconName="canvasarrowdowntoline"
+                description="navigate"
                 onClick={() =>
-                  router.push(`/canvas/${data.projectId}/${data.redirectId}`)
+                  router.push(
+                    `/canvas/${data.projectId}/${data.redirectId}`
+                  )
                 }
-                description="Go to subnode"
               />
             ) : (
               <IconButtonWithHint
                 iconName="canvasfilepenline"
+                description="expand"
                 onClick={toggleExpand}
-                description="Expand"
-                size={28}
               />
             )}
           </div>
         </div>
 
-        {data.expanded && (
-          <div className={styles.content} ref={contentRef}>
+        {/* CONTENT */}
+      
+          <div
+            className={`${styles.content} ${
+            isExpanded ? styles.contentExpanded : styles.contentCollapsed
+            }`}>
             {children}
           </div>
-        )}
+        
 
-        <Handle type="target" position={Position.Top} className={styles.handle} />
-        <Handle type="source" position={Position.Bottom} className={styles.handle} />
-      </div> 
+        <Handle
+          type="target"
+          position={Position.Top}
+          className={styles.handle}
+        />
+        <Handle
+          type="source"
+          position={Position.Bottom}
+          className={styles.handle}
+        />
+      </div>
 
       {showEditModal && (
         <BaseNodeModal

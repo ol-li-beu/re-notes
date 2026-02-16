@@ -1,6 +1,9 @@
 
 import { NodeObj, NodeTypes } from "../types";
-import { minheight, minwidth } from "../types";
+import {
+  EXPANDED_DEFAULT_WIDTH,
+  EXPANDED_DEFAULT_HEIGHT,
+} from "../types";
 
 
 export interface DefaultNodeString {
@@ -12,22 +15,19 @@ export interface DefaultNodeString {
       projectId: string;
 }
 
-
-export function createNode(type: NodeTypes, position: { x: number; y: number }, strings : Partial<DefaultNodeString> = {}): NodeObj {
+export function createNode(
+  type: NodeTypes,
+  position: { x: number; y: number },
+  strings: Partial<DefaultNodeString> = {}
+): NodeObj {
   const id = crypto.randomUUID();
-  const { label, description, projectId } = strings;
+  const { label = "", description = "", projectId } = strings;
 
-
-  if (type === "subnode" && !strings.projectId) {
-    throw new Error("subnode requires projectId"); 
+  if (type === "subnode" && !projectId) {
+    throw new Error("subnode requires projectId");
   }
 
-
-  // defautl size
-  
-
   switch (type) {
-    // at first default fg color then switch possible
     case "note":
       return {
         id,
@@ -35,42 +35,44 @@ export function createNode(type: NodeTypes, position: { x: number; y: number }, 
         position,
         data: {
           type: "note",
-          label: label,
-          description: description,
+          label,
+          description,
           content: "",
           expanded: false,
           color: "",
-          width: minwidth,
-          height: minheight,
-          collapsedHeight: minheight,
           locked: false,
-        } 
-      } as NodeObj; 
 
-    case "subnode":
+          // Expanded size 
+          width: EXPANDED_DEFAULT_WIDTH,
+          height: EXPANDED_DEFAULT_HEIGHT,
+        },
+      };
+
+    case "subnode": {
+      if (!projectId) {
+        throw new Error("subnode requires projectId");
+      }
+
       return {
         id,
         type: "subnode",
         position,
         data: {
           type: "subnode",
-          label: label,
-          description: description,
+          label,
+          description,
           redirectId: id,
+          projectId: projectId, 
           expanded: false,
-          projectId: projectId,
           color: "",
-          width: minwidth,
-          height: minheight,
-          collapsedHeight: minheight,
           locked: false,
+          width: EXPANDED_DEFAULT_WIDTH,
+          height: EXPANDED_DEFAULT_HEIGHT,
         },
-      } as NodeObj;
-
-
+      };
+    }
+    
     default:
       throw new Error(`Unsupported node type: ${type}`);
   }
-
-  
 }
