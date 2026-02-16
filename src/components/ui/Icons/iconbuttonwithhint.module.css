@@ -2,7 +2,7 @@
   width: 40px;
   height: 40px;
 
-  background: inherit;
+  background: var(--button-bg, inherit);
 
   display: flex;
   align-items: center;
@@ -11,10 +11,10 @@
   border-radius: 10px;
   cursor: pointer;
 
-  transition: opacity var(--anim-fast) var(--ease-standard);
+  transition: opacity var(--anim-slow) var(--ease-standard);
 }
 
-.container:hover {
+.container:not(.disabled):hover {
   background: var(--accent);
   opacity: var(--opacitychange);
 }
@@ -41,4 +41,11 @@
   pointer-events: none;
 
   opacity: var(--opacitychange);
+}
+
+
+.disabled {
+  opacity: var(--opacitychange);
+  cursor: not-allowed;
+  pointer-events: none;
 }

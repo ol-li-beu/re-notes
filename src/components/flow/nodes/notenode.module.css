@@ -1,39 +1,42 @@
 .node {
   position: relative;
-  border-radius: 8px;
+  border-radius: 6px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
   color: var(--fg);
   display: flex;
   flex-direction: column;
-  padding: 6px;
+  padding: 12px;
   box-sizing: border-box;
-  transition: width 0.2s, height 0.2s;
   outline: none;
   user-select: none;
-  border: solid var(--fg);
-  border-radius: 6px;
-  border-width: 3px;
-  z-index: 1; 
+  border: 3px solid var(--fg);
+  background: var(--bg);
+  z-index: 1;
+  /* 🔧 CRITICAL: No extra space for ghost area */
+  overflow: hidden;
 }
 
 .topBar {
   display: flex;
-  flex-direction: column; 
+  flex-direction: column;
   gap: 8px;
-  margin-top: var(--space-sm);
+  flex-shrink: 0;
+  margin-bottom: 8px;
 }
 
 .topRow {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
+  gap: 12px;
 }
 
 .leftBlock {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  gap: var(--space-md);
+  gap: 4px;
+  flex: 1;
+  min-width: 0;
 }
 
 .rightBlock {
@@ -42,39 +45,42 @@
   flex-direction: column;
   align-items: center;
   gap: 6px;
+  flex-shrink: 0;
 }
 
 .label {
   font-size: var(--font-canvastitle);
   font-weight: var(--font-weight);
   font-family: var(--font-title);
+  word-break: break-word;
 }
 
 .description {
   font-size: var(--font-canvastext);
   font-family: var(--font-main);
-  opacity: 0.8;
+  opacity: 0.7;
+  word-break: break-word;
 }
 
 .specialAction {
   display: flex;
-  justify-content: center; 
+  justify-content: center;
   width: 100%;
 }
 
 .dropdown {
   position: absolute;
-  right: 100%; 
+  right: 100%;
   top: 0;
   margin-right: 8px;
   background: #2a2a2a;
   padding: 8px;
   border-radius: 8px;
-  z-index: 20;
+  z-index: 100;
   display: flex;
   flex-direction: column;
   gap: 8px;
-  z-index: 100; 
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
 }
 
 .dropdown button {
@@ -87,6 +93,7 @@
   border-radius: 4px;
   font-size: var(--font-sm);
   transition: background-color 0.15s ease;
+  white-space: nowrap;
 }
 
 .dropdown button:hover {
@@ -95,72 +102,56 @@
 
 .colorGrid {
   display: grid;
-  grid-template-columns: repeat(5, 20px);
-  gap: 12px;
-  margin-top: 6px;
+  grid-template-columns: repeat(5, 24px);
+  gap: 8px;
 }
 
 .colorOption {
-  width: 22px;
-  height: 22px;
+  width: 24px;
+  height: 24px;
   border-radius: 50%;
   cursor: pointer;
   position: relative;
   transition: transform 0.15s ease;
-  border: none;
+  border: 2px solid transparent;
   padding: 0;
 }
 
 .colorOption:hover {
-  transform: scale(1.15);
+  transform: scale(1.2);
+  border-color: var(--fg);
 }
 
-.colorOption::after {
-  content: "";
-  position: absolute;
-  inset: -3px;
-  border-radius: 50%;
-  border: 2px solid var(--fg);
-  opacity: 0;
-  transition: opacity 0.15s ease;
-}
-
-.colorOption:hover::after {
-  opacity: 1;
-}
-
+/* 🔧 CRITICAL: Content fills remaining space perfectly */
 .content {
-  margin-top: var(--space-sm);
-  margin-bottom: var(--space-sm);
   flex: 1 1 auto;
-  overflow: visible;
-  padding: var(--space-xs);
-  min-height: 150px;
   display: flex;
   flex-direction: column;
-  overflow: visible;
+  min-height: 0;
+  /* 🔧 CRITICAL: No overflow on content container */
+  overflow: hidden;
 }
 
+/* 🔧 CRITICAL: Textarea fills content area completely */
 .content textarea {
   width: 100%;
-  min-height: 150px;
+  height: 100%;
+  min-height: 0;
   font-family: var(--font-main);
   font-size: var(--font-sm);
-  resize: vertical;
-  flex: 1 1 auto;
+  resize: none;
+  overflow-y: auto;
   border: 2px solid var(--fg);
   border-radius: 6px;
-  padding: var(--space-xs);
+  padding: 12px;
   background: var(--bg);
   color: var(--fg);
   outline: none;
-  overflow: hidden !important;
+  box-sizing: border-box;
   
-  transition: 
-    border-color 0.2s ease,
-    height 0.25s ease-out;
+  transition: border-color 0.2s ease;
     
-  line-height: 1.5;
+  line-height: 1.6;
   word-wrap: break-word;
   white-space: pre-wrap;
 }
@@ -169,12 +160,17 @@
   border-color: var(--accent);
 }
 
+.content textarea::placeholder {
+  color: var(--fg);
+  opacity: 0.4;
+}
+
 .handle {
   pointer-events: all !important;
-  width: 13px !important;
-  height: 13px !important;
+  width: 14px !important;
+  height: 14px !important;
   border-radius: 50% !important;
   background: var(--fg) !important;
-  border: 1px solid var(--contrast) !important;
-  z-index: 10 !important; 
+  border: 2px solid var(--bg) !important;
+  z-index: 10 !important;
 }

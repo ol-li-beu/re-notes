@@ -155,6 +155,7 @@ export default function BaseNode({ id, data, children }: BaseNodeProps) {
     setOpenMenu(null);
   }, [id, cutNode]);
 
+  
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (isDraggingNode || showEditModal) return;
@@ -191,7 +192,7 @@ export default function BaseNode({ id, data, children }: BaseNodeProps) {
     };
   }, [isDraggingNode, showEditModal]);
 
-  // 🔧 FIXED: Only save collapsedHeight when NOT expanded
+
   const handleResizeEnd = useCallback(() => {
     setIsResizing(false);
     
@@ -200,7 +201,7 @@ export default function BaseNode({ id, data, children }: BaseNodeProps) {
       height: localSize.height,
     };
     
-    // 🔧 CRITICAL: Only update collapsedHeight if currently collapsed
+
     if (!data.expanded) {
       dataUpdate.collapsedHeight = localSize.height;
     }

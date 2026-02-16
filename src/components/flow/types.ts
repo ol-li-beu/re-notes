@@ -11,8 +11,8 @@ import { DefaultNodeString } from "./store/NodeFactory";
 import NoteNode from "./nodes/NoteNode";
 import SubNodeNode from "./nodes/SubNodeNode";
 
-export let minwidth: 300;
-export let minheight: 220;
+export const minwidth = 300;
+export const minheight = 220;
 
 
 export interface FlowState {

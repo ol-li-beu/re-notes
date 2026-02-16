@@ -32,4 +32,11 @@ export default async function ProjectRootPage({ params }: Props) {
 
 
 */
+  return (
+  <>
+    <h2> Project home page </h2>
+  
+  
+  
+  </>);
 }

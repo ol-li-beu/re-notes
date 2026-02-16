@@ -116,6 +116,9 @@ export const useFlowStore = create<FlowState>((set, get) => ({
     });
   },
 
+  canUndo: () => get().past.length > 0,
+  canRedo: () => get().future.length > 0,
+
   setFlow: (nodes, edges) => {
     const state = get();
 
@@ -134,13 +137,18 @@ export const useFlowStore = create<FlowState>((set, get) => ({
   onNodesChange: (changes: NodeChange<NodeObj>[]) => {
     const state = get();
 
-    if (!state.isBatching) {
+    const hasDimensionChange = changes.some(
+      change => change.type === 'dimensions'
+    );
+
+    if (!state.isBatching && !hasDimensionChange) {
       state.commitHistory();
     }
 
     const newNodes = applyNodeChanges<NodeObj>(changes, state.nodes);
     set({ nodes: newNodes });
   },
+
 
   onEdgesChange: (changes: EdgeChange<Edge>[]) => {
     const state = get();
