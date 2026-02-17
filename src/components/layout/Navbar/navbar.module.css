@@ -16,7 +16,7 @@
 
 .container {
   width: 100%;
-  height: 100%;
+  height: auto;
   margin: 0 auto;
 
   display: flex;
@@ -32,12 +32,15 @@
 .left {
   display: flex;
   align-items: center;
+  height: auto;
   flex-wrap: wrap;
+
 
   flex: 0 1 auto;
   width: fit-content;
 
   padding-right: var(--space-xs);
+  padding-block: var(--space-2xs);
   gap: var(--space-2xs);
 }
 
@@ -60,12 +63,13 @@
   padding: var(--space-md) var(--space-lg);
   opacity: 1;
 
-  transition: all var(--anim-normal) var(--ease-standard);
+  transition: opacity var(--anim-normal) var(--ease-standard), transform var(--anim-normal) var(--ease-standard);
 }
 
 .middle a:hover {
   color: var(--accent);
   opacity: var(--opacitychange);
+  transform: translateY(-1.5px);
 }
 
 .active {
@@ -83,7 +87,7 @@
   justify-content: flex-end;
 
   flex: 0 0 auto;
-  height: 100%;
+  height: auto;
 
   padding-block: var(--space-2xs);
   gap: var(--space-sm);
@@ -138,7 +142,6 @@
   transition:
     transform var(--anim-normal) var(--ease-standard),
     border-color var(--anim-normal) var(--ease-standard),
-    background var(--anim-normal) var(--ease-standard); 
 }
 
 .registerBtn {

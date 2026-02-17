@@ -1,11 +1,15 @@
 .rectangularlogo {
   display: flex;
-  align-items: center; 
-
-  height: 100%;
+  align-items: center;  
+  height: var(--touch-target-min);
+  padding: var(--space-md) 0;
   text-decoration: none;
-  transition: opacity var(--anim-fast) var(--ease-standard);
+  transition: transform var(--anim-normal) var(--ease-standard);
 
+}
+
+.rectangularlogo:hover {
+  transform: translateY(-2px);
 }
 
 .logoIcon {
@@ -24,19 +28,21 @@
   mask-size: contain;
   -webkit-mask-position: center;
   mask-position: center;
+
+  transition: opacity var(--anim-fast) var(--ease-standard);
 }
 
 
 .rectangularlogo:hover .logoIcon {
   background-color: var(--accent); 
-  opacity: 0.5; 
+  opacity: var(--opacitychange);
 }
 
 
 /* DYNAMIC SIZES */
 .header {
   width: clamp(80px, 12vw, 160px);
-  height: clamp(32px, 5vw, 55px);
+  height: clamp(37px, 6vw, 58px);
 }
 
 .footer {

@@ -16,6 +16,7 @@ interface HamburgerProps {
 
 export default function HamburgerMenu({dict, lang} : HamburgerProps) {
   const [open, setOpen] = useState(false);
+  const [closing, setClosing] = useState(false);
   const pathname = usePathname();
 
   const navLinks = dict ? [
@@ -25,32 +26,40 @@ export default function HamburgerMenu({dict, lang} : HamburgerProps) {
   ] : [];
 
   useLockBodyScroll(open);
+
+  const handleClose = () => {
+    setClosing(true);
+    setTimeout(() => {
+      setClosing(false);
+      setOpen(false);
+    }, 200);
+  };
   
   return (
     <>
       <button
         className={`${styles.burger}`}
         onClick={() => setOpen(true)}
-        aria-label="Open menu">
+        aria-label="Open menu"
+        >
             <Icon name="menu" />
       </button>
 
-      {open && (
+      {(open || closing) && (
         <>
           <div
             className={styles.overlay}
-            onClick={() => setOpen(false)}/>
+            onClick={handleClose}/>
 
           {/* Side menu */}
-          <nav className={styles.menu}>
-
+          <nav className={`${styles.menu} ${closing ? styles.menuClosing : ""}`}>
             <div>
-            <button
+             <button
               className={`${styles.close}`}
               onClick={() => setOpen(false)}
               aria-label="Close menu">
               ✕
-            </button>
+             </button>
             </div>
 
             <ul>

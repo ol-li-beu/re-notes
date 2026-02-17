@@ -292,7 +292,7 @@ export default function UserFormClient({
                 {dict.closeresend}
               </button>
               <button
-                className={styles.resendbtn}
+                className={`${styles.button} ${styles.resendbtn}`}
                 onClick={handleForgotPassword}
                 disabled={sending || cooldown > 0}
               >

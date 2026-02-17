@@ -25,14 +25,14 @@
 /* focus within */
 
 .wrapper:focus-within {
-  border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(100, 100, 255, 0.15);
+  border: 2px solid var(--accent);
+  box-shadow: 0 0 0 3px rgba(var(--accent), 0.15);
+  transform: scale(1.05);
 }
 
 .wrapper:focus-within .icon {
-  transform: scale(1.2);
+  transform: scale(1.1);
 }
-
 
 /* icon */
 

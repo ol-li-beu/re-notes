@@ -90,7 +90,6 @@ export default function ProjectsClient({ lang, dict, initialProjects }: Projects
 
                   {/* LISTA DE PROYECTOS */}
                   {filteredProjects.map((p) => (
-                    // 1. Envolvemos la tarjeta en un Link que lleva a la página /[id]
                       <ProjectCard
                         key={p.id} 
                         project={p}
@@ -99,9 +98,7 @@ export default function ProjectsClient({ lang, dict, initialProjects }: Projects
                         dict={dict}
                         isMenuOpen={openMenuId === p.id}
 
-                        // IMPORTANTE: Evitamos que al abrir el menú se abra el proyecto
-                        onToggleMenu={() => { // Agrega 'e' aquí si tu componente lo soporta, o ver nota abajo
-                          // e.preventDefault(); // Si puedes, detén la propagación
+                        onToggleMenu={() => {
                           setOpenMenuId((prev) => (prev === p.id ? null : p.id))
                         }}
 

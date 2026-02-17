@@ -50,16 +50,17 @@
   padding: 8px 12px;
   font-size: 13px;
   border-radius: 8px;
-  border: none;
   cursor: pointer;
 
   background: var(--bg);
   border: solid 1px var(--fg);
 
-  transition: ease-in-out var(--anim-fast);
+  transition: transform var(--anim-fast) var(--ease-standard),
+              border-color var(--anim-fast) var(--ease-standard),
 }
 
 .actions button:hover {
+  transform: translateY(-1.5px);
   border-color: var(--accent);
   background: var(--accent);
 }
@@ -72,10 +73,25 @@
   background: var(--fg);
 }
 
+.actions .confirm:hover {
+  transform: translateY(-1.5px);
+  border-color: var(--accent);
+  background: var(--accent);
+  color: var(--bg);
+}
+
+
+
 .actions .danger {
   background: var(--negativeaccent);
   color: var(--bg);
   border-color: var(--negativeaccent);
+}
+
+.actions .danger:hover {
+  transform: translateY(-1.5px);
+  border-color: var(--accent);
+  background: var(--accent);
 }
 
 
@@ -85,12 +101,14 @@
   cursor: not-allowed;
   opacity: var(--opacitychange);
   transition: opacity var(--anim-fast) var(--ease-standard);
+  transform: none
 }
 
 .actions .danger:disabled:hover {
   cursor: not-allowed;
   background: var(--negativeaccent);
   border-color: var(--negativeaccent);
+  transform: none
 }
 
 

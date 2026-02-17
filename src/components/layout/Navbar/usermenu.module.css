@@ -21,12 +21,13 @@
   border: none;
   outline: none;
 
-  transition: opacity var(--anim-fast) var(--ease-standard);
+  transition: opacity var(--anim-fast) var(--ease-standard), transform var(--anim-fast) var(--ease-standard);
 }
 
 .trigger:hover {
   color: var(--accent);
   opacity: var(--opacitychange);
+  transform: translateY(-2px);
 }
 
 .trigger svg {
@@ -86,11 +87,11 @@
 }
 
 .item:hover {
-  transform: scaleY(1.08);
   transform-origin: center;
   background: var(--accent);
   color: var(--bg);
   opacity: var(--opacitychange);
+  transform: scale(1.01);
 }
 
 .item:visited {
@@ -105,9 +106,15 @@
 }
 
 .danger {
+  transform-origin: center;
   color: var(--bg);
   background: var(--negativeaccent);
   opacity: 0.9;
+}
+
+.danger:hover {
+   transform: scale(1.02);
+   background: var(--negativeaccent);
 }
 
 

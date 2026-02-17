@@ -6,7 +6,7 @@ import styles from "./projectmodal.module.css";
 
 
 const MAX_TITLE = 30;
-const MAX_DESC = 120;
+const MAX_DESC = 100;
 
 export default function ProjectModal({project ,onClose, onSave, dict}: {project: Project | null; onClose: () => void; 
   onSave: (data: { title: string; description: string }) => void; dict: any;}, ) {

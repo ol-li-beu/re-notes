@@ -36,12 +36,13 @@
   font-family: var(--font-title);
   font-size: var(--font-sm);
   min-height: 30px;
+  padding: var(--space-2xs) var(--space-xs);
 }
 
 .modal textarea {
   font-family: var(--font-main);
   font-size: var(--font-sm);
-  padding: 2px 4px;
+  padding: var(--space-2xs) var(--space-xs);
   resize: none;
   overflow-y: auto;
 
@@ -82,16 +83,15 @@
   border-radius: 6px;
   outline: none;
 
-  transition:
-    background-color 0.15s ease,
-    border-color 0.15s ease,
-    color 0.15s ease;
+  transition: transform var(--anim-fast) var(--ease-standard),
+              border-color var(--anim-fast) var(--ease-standard),
+              opacity var(--anim-fast) var(--ease-standard);
 }
 
 .primary {
   background: var(--fg);
   color: var(--bg);
-  border-color: var(--bg);
+  border-color: var(--fg);
 }
 
 .ghost {
@@ -103,12 +103,14 @@
 .buttons:not(:disabled):hover {
   background-color: var(--accent);
   border-color: var(--accent);
+  transform: translateY(-2px);
   opacity: var(--opacitychange);
 }
 
-.disabled {
-  opacity: 0.5;
+.buttons:disabled {
+  opacity: var(--opacitychange);
   cursor: not-allowed;
+  transform: none;
 }
 
 

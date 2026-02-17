@@ -204,7 +204,6 @@ select:focus {
   transition:
     opacity var(--anim-slow) ease-in-out,
     transform var(--anim-slow) var(--ease-standard),
-    background var(--anim-normal) var(--ease-standard);
 }
 
 .circle-fill span {

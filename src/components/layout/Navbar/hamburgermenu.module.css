@@ -5,14 +5,22 @@
   background: none;
   border: none;
   cursor: pointer;
-  padding: var(--space-xs) 0;
+  padding: 0;
+  line-height: 1;
 
-  transition: opacity var(--anim-fast) var(--ease-standard);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  height: var(--touch-target-min);
+  width: var(--touch-target-min);
+
+  transition: transform var(--anim-fast) var(--ease-standard);
 }
 
 .burger:hover {
   color: var(--accent);
-  opacity: var(--opacity-change);
+  transform: translateY(-2px);
 }
 
 
@@ -32,12 +40,12 @@
   position: fixed;
   top: 0;
   left: 0;
-  width: min(60vw, 85vw);
-  height: 80dvh;
+  width: fit-content;
+  height: 100dvh;
   background: var(--contrast);
   z-index: 999;
 
-  padding: 0.3rem var(--space-xs);
+  padding: var(--space-xs) var(--space-md);
   display: flex;
   flex-direction: column;
 
@@ -59,12 +67,12 @@
   font-size: var(--font-md);
   cursor: pointer;
 
-  transition: opacity var(--anim-fast) var(--ease-standard);
+  transition: transform var(--anim-fast) var(--ease-standard);
 }
 
 .close:hover {
   color: var(--accent);
-  opacity: var(--opacity-change);
+  transform: translateY(-1.5px);
 }
 
 
@@ -89,7 +97,7 @@
 
   display: flex;
   flex-direction: column;
-  gap: var(--space-sm);
+  gap: var(--space-2xs);
 
   transition: opacity var(--anim-fast) var(--ease-standard);
 }
@@ -99,6 +107,11 @@
   color: inherit;
   font-size: var(--font-md);
 }
+
+.menuClosing {
+  animation: slideOutLeft var(--anim-fast) ease-in-out forwards;
+}
+
 
 
 /* Menu buttons */
@@ -121,7 +134,7 @@
   border: none;
   cursor: pointer;
 
-  transition: all var(--anim-fast) var(--ease-standard);
+  transition: transform var(--anim-fast) var(--ease-standard);
 }
 
 .button:hover {
@@ -154,10 +167,11 @@
 /* Animation */
 
 @keyframes slideInLeft {
-  from {
-    transform: translateX(-100%);
-  }
-  to {
-    transform: translateX(0);
-  }
+  from { transform: translateX(-100%); }
+  to { transform: translateX(0); }
+}
+
+@keyframes slideOutLeft {
+  from { transform: translateX(0); }
+  to { transform: translateX(-100%); }
 }

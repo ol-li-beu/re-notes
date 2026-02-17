@@ -72,8 +72,7 @@
 
 /* buttons base */
 
-.button,
-.resendbtn {
+.button {
   min-height: var(--touch-target-min);
   line-height: 1.2;
   padding: 12px 20px;
@@ -83,27 +82,21 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-}
 
-button:disabled {
-  opacity: var(--opacitychange);
-  cursor: not-allowed;
-}
-
-
-/* Primary button */
-
-.button {
   border: 1px solid var(--fg);
   background-color: var(--bg);
   color: var(--fg);
-  transition: opacity var(--anim-fast) var(--ease-standard);
+  transition: transform var(--anim-fast) var(--ease-standard),
+              border-color var(--anim-fast) var(--ease-standard), 
+              opacity var(--anim-fast) var(--ease-standard);
+
 }
 
 .button:hover {
   background-color: var(--accent);
-  opacity: var(--opacitychange);
   border-color: var(--accent);
+  transform: translateY(-2px);
+  opacity: var(--opacitychange);
 }
 
 .button:active {
@@ -111,18 +104,22 @@ button:disabled {
 }
 
 
-/* Resend button */
 
+/* Resend button */
 .resendbtn {
   background: var(--fg);
   color: var(--bg);
   border: 1px solid var(--fg);
-  transition: opacity var(--anim-fast) var(--ease-standard);
+  transition: transform var(--anim-fast) var(--ease-standard),
+              border-color var(--anim-fast) var(--ease-standard),
+              opacity var(--anim-fast) var(--ease-standard);
 }
 
 .resendbtn:hover {
   border-color: var(--accent);
   background-color: var(--accent);
+  transform: translateY(-2px);
+  opacity: var(--opacitychange);
 }
 
 .resendbtn:disabled {
@@ -130,6 +127,7 @@ button:disabled {
   color: var(--bg);
   border: 1px solid var(--fg);
   opacity: var(--opacitychange);
+  transform: none;
   transition: opacity var(--anim-fast) var(--ease-standard);
 }
 

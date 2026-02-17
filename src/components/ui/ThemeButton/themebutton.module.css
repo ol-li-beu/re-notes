@@ -12,6 +12,8 @@
   background: transparent;
   border: none;
   cursor: pointer;
+
+  transition: transform var(--anim-fast) var(--ease-standard);
 }
 
 
@@ -37,6 +39,7 @@
 
 .button:hover .icon {
   color: var(--accent);
+  transform: translateY(-2px);
 }
 
 
