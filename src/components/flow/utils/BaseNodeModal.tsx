@@ -2,22 +2,16 @@
 
 import { useEffect, useState, useRef } from "react";
 import { NodeData } from "../types";
+import { COLLAPSED_WIDTH, COLLAPSED_HEIGHT, EXPANDED_DEFAULT_WIDTH, EXPANDED_DEFAULT_HEIGHT } from "../types";
 import styles from "./basenodemodal.module.css";
 
 const MAX_TITLE = 30;
 const MAX_DESC = 60;
 
-// 🔧 CHANGED: Taller modal to fit all content without scrolling
-const MODAL_WIDTH = 400;
-const MODAL_HEIGHT = 520; // Increased from 350 to 420
 
-export default function BaseNodeModal({
-  nodeData,
-  nodeSize,
-  onClose,
-  onSave,
-  dict,
-}: {
+
+
+export default function BaseNodeModal({ nodeData, nodeSize, onClose, onSave, dict, }: {
   nodeData: NodeData | null;
   nodeSize?: { width: number; height: number };
   onClose: () => void;
@@ -33,6 +27,9 @@ export default function BaseNodeModal({
     label: "",
     desc: "",
   });
+
+  const modalWidth = Math.max(nodeSize?.width ?? 0, EXPANDED_DEFAULT_WIDTH) + 10;
+  const modalHeight = Math.max(nodeSize?.height ?? 0, EXPANDED_DEFAULT_HEIGHT) + 10;
 
   useEffect(() => {
     if (nodeData) {
@@ -86,10 +83,10 @@ export default function BaseNodeModal({
   return (
     <div
       ref={modalRef}
-      className={styles.modal}
+      className={`${styles.modal}`}
       style={{
-        width: `${MODAL_WIDTH}px`,
-        height: `${MODAL_HEIGHT}px`,
+        width: `${modalWidth}px`,
+        height: `${modalHeight}px`,
       }}
       onClick={(e) => e.stopPropagation()}
     >

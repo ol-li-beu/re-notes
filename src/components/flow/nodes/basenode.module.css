@@ -1,13 +1,24 @@
+.wrapper {
+  position: relative;
+  transition:
+    transform 0.22s cubic-bezier(0.2, 0.8, 0.2, 1),
+    box-shadow 0.22s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.nodeDragging {
+  transform: translateY(-10px) scale(1.04) rotate(0.4deg);
+}
+
+
 .node {
   position: relative;
   border-radius: 8px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+  
   color: var(--fg);
   display: flex;
   flex-direction: column;
   padding: 6px;
   box-sizing: border-box;
-  transition: width 0.2s, height 0.2s;
   outline: none;
   user-select: none;
   border: solid var(--fg);
@@ -15,6 +26,13 @@
   border-width: 3px;
   z-index: 1; 
   overflow: visible;
+  
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+  transition:
+    width 0.2s ease,
+    height 0.2s ease,
+    transform 0.22s cubic-bezier(0.2, 0.8, 0.2, 1),
+    box-shadow 0.22s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
 .topBar {
@@ -65,7 +83,7 @@
 
 .dropdown {
   position: absolute;
-  right: 100%; 
+  left: calc(100%);
   top: 0;
   margin-right: 8px;
   background: var(--contrast);
@@ -76,6 +94,29 @@
   flex-direction: column;
   gap: 8px;
   z-index: 100; 
+
+  border: 1px solid var(--fg);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+
+
+  opacity: 0;
+  transform: scale(0.98);
+  transform-origin: top left;
+  transition:
+    opacity 0.14s ease,
+    box-shadow 0.14s ease,
+    transform 0.14s ease;
+
+  pointer-events: none;
+  will-change: opacity, transform;
+
+}
+
+.dropdownOpen {
+  opacity: 1;
+  transform: scale(1);
+  pointer-events: auto;
+  box-shadow: 0 12px 28px rgba(0,0,0,0.35);
 }
 
 .dropdown button {
@@ -152,7 +193,7 @@
 
 
   opacity: 0;
-  transform: translateY(-8px);
+  transform-origin: top;
   transition:
     opacity var(--anim-normal) var(--ease-standard),
     transform var(--anim-normal) var(--ease-standard);
@@ -162,13 +203,13 @@
 
 .contentExpanded {
   opacity: 1;
-  transform: translateY(0);
+  transform: scaleY(1) translateY(0);
   pointer-events: auto;
 }
 
 .contentCollapsed {
   opacity: 0;
-  transform: translateY(-8px);
+  transform: scaleY(0.95) translateY(-6px);
   pointer-events: none;
 }
 
@@ -223,4 +264,14 @@
 
 .dropdown .danger {
     color: var(--negativeaccent);
+}
+
+
+.nodeDragging .label,
+.nodeDragging .description,
+.nodeDragging textarea,
+.nodeDragging .modal {
+  opacity: 0.6;
+  filter: blur(0.2px);
+  transition: opacity 0.18s ease;
 }

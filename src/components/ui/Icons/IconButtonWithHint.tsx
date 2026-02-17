@@ -11,10 +11,11 @@ type Props = {
   description: string;
   size?: number;
   onClick?: () => void;
+  onClickWithEvent?: React.MouseEventHandler<HTMLDivElement>;
   disabled?: boolean;
 };
 
-export default function IconButtonWithHint({iconName, description, size = 20, onClick, disabled = false }: Props) {
+export default function IconButtonWithHint({iconName, description, size = 20, onClick, onClickWithEvent, disabled = false }: Props) {
   const IconComponent = ICONSTYPE[iconName];
 
   const [hover, setHover] = useState(false);
@@ -46,7 +47,13 @@ export default function IconButtonWithHint({iconName, description, size = 20, on
     <>
       <div
         className={`${styles.container} ${disabled ? styles.disabled : ""}`}
-        onClick={!disabled ? onClick : undefined}
+        onClick={
+            !disabled
+            ? (e) => {
+                onClick?.();
+                onClickWithEvent?.(e);
+            } : undefined
+        }
         onMouseEnter={() => !disabled && setHover(true)}
         onMouseLeave={() => setHover(false)}
         onMouseMove={(e) =>

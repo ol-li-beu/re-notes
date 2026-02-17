@@ -10,6 +10,7 @@ import {
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { Icon } from "@/components/ui/Icons/Icons";
+import { ICONSTYPE } from "@/utils/types";
 
 import {
   NodeObj,
@@ -24,15 +25,17 @@ import {
 import { useFlowStore } from "../store/useFlowStore";
 import { useDictionary } from "@/utils/CanvasDictionaryContext";
 
+
 import IconButtonWithHint from "@/components/ui/Icons/IconButtonWithHint";
 import BaseNodeModal from "../utils/BaseNodeModal";
 
+
 import styles from "./basenode.module.css";
 
-type BaseNodeProps = NodeProps<NodeObj> & { children?: React.ReactNode };
+type BaseNodeProps = NodeProps<NodeObj> & { children?: React.ReactNode; iconName?: keyof typeof ICONSTYPE };
 type OpenMenu = "palette" | "menu" | null;
 
-export default function BaseNode({ id, data, children }: BaseNodeProps) {
+export default function BaseNode({ id, data, children, iconName }: BaseNodeProps) {
   const router = useRouter();
   const dict = useDictionary();
   const updateNodeInternals = useUpdateNodeInternals();
@@ -42,6 +45,8 @@ export default function BaseNode({ id, data, children }: BaseNodeProps) {
   const pasteNode = useFlowStore((s) => s.pasteNode);
   const copyNode = useFlowStore((s) => s.copyNode);
   const cutNode = useFlowStore((s) => s.cutNode);
+  const startBatch = useFlowStore((s) => s.startBatch);
+  const endBatch = useFlowStore((s) => s.endBatch);
 
   const paletteRef = useRef<HTMLDivElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
@@ -49,14 +54,17 @@ export default function BaseNode({ id, data, children }: BaseNodeProps) {
   const [openMenu, setOpenMenu] = useState<OpenMenu>(null);
   const [showEditModal, setShowEditModal] = useState(false);
   const [isResizing, setIsResizing] = useState(false);
-  const [isDraggingNode, setIsDraggingNode] = useState(false);
+  const draggingNodeId = useFlowStore(s => s.draggingNodeId);
+  const isDraggingNode = draggingNodeId === id;
 
   const nodeRef = useRef<HTMLDivElement>(null);
+
+
 
   // CLICK OUTSIDE HANDLER ON MODAL
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (isDraggingNode || showEditModal) return;
+      if (showEditModal) return;
       
       const target = event.target as HTMLElement;
       
@@ -88,7 +96,7 @@ export default function BaseNode({ id, data, children }: BaseNodeProps) {
       document.removeEventListener("mousedown", handleClickOutside, true);
       document.removeEventListener("keydown", handleEscape);
     };
-  }, [isDraggingNode, showEditModal]);
+  }, [showEditModal]);
 
   /* SIZE LOGIC */
 
@@ -194,8 +202,9 @@ export default function BaseNode({ id, data, children }: BaseNodeProps) {
 
   return (
     <>
+    <div className={`${styles.wrapper} ${isDraggingNode ? styles.nodeDragging : ""}`}>
       <div
-        className={styles.node}
+        className={`${styles.node} ${isDraggingNode ? styles.nodeDragging : ""}`}
         ref={nodeRef}
         style={{
           background: data.color || "var(--color-default)",
@@ -203,18 +212,17 @@ export default function BaseNode({ id, data, children }: BaseNodeProps) {
           height: localSize.height,
           fontSize: "var(--font-canvastitle)",
           fontWeight: "var(--font-weight)",
-          visibility: showEditModal ? "hidden" : "visible",
-          pointerEvents: showEditModal ? 'none' : 'auto',
-        }}
-        onDragStart={() => { setIsDraggingNode(true); }}
-        onDragEnd={() => {
-          setTimeout(() => setIsDraggingNode(false), 100);
-        }}
-        onMouseDown={() => setIsDraggingNode(false)}
-        onMouseMove={(e) => {
-          if (e.buttons === 1 && !showEditModal) {
-            setIsDraggingNode(true);
-          }
+          opacity: showEditModal ? 0 : 1,
+          pointerEvents: showEditModal ? "none" : "auto",
+          transform: isDraggingNode
+            ? "translateY(-10px) scale(1.04) rotate(0.4deg)"
+            : "translateY(0px) scale(1) rotate(0deg)",
+          transition: isResizing
+            ? "none"
+            : "width 0.2s ease, height 0.2s ease, transform 0.22s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.22s cubic-bezier(0.2, 0.8, 0.2, 1)",
+          boxShadow: isDraggingNode
+            ? "0 18px 40px rgba(0,0,0,0.55)"
+            : "0 2px 6px rgba(0,0,0,0.4)"
         }}
       >
         {/* Resizer only when expanded */}
@@ -227,16 +235,16 @@ export default function BaseNode({ id, data, children }: BaseNodeProps) {
             isVisible
             lineStyle={{ display: "none" }}
             handleStyle={{
-            width: 12,
-            height: 12,
+            width: 16,
+            height: 16,
             background: "transparent",
             border: "none",
             }}
-            onResizeStart={() => setIsResizing(true)}
+            onResizeStart={() => {setIsResizing(true); startBatch();}}
             onResize={(e, { width, height }) =>
               setLocalSize({ width, height })
             }
-            onResizeEnd={handleResizeEnd}
+            onResizeEnd={() => {handleResizeEnd(); endBatch(); }}
             
           />
         )}
@@ -253,9 +261,10 @@ export default function BaseNode({ id, data, children }: BaseNodeProps) {
               <IconButtonWithHint
                 iconName="ellipsisvertical"
                 description="menu"
-                onClick={() =>
-                  setOpenMenu(openMenu === "menu" ? null : "menu")
-                }
+                onClick={() => {
+                  setOpenMenu(prev => (prev === "menu" ? null : "menu"))
+                }}
+                disabled={isDraggingNode}
               />
 
               <IconButtonWithHint
@@ -264,6 +273,7 @@ export default function BaseNode({ id, data, children }: BaseNodeProps) {
                 onClick={() =>
                   setOpenMenu(openMenu === "palette" ? null : "palette")
                 }
+                disabled={isDraggingNode}
               />
 
               <IconButtonWithHint
@@ -274,19 +284,21 @@ export default function BaseNode({ id, data, children }: BaseNodeProps) {
                     locked: !data.locked,
                   })
                 }
+                disabled={isDraggingNode}
               />
 
               {openMenu === "menu" && (
-                <div className={styles.dropdown} ref={menuRef}>
-                  <button onClick={() => setShowEditModal(true)}>
+                <div className={`${styles.dropdown} ${openMenu === "menu" ? styles.dropdownOpen : ""}`} ref={menuRef}
+                >
+                  <button onClick={() => { setOpenMenu(null); setShowEditModal(true); }}>
                     <Icon name="edit"/> Edit
                   </button>
-                  <button onClick={handleCopy}><Icon name="canvascopy"/> Copy</button>
-                  <button onClick={handleCut}><Icon name="canvascut"/> Cut</button>
-                  <button onClick={handlePaste}><Icon name="canvaspaste"/> Paste</button>
+                  <button onClick={() => { setOpenMenu(null); handleCopy(); }}><Icon name="canvascopy"/> Copy</button>
+                  <button onClick={() => { setOpenMenu(null); handleCut(); }}><Icon name="canvascut"/> Cut</button>
+                  <button onClick={() => { setOpenMenu(null); handlePaste(); }}><Icon name="canvaspaste"/> Paste</button>
                   <button
                     className={styles.danger}
-                    onClick={handleDelete}
+                    onClick={() => { setOpenMenu(null); handleDelete(); }}
                   >
                     <Icon name="canvasdelete"/> Delete
                   </button>
@@ -294,31 +306,30 @@ export default function BaseNode({ id, data, children }: BaseNodeProps) {
               )}
 
               {openMenu === "palette" && (
-                <div className={styles.dropdown} ref={paletteRef}>
+                <div className={`${styles.dropdown} ${styles.dropdownOpen}`} ref={paletteRef}>
                   {[
-  "var(--color-default)",
-  "var(--color-blue)",
-  "var(--color-red)",
-  "var(--color-green)",
-  "var(--color-yellow)",
-  "var(--color-orange)",
-  "var(--color-purple)",
-  "var(--color-teal)",
-].map((c) => (
-  <button
-    key={c}
-    onClick={() => {
-      changeColor(c);
-      setOpenMenu(null);
-    }}
-  >
-    <span
-      className={styles.colorPreview}
-      style={{ background: c }}
-    />
-    {c.replace("var(--color-", "").replace(")", "")}
-  </button>
-))}
+                    "var(--color-default)",
+                    "var(--color-blue)",
+                    "var(--color-red)",
+                    "var(--color-green)",
+                    "var(--color-yellow)",
+                    "var(--color-orange)",
+                    "var(--color-purple)",
+                    "var(--color-teal)",
+                  ].map((c) => (
+                    <button
+                      key={c}
+                      onClick={() => {
+                      changeColor(c);
+                      setOpenMenu(null);
+                    }}>
+                      <span
+                        className={styles.colorPreview}
+                        style={{ background: c }}
+                      />
+                      {c.replace("var(--color-", "").replace(")", "")}
+                    </button>
+                    ))}
                 </div> )}
             </div>
           </div>
@@ -333,12 +344,14 @@ export default function BaseNode({ id, data, children }: BaseNodeProps) {
                     `/canvas/${data.projectId}/${data.redirectId}`
                   )
                 }
+                disabled={isDraggingNode}
               />
             ) : (
               <IconButtonWithHint
-                iconName="canvasfilepenline"
+                iconName={!!iconName ? iconName : "canvasarrowdowntoline"}
                 description="expand"
                 onClick={toggleExpand}
+                disabled={isDraggingNode}
               />
             )}
           </div>
@@ -364,17 +377,19 @@ export default function BaseNode({ id, data, children }: BaseNodeProps) {
           position={Position.Bottom}
           className={styles.handle}
         />
-      </div>
+     </div>
 
-      {showEditModal && (
+     {showEditModal && (
         <BaseNodeModal
           nodeData={data}
           nodeSize={localSize}
           onClose={() => setShowEditModal(false)}
           onSave={handleSaveEdit}
           dict={dict}
+          
         />
-      )}
+       )}
+     </div>
     </>
   );
 }

@@ -17,6 +17,7 @@
 .container:not(.disabled):hover {
   background: var(--accent);
   opacity: var(--opacitychange);
+  filter: blur(0.3px);
 }
 
 .icon {

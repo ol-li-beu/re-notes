@@ -33,14 +33,14 @@ export default function NoteNode(props: NodeProps<NodeObj>) {
   );
 
   return (
-    <BaseNode {...props}>
+    <BaseNode {...props} iconName="canvasfilepenline">
       <textarea
         value={data.content ?? ""}
         onFocus={startBatch}
         onBlur={endBatch}
         onChange={handleChange}
-        placeholder="Write your note here..." // 🆕 NEW: Added placeholder
-        className={`nodrag nowheel ${styles.noteTextarea}`} // 🔧 CHANGED: Added class
+        placeholder="Write your note here..." 
+        className={`nodrag nowheel ${styles.noteTextarea}`} 
       />
     </BaseNode>
   );

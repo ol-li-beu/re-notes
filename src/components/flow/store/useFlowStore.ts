@@ -49,6 +49,13 @@ export const useFlowStore = create<FlowState>((set, get) => ({
     set({ isBatching: false });
   },
 
+  
+  draggingNodeId: null,
+
+  setDraggingNodeId: (id) => set({ draggingNodeId: id }),
+
+
+
   undo: () => {
     const { past, nodes, edges, future } = get();
     if (past.length === 0) return;
@@ -112,12 +119,25 @@ export const useFlowStore = create<FlowState>((set, get) => ({
   onNodesChange: (changes: NodeChange<NodeObj>[]) => {
     const state = get();
 
-    if (!state.isBatching) {
-      state.commitHistory();
-    }
+    const meaningfulChange = changes.some(change => { // in the cases of select or jitter moves
+      if (change.type === "position") {
+      const prevNode = state.nodes.find(n => n.id === change.id);
+      if (
+        prevNode &&
+        prevNode.position.x === change.position?.x &&
+        prevNode.position.y === change.position?.y
+        ) {
+        return false;
+        }
+      } 
+      });
 
-    const newNodes = applyNodeChanges<NodeObj>(changes, state.nodes);
-    set({ nodes: newNodes });
+      if (!state.isBatching && meaningfulChange) {
+        state.commitHistory();
+      }
+
+      const newNodes = applyNodeChanges<NodeObj>(changes, state.nodes);
+      set({ nodes: newNodes });
   },
 
   onEdgesChange: (changes: EdgeChange<Edge>[]) => {

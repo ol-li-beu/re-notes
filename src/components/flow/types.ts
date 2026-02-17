@@ -61,6 +61,10 @@ export interface FlowState {
     updates: Omit<Partial<Extract<NodeData, { type: T }>>, "type">
   ) => void;
 
+  // drag handler for parent
+  draggingNodeId: string | null;
+  setDraggingNodeId: (id: string | null) => void;  
+
   undo: () => void;
   redo: () => void;
 

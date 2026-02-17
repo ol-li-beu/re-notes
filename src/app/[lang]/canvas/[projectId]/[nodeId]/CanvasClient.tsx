@@ -40,6 +40,9 @@ export default function CanvasClient({lang, dict, projectId} : CanvasClientProps
   const cutNode = useFlowStore((s) => s.cutNode);
   const pasteNode = useFlowStore((s) => s.pasteNode);
   const duplicateNode = useFlowStore((s) => s.duplicateNode);
+  const startBatch = useFlowStore(s => s.startBatch);
+  const endBatch = useFlowStore(s => s.endBatch);
+  const setDraggingNodeId = useFlowStore(s => s.setDraggingNodeId)
 
   const router = useRouter();
   const {showToast} = useToast();
@@ -53,6 +56,8 @@ export default function CanvasClient({lang, dict, projectId} : CanvasClientProps
         store.addNodeAtPosition("subnode", { x: 700, y: 150 }, {label: "New SUbonde Node", description: "bye2", projectId: projectId});
     }
   }, []);
+
+  
 
 
   // Shortcuts also take into account mac
@@ -134,7 +139,7 @@ return (
           <IconButtonWithHint iconName="canvasundo" description="undo" onClick={undo} disabled={!canUndo}/>
           <IconButtonWithHint iconName="canvasredo" description="redo" onClick={redo} disabled={!canRedo}/>
           <IconButtonWithHint iconName="canvasplus" description="add node" onClick={() => {}} />
-          <IconButtonWithHint iconName="canvassave" description="add node" onClick={() => {}} />
+          <IconButtonWithHint iconName="canvassave" description="save" onClick={() => {}} />
           <IconButtonWithHint iconName="canvashome" description="Go to project home" onClick={() => {router.push(`/${lang}/canvas/${projectId}`)}} />
 
         </>)}
@@ -150,8 +155,8 @@ return (
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}
-        onNodeDragStart={() => useFlowStore.getState().startBatch()}
-        onNodeDragStop={() => useFlowStore.getState().endBatch()}
+        onNodeDragStart={(_, node) => {startBatch(); setDraggingNodeId(node.id);}}
+        onNodeDragStop={(_, node) => {endBatch(); setDraggingNodeId(null);}}
         fitView
         proOptions={{ hideAttribution: true }}
         onNodeClick={(_, node) => setSelectedNodeId(node.id)}

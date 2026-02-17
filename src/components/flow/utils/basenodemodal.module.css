@@ -1,15 +1,18 @@
 /* Modal  */
 .modal {
+    max-width: 720px;
+
   background: var(--bg);
   border-radius: 12px;
-  padding: var(--space-md);
+  padding: clamp(16px, 2vw, 28px);
   
   position: absolute;
-  bottom: 100%;
+  top: 50%;
   left: 50%;
-  margin-bottom: 20px;
+  transform: translate(-50%, -50%);
+  
   z-index: 9999;
-  transform: translateX(-50%);
+  
 
   display: flex;
   flex-direction: column;
@@ -20,6 +23,8 @@
 
   animation: modalPop 0.2s var(--ease-out) forwards;
   pointer-events: auto;
+
+  
 }
 
 .modal h2 {
@@ -54,7 +59,10 @@
 .modal input {
   font-family: var(--font-title);
   font-size: var(--font-sm);
+
   height: 42px; 
+  width: 100%;
+
   padding: var(--space-xs);
   border: 2px solid var(--fg);
   border-radius: 6px;
@@ -70,13 +78,15 @@
 
 
 .modal textarea {
+  flex: 1;
+  min-height: 120px;
+
   font-family: var(--font-main);
   font-size: var(--font-sm);
   padding: var(--space-xs);
   resize: none;
   overflow-y: auto;
   
-  height: 140px;
   border: 2px solid var(--fg);
   border-radius: 6px;
   background: var(--bg);
@@ -172,11 +182,28 @@
 
 @keyframes modalPop {
   from {
-    transform: scale(0.95);
+    transform: translate(-50%, -50%) scale(0.95);
     opacity: 0;
   }
   to {
-    transform: scale(1);
+    transform: translate(-50%, -50%) scale(1);
     opacity: 1;
+  }
+}
+
+.dragging {
+  opacity: 0.6;
+  filter: blur(0.3px);
+}
+
+
+@media (max-width: 768px) {
+  .actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .buttons {
+    width: 100%;
   }
 }
