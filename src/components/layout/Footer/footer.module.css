@@ -1,11 +1,16 @@
 /* Base */
 
 .footer {
+  display: flex;
+  align-items: center;
   background-color: var(--bg);
   color: var(--fg);
   border-top: 3px solid var(--grid);
   font-family: var(--font-main);
+
+  padding: var(--space-md) 0;
 }
+
 
 
 /* Layout */  
@@ -18,7 +23,7 @@
 
   width: 100%;
   margin: 0 auto; /* for centering */
-  padding: var(--space-sm) var(--space-xs);
+  padding: 0 var(--space-xs);
 
   font-size: var(--font-xs);
 }

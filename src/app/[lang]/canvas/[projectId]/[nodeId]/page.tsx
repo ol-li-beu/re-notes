@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
-import CanvasClient from "./CanvasClient";
 import { getDictionary } from "@/utils/get-dictionary";
 import { CanvasDictionaryContext } from "@/utils/CanvasDictionaryContext";
+import CanvasClientWrapper from "./CanvasClientWrapper";
 
 
 type Props = {
@@ -22,10 +22,10 @@ export default async function NodePage({ params }: Props) {
 
 
   const dict = await getDictionary(lang);
-
+  // test return <div style={{ background: "red", height: 500 }}>NODE PAGE</div>;
   return (
     <CanvasDictionaryContext dict={dict}>
-    <CanvasClient
+    <CanvasClientWrapper
         lang= {lang}
         dict= {dict.canvas}
         projectId = {projectId}

@@ -2,12 +2,13 @@
 .nav {
   width: 100%;
   height: auto;
-  border-bottom: 2px solid var(--grid);
+  border-bottom: 3px solid var(--grid);
   background: var(--bg);
   color: var(--fg);
   position: sticky;
   top: 0;
   z-index: 100;
+  margin-bottom: -1px;
 }
 
 
@@ -109,13 +110,15 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  
+    
 
   width: auto;
   max-width: none;
   min-width: fit-content;
-  min-height: clamp(28px, 44px, 58px);
+  min-height: 36px;
 
-  padding: var(--space-2xs) var(--space-xs);
+  padding: var(--space-xs) var(--space-sm); 
   gap: var(--space-xs);
 
   white-space: nowrap;
@@ -133,10 +136,9 @@
   text-underline-offset: 3px;
 
   transition:
-    color var(--anim-normal) var(--ease-standard),
-    text-decoration-color var(--anim-normal) var(--ease-standard),
-    text-underline-offset var(--anim-normal) var(--ease-standard),
-    opacity var(--anim-normal) var(--ease-standard);
+    transform var(--anim-normal) var(--ease-standard),
+    border-color var(--anim-normal) var(--ease-standard),
+    background var(--anim-normal) var(--ease-standard); 
 }
 
 .registerBtn {
@@ -144,21 +146,14 @@
   color: var(--bg);
 }
 
-.loginBtn:hover {
-  text-decoration-color: var(--fg);
-  text-underline-offset: 4px;
-  background: var(--accent);
+.loginBtn:hover,
+.registerBtn:hover {
+  transform: translateY(-1.5px);     
   border-color: var(--accent);
-  opacity: var(--opacitychange);
+  background:  var(--accent);    
+            
 }
 
-.registerBtn:hover {
-  text-decoration-color: var(--bg);
-  text-underline-offset: 4px;
-  background: var(--accent);
-  border-color: var(--accent);
-  opacity: var(--opacitychange);
-}
 
 
 /* Visibility helpers */
@@ -188,7 +183,7 @@
   }
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1280px) {
   .mobileOnlyGuestMenu {
     display: flex;
     width: auto;
@@ -197,6 +192,7 @@
   .middle {
     display: none;
   }
+
 
   .container {
     padding: 0 var(--space-xs);
@@ -213,7 +209,6 @@
 
   .loginBtn,
   .registerBtn {
-    padding: var(--space-2xs) var(--space-xs);
     text-align: center;
     white-space: normal;
     min-height: 0;

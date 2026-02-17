@@ -1,14 +1,18 @@
 /* layout.tsx */
-.pagewrapper {
+.pageWrapper {
   display: flex;
   flex-direction: column;
-  height: 100vh;  
+  height: 100vh;
+
 }
 
 .mainlayout {
-  flex: 1 1 auto;
-  overflow-y: auto;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
 } 
+
 
 /* mainpage layout */
 

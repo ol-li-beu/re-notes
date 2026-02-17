@@ -1,0 +1,43 @@
+.card {
+  display: flex;
+  gap: 14px;
+  padding: 16px;
+  border-radius: 12px;
+
+  background: color-mix(in srgb, var(--bg) 90%, black);
+  border: 1px solid rgba(255,255,255,0.06);
+
+  cursor: pointer;
+
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.18s ease,
+    background 0.18s ease;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.35);
+  background: color-mix(in srgb, var(--bg) 85%, var(--fg) 5%);
+  border: 3px solid var(--accent);
+}
+
+.card:active {
+  transform: translateY(-1px) scale(0.98);
+}
+
+.icon {
+  font-size: 22px;
+  flex-shrink: 0;
+}
+
+.text h3 {
+  margin: 0;
+  font-size: var(--font-md);
+}
+
+.text p {
+  margin: 4px 0 0;
+  font-size: var(--font-sm);
+  opacity: 0.8;
+}

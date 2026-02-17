@@ -17,7 +17,7 @@ export default function ThemeButton() {
   return (
     <button
       aria-label="Toggle theme"
-      className={`${styles.button} circle-fill`}
+      className={`${styles.button}`}
       onClick={() => setTheme(isDark ? 'light' : 'dark')}
     >
       <Sun className={`${styles.icon} ${styles.sun} ${isDark ? styles.hidden : styles.visible}`} />

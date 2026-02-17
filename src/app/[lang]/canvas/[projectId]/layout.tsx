@@ -18,5 +18,9 @@ export default async function ProjectLayout({ children, params }: ProjectLayoutP
   
 
 
-  return children; // dont add any html
+  return (
+    <div style={{ flex: 1, minHeight: 0, display: "flex", flexDirection: "column" }}>
+      {children}
+    </div>
+  );
 }

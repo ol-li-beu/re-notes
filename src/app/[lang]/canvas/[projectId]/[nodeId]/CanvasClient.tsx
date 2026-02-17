@@ -1,8 +1,8 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
-import { ReactFlow, Background, BackgroundVariant, Controls, MiniMap, ReactFlowProvider, } from "@xyflow/react";
-import { NodeClasses, NodeObj } from "@/components/flow/types";
+import { ReactFlow, Background, BackgroundVariant, Controls, MiniMap, useReactFlow, } from "@xyflow/react";
+import { NodeClasses, NodeObj, NodeTypes } from "@/components/flow/types";
 
 import { useFlowStore } from "@/components/flow/store/useFlowStore";
 import { useRouter } from "next/navigation";
@@ -10,19 +10,18 @@ import { useToast } from "@/hooks/useToast";
 
 import IconButtonWithHint from "@/components/ui/Icons/IconButtonWithHint";
 import Toolbar from "@/components/flow/toolbar/ToolBar";
-
+import Sidebar from "@/components/flow/sidebar/SideBar";
+import { NodeOptionCard } from "@/components/flow/sidebar/NodeOptionCard";
 
 import styles from "./canvas.module.css";
-    
 
-interface CanvasClientProps {
+import "@xyflow/react/dist/style.css";
+
+export interface CanvasClientProps {
     lang: string,
     dict: any,
     projectId: string,
 }
-
-
-
 
 export default function CanvasClient({lang, dict, projectId} : CanvasClientProps) { // TODO props initial loaded from page.tsx (SUPABASE)
 
@@ -35,6 +34,7 @@ export default function CanvasClient({lang, dict, projectId} : CanvasClientProps
   const redo = useFlowStore((s) => s.redo); 
   const canUndo = useFlowStore((s) => s.past.length > 0);
   const canRedo = useFlowStore((s) => s.future.length > 0);
+  const addNodeAtPosition = useFlowStore((s) => s.addNodeAtPosition);
   const deleteNode = useFlowStore((s) => s.deleteNode);
   const copyNode = useFlowStore((s) => s.copyNode);
   const cutNode = useFlowStore((s) => s.cutNode);
@@ -47,6 +47,10 @@ export default function CanvasClient({lang, dict, projectId} : CanvasClientProps
   const router = useRouter();
   const {showToast} = useToast();
   const [selectedNodeId, setSelectedNodeId] = useState<string | null>(null); // tracker
+  const [sidebarOpen, setSidebarOpen] = useState(false); 
+
+  const { screenToFlowPosition } = useReactFlow();
+  const reactFlowWrapper = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const store = useFlowStore.getState();
@@ -127,18 +131,39 @@ export default function CanvasClient({lang, dict, projectId} : CanvasClientProps
   return () => document.removeEventListener('keydown', handleKeyDown);
   }, [selectedNodeId, deleteNode, copyNode, cutNode, pasteNode, duplicateNode]);
 
-  
+  // handlers
+
+  const handleAddNodeCentered = (type: NodeTypes) => {
+    const wrapper = reactFlowWrapper.current;
+    if (!wrapper) return;
+
+    const rect = wrapper.getBoundingClientRect();
+
+    const position = screenToFlowPosition({
+      x: rect.left + rect.width / 2,
+      y: rect.top + rect.height / 2,
+    });
+
+    addNodeAtPosition(type, position, {
+        label: "New Node",
+        description: "",
+        projectId, 
+      });
+    setSidebarOpen(false);
+  };
+
+// RENDERING
 
 return (
   <div className={styles.canvasPage}>
-    <div className={styles.reactFlowWrapper}>
+    <div className={styles.reactFlowWrapper} ref={reactFlowWrapper}>
       
       {/* TOP RIGHT TOOLBAR */}
       <div className={styles.topRightToolbar}>
         <Toolbar children= {(<>
           <IconButtonWithHint iconName="canvasundo" description="undo" onClick={undo} disabled={!canUndo}/>
           <IconButtonWithHint iconName="canvasredo" description="redo" onClick={redo} disabled={!canRedo}/>
-          <IconButtonWithHint iconName="canvasplus" description="add node" onClick={() => {}} />
+          <IconButtonWithHint iconName="canvasplus" description="add node" onClick={() => setSidebarOpen(true)}/>
           <IconButtonWithHint iconName="canvassave" description="save" onClick={() => {}} />
           <IconButtonWithHint iconName="canvashome" description="Go to project home" onClick={() => {router.push(`/${lang}/canvas/${projectId}`)}} />
 
@@ -147,7 +172,7 @@ return (
 
        
       </div>
-
+    
       <ReactFlow<NodeObj>
         nodeTypes={NodeClasses}
         nodes={nodes}
@@ -168,15 +193,25 @@ return (
           size={4}
           color="var(--canvasbackground)"
         />
-
-        <Controls />
+        <div className={`${styles.hideOnMobile}`}>
+        <Controls  />
         <MiniMap
           maskColor="var(--contrast)"
           nodeClassName={styles.nodeMinimap}
           style={{ backgroundColor: "var(--accent)" }}
         />
+        </div>
       </ReactFlow>
 
+      <Sidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)}>
+        <NodeOptionCard
+          icon={<> </>}
+          title="Text Node"
+          description="Simple note node"
+          onClick={() => {
+          handleAddNodeCentered("note"); }}
+          /> 
+      </Sidebar>
     </div>
   </div>
 );

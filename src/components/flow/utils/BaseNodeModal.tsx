@@ -5,18 +5,19 @@ import { NodeData } from "../types";
 import { COLLAPSED_WIDTH, COLLAPSED_HEIGHT, EXPANDED_DEFAULT_WIDTH, EXPANDED_DEFAULT_HEIGHT } from "../types";
 import styles from "./basenodemodal.module.css";
 
-const MAX_TITLE = 30;
-const MAX_DESC = 60;
+const MAX_TITLE = 20;
+const MAX_DESC = 40;
 
 
 
 
-export default function BaseNodeModal({ nodeData, nodeSize, onClose, onSave, dict, }: {
+export default function BaseNodeModal({ nodeData, nodeSize, onClose, onSave, dict, selected }: {
   nodeData: NodeData | null;
   nodeSize?: { width: number; height: number };
   onClose: () => void;
   onSave: (data: { label: string; description: string }) => void;
   dict: any;
+  selected: boolean;
 }) {
   const [label, setLabel] = useState("");
   const [desc, setDesc] = useState("");

@@ -21,9 +21,8 @@
   box-sizing: border-box;
   outline: none;
   user-select: none;
-  border: solid var(--fg);
+  border: 3px solid var(--fg);
   border-radius: 6px;
-  border-width: 3px;
   z-index: 1; 
   overflow: visible;
   
@@ -32,8 +31,17 @@
     width 0.2s ease,
     height 0.2s ease,
     transform 0.22s cubic-bezier(0.2, 0.8, 0.2, 1),
-    box-shadow 0.22s cubic-bezier(0.2, 0.8, 0.2, 1);
+    box-shadow 0.22s cubic-bezier(0.2, 0.8, 0.2, 1),
+    border-color 0.15s ease;
 }
+
+.selected {
+  border: 2px solid var(--accent);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.9),
+    0 0 0 2px color-mix(in srgb, var(--accent) 15%, transparent);
+}
+
 
 .topBar {
   display: flex;
@@ -53,6 +61,10 @@
   flex-direction: column;
   align-items: flex-start;
   gap: var(--space-md);
+  padding: 0 4px;
+
+  min-width: 0; 
+  flex: 1; 
 }
 
 .rightBlock {
@@ -63,10 +75,21 @@
   gap: 6px;
 }
 
+.label, .description {
+  inline-size: 100%; 
+  overflow-wrap: anywhere; 
+  word-wrap: break-word;     
+  white-space: normal;       
+  text-align: left;
+
+}
+
+
 .label {
   font-size: var(--font-canvastitle);
   font-weight: var(--font-weight);
   font-family: var(--font-title);
+  line-height: 1.2;
 }
 
 .description {
@@ -79,6 +102,7 @@
   display: flex;
   justify-content: center; 
   width: 100%;
+  line-height: 1.4;
 }
 
 .dropdown {
@@ -131,7 +155,8 @@
   text-align: left;
   cursor: pointer;
   border-radius: 4px;
-  font-size: var(--font-xs);
+  padding: var(--space-2xs);
+  font-size: var(--font-sm);
   transition: background-color var(--anim-fast) var(--ease-standard), transform var(--anim-fast) var(--ease-standard);
 }
 
@@ -268,10 +293,17 @@
 
 
 .nodeDragging .label,
-.nodeDragging .description,
-.nodeDragging textarea,
-.nodeDragging .modal {
+.nodeDragging .description {
   opacity: 0.6;
   filter: blur(0.2px);
   transition: opacity 0.18s ease;
+}
+
+
+@media (max-width: 768px) {
+
+    .dropdown button {
+        font-size: var(--font-md);
+    }
+
 }

@@ -29,7 +29,7 @@ export default function HamburgerMenu({dict, lang} : HamburgerProps) {
   return (
     <>
       <button
-        className={`circle-fill ${styles.burger}`}
+        className={`${styles.burger}`}
         onClick={() => setOpen(true)}
         aria-label="Open menu">
             <Icon name="menu" />
@@ -44,7 +44,7 @@ export default function HamburgerMenu({dict, lang} : HamburgerProps) {
           {/* Side menu */}
           <nav className={styles.menu}>
 
-            <div className="circle-fill">
+            <div>
             <button
               className={`${styles.close}`}
               onClick={() => setOpen(false)}

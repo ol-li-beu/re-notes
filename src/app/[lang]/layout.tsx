@@ -23,7 +23,7 @@ export default async function LangLayout({children, params} : LayoutProps) {
 
   return (
     <>
-      <div className={styles.pagewrapper} >
+      <div className={styles.pageWrapper} >
         {/* Pasamos el usuario real (o null) al Navbar */}
         
         <Navbar lang={lang} dict={dictionary} user={user} />

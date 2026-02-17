@@ -49,6 +49,7 @@
 
   background: var(--bg);
   box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1);
+  border: 2px solid var(--fg);
 
   white-space: normal;
   word-break: break-word;
@@ -75,12 +76,18 @@
   color: inherit;
   text-decoration: none;
 
-  border: 2px solid var(--fg);
+  border: none;        
+  outline: none;     
+  border-radius: 0;
 
-  transition: opacity var(--anim-fast) var(--ease-standard);
+  
+
+  transition: opacity var(--anim-fast) var(--ease-standard), transform var(--anim-fast) var(--ease-standard);
 }
 
 .item:hover {
+  transform: scaleY(1.08);
+  transform-origin: center;
   background: var(--accent);
   color: var(--bg);
   opacity: var(--opacitychange);

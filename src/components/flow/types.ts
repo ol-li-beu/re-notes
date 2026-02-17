@@ -13,12 +13,12 @@ import SubNodeNode from "./nodes/SubNodeNode";
 /* sizes */
 
 // Collapsed (fixed)
-export const COLLAPSED_WIDTH = 300;
-export const COLLAPSED_HEIGHT = 220;
+export const COLLAPSED_WIDTH = 330;
+export const COLLAPSED_HEIGHT = 230;
 
 // Expanded state (on default)
 export const EXPANDED_DEFAULT_WIDTH = 600;
-export const EXPANDED_DEFAULT_HEIGHT = 500;
+export const EXPANDED_DEFAULT_HEIGHT = 540;
 
 // Expanded resize limits
 export const EXPANDED_MIN_WIDTH = 500;

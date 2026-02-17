@@ -50,8 +50,8 @@
   --font-xl: clamp(1.35rem, 1.1rem + 1.2vw, 1.75rem);
   --font-2xl: clamp(2rem, 1.5rem + 2.5vw, 4rem);
 
-  --font-canvastitle: clamp(0.7rem, 0.65rem + 0.2vw, 1rem);
-  --font-canvastext: clamp(0.25rem, 0.38rem + 0.3vw, 2rem);
+  --font-canvastitle: clamp(1rem, 0.95rem + 0.3vw, 1.2rem);
+  --font-canvastext: clamp(0.9rem, 0.85rem + 0.25vw, 1rem);
 
   --font-weight: 400px;
   --underline-sm: 1.5px;
@@ -115,13 +115,15 @@ html.dark {
 
 html {
   height: 100%;
+  margin: 0;
   font-size: var(--font-lg);
 }
 
 body {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  height: 100%;
+  margin: 0;
   width: 100%;
 
   background-color: var(--bg);
@@ -135,6 +137,9 @@ body {
 
 main {
   flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
 }
 
 

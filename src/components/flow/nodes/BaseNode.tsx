@@ -32,10 +32,10 @@ import BaseNodeModal from "../utils/BaseNodeModal";
 
 import styles from "./basenode.module.css";
 
-type BaseNodeProps = NodeProps<NodeObj> & { children?: React.ReactNode; iconName?: keyof typeof ICONSTYPE };
+type BaseNodeProps = NodeProps<NodeObj> & { children?: React.ReactNode; iconName?: keyof typeof ICONSTYPE; resizable?: boolean; };
 type OpenMenu = "palette" | "menu" | null;
 
-export default function BaseNode({ id, data, children, iconName }: BaseNodeProps) {
+export default function BaseNode({ id, data, children, iconName, resizable=true, selected }: BaseNodeProps) {
   const router = useRouter();
   const dict = useDictionary();
   const updateNodeInternals = useUpdateNodeInternals();
@@ -204,7 +204,7 @@ export default function BaseNode({ id, data, children, iconName }: BaseNodeProps
     <>
     <div className={`${styles.wrapper} ${isDraggingNode ? styles.nodeDragging : ""}`}>
       <div
-        className={`${styles.node} ${isDraggingNode ? styles.nodeDragging : ""}`}
+        className={`${styles.node} ${selected ? styles.selected : ""}`}
         ref={nodeRef}
         style={{
           background: data.color || "var(--color-default)",
@@ -226,7 +226,7 @@ export default function BaseNode({ id, data, children, iconName }: BaseNodeProps
         }}
       >
         {/* Resizer only when expanded */}
-        {!data.locked && !showEditModal && isExpanded && (
+        {!data.locked && !showEditModal && isExpanded && resizable !== false && (
           <NodeResizer
             minWidth={EXPANDED_MIN_WIDTH}
             minHeight={EXPANDED_MIN_HEIGHT}
@@ -252,7 +252,7 @@ export default function BaseNode({ id, data, children, iconName }: BaseNodeProps
         {/* TOP BAR */}
         <div className={styles.topBar}>
           <div className={styles.topRow}>
-            <div>
+            <div className={styles.leftBlock}>
               <div className={styles.label}>{data.label}</div>
               <div className={styles.description}>{data.description}</div>
             </div>
@@ -386,6 +386,7 @@ export default function BaseNode({ id, data, children, iconName }: BaseNodeProps
           onClose={() => setShowEditModal(false)}
           onSave={handleSaveEdit}
           dict={dict}
+          selected={selected}
           
         />
        )}

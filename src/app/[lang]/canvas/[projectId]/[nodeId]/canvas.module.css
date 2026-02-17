@@ -1,28 +1,32 @@
+
+
 /* Page layout */
 
 .canvasPage {
-  width: 100%;
-  background: var(--bg);
+  min-height: 0;
+  flex: 1;
+
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  overflow: hidden;
+  
+  background: var(--bg);
 }
 
 /* canvas wrapper */
 
 .reactFlowWrapper {
-  width: 95%;
-  align-self: center;
-  height: 75vh;
+  flex: 1;
+  min-height: 0;
   background: var(--bg);
-
   position: relative; 
-
   border: 1px solid var(--contrast);
   border-radius: 6px;
-  margin: var(--space-sm) 0;
 
   overflow: hidden;
+
+  border-top: none; 
+
 }
 
 /* Toolbar */
@@ -35,7 +39,7 @@
 
   display: flex;
   flex-direction: column;
-  padding: var(--space-xs);
+  padding: var(--space-2xs);
 
   z-index: 20;
 }
@@ -91,10 +95,6 @@
 
   .hideOnMobile {
     display: none;
-  }
-
-  .reactFlowWrapper {
-    height: 85vh;
   }
 
   /* horizontal on mobile */

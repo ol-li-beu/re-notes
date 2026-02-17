@@ -31,7 +31,7 @@
   margin: 0;
   padding-bottom: var(--space-sm);
   font-family: var(--font-title);
-  font-size: var(--font-canvastitle);
+  font-size: var(--font-lg);
   flex-shrink: 0;
   border-bottom: 2px solid var(--fg);
   margin-bottom: var(--space-sm); 
@@ -58,9 +58,10 @@
 /* Form Inputs */
 .modal input {
   font-family: var(--font-title);
-  font-size: var(--font-sm);
+  font-size: var(--font-md);
+  padding: 2px 0;
 
-  height: 42px; 
+  min-height: 44px; 
   width: 100%;
 
   padding: var(--space-xs);
@@ -69,7 +70,7 @@
   background: var(--bg);
   color: var(--fg);
   outline: none;
-  transition: border-color 0.2s ease;
+  transition: border-color 0.2s ease, box-shadow 0.15s ease;;
 }
 
 .modal input:focus {
@@ -82,7 +83,7 @@
   min-height: 120px;
 
   font-family: var(--font-main);
-  font-size: var(--font-sm);
+  font-size: var(--font-md);
   padding: var(--space-xs);
   resize: none;
   overflow-y: auto;
@@ -103,7 +104,7 @@
 .counter {
   display: block;
   text-align: right;
-  font-size: var(--font-xs);
+  font-size: var(--font-sm);
   color: var(--muted);
   flex-shrink: 0;
   margin-top: 2px;
@@ -124,7 +125,7 @@
 .buttons {
   min-width: 100px;
   padding: 10px var(--space-sm); 
-  font-size: var(--font-sm);
+  font-size: var(--font-md);
   border: solid 2px;
   border-radius: 6px;
   outline: none;
@@ -133,7 +134,8 @@
   transition:
     background-color 0.15s ease,
     border-color 0.15s ease,
-    transform 0.15s ease;
+    transform 0.15s ease,
+    opacity var(--anim-fast) ease;
 }
 
 .primary {
@@ -149,19 +151,18 @@
 }
 
 .buttons:not(:disabled):hover {
-  transform: translateY(-1px);
+  transform: translateY(-2px);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  opacity: var(--opacity-change);
 }
 
-.primary:not(:disabled):hover {
+.primary:not(:disabled):hover, .ghost:not(:disabled):hover {
   background-color: var(--accent);
   border-color: var(--accent);
+  color: var(--contrast);
 }
 
-.ghost:not(:disabled):hover {
-  background-color: var(--fg);
-  color: var(--bg);
-}
+
 
 .buttons:disabled {
   opacity: 0.4;
@@ -205,5 +206,14 @@
 
   .buttons {
     width: 100%;
+  }
+
+  .modal textarea {
+    font-size: var(--font-lg);
+  }
+
+  
+  .counter {
+    font-size: var(--font-lg);
   }
 }
