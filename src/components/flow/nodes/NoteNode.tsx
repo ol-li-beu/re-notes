@@ -1,3 +1,5 @@
+'use client';
+
 import { useCallback, useEffect } from "react";
 import { NodeProps } from "@xyflow/react";
 import { NodeObj } from "../types";

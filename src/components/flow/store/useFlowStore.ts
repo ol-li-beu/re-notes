@@ -98,8 +98,6 @@ export const useFlowStore = create<FlowState>((set, get) => ({
     });
   },
 
-  canUndo: () => get().past.length > 0,
-  canRedo: () => get().future.length > 0,
 
   /* initial load */
 

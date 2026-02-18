@@ -2,7 +2,7 @@
 import { useEffect, useState, useRef } from "react";
 
 import { ReactFlow, Background, BackgroundVariant, Controls, MiniMap, useReactFlow, } from "@xyflow/react";
-import { NodeClasses, NodeObj, NodeTypes } from "@/components/flow/types";
+import { NodeClasses, NodeObj, NodeTypes, COLLAPSED_WIDTH, COLLAPSED_HEIGHT } from "@/components/flow/types";
 
 import { useFlowStore } from "@/components/flow/store/useFlowStore";
 import { useRouter } from "next/navigation";
@@ -16,15 +16,17 @@ import { NodeOptionCard } from "@/components/flow/sidebar/NodeOptionCard";
 import styles from "./canvas.module.css";
 
 import "@xyflow/react/dist/style.css";
+import { useDictionary } from "@/utils/CanvasDictionaryContext";
 
 export interface CanvasClientProps {
     lang: string,
-    dict: any,
     projectId: string,
 }
 
-export default function CanvasClient({lang, dict, projectId} : CanvasClientProps) { // TODO props initial loaded from page.tsx (SUPABASE)
+export default function CanvasClient({lang, projectId} : CanvasClientProps) { // TODO props initial loaded from page.tsx (SUPABASE)
 
+  const dict = useDictionary();
+  
   const nodes = useFlowStore((s) => s.nodes);
   const edges = useFlowStore((s) => s.edges);
   const onNodesChange = useFlowStore((s) => s.onNodesChange);
@@ -62,8 +64,6 @@ export default function CanvasClient({lang, dict, projectId} : CanvasClientProps
   }, []);
 
   
-
-
   // Shortcuts also take into account mac
   useEffect(() => {
   const handleKeyDown = (e: KeyboardEvent) => {
@@ -140,8 +140,8 @@ export default function CanvasClient({lang, dict, projectId} : CanvasClientProps
     const rect = wrapper.getBoundingClientRect();
 
     const position = screenToFlowPosition({
-      x: rect.left + rect.width / 2,
-      y: rect.top + rect.height / 2,
+      x: (rect.left + rect.width / 2) - COLLAPSED_WIDTH / 2,
+      y: (rect.top + rect.height / 2) - COLLAPSED_HEIGHT / 2,
     });
 
     addNodeAtPosition(type, position, {
@@ -157,6 +157,11 @@ export default function CanvasClient({lang, dict, projectId} : CanvasClientProps
 return (
   <div className={styles.canvasPage}>
     <div className={styles.reactFlowWrapper} ref={reactFlowWrapper}>
+
+      {/* TOP LEFT TOOLBAR */}
+      <div className={styles.topLeftLabel}>
+        <span>Project name: Node name</span>
+      </div>
       
       {/* TOP RIGHT TOOLBAR */}
       <div className={styles.topRightToolbar}>
@@ -165,6 +170,7 @@ return (
           <IconButtonWithHint iconName="canvasredo" description="redo" onClick={redo} disabled={!canRedo}/>
           <IconButtonWithHint iconName="canvasplus" description="add node" onClick={() => setSidebarOpen(true)}/>
           <IconButtonWithHint iconName="canvassave" description="save" onClick={() => {}} />
+          <IconButtonWithHint iconName="canvasarrowuptoline" description="Go back" onClick={() => {}} />
           <IconButtonWithHint iconName="canvashome" description="Go to project home" onClick={() => {router.push(`/${lang}/canvas/${projectId}`)}} />
 
         </>)}

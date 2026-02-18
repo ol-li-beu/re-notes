@@ -1,10 +1,11 @@
 import { Trash2, PlusSquare, PencilLine, Undo2, Mail, LogOut, LogIn, Sun, Moon,
     Eye, EyeOff, Computer, UserCircle, UserRoundPen, Search, UserRoundPlus, LucideUserRoundX, Menu,
     EllipsisVertical, ArrowRight,
-    Save, Undo, Redo, Lock, LockOpen, ArrowDownToLine, ArrowUpToLine, Palette, Plus, Copy, Clipboard, X, FilePenLine, Scissors, House  } from "lucide-react";
+    Save, Undo, Redo, Lock, LockOpen, ArrowDownToLine, ArrowUpToLine, Palette, Plus, Copy, Clipboard, X, FilePenLine, Scissors, House, Ellipsis  } from "lucide-react";
 
 import { SiGithub, } from "@icons-pack/react-simple-icons"
 
+// Project card
 export type Project = {
   id: string;
   name?: string;  // Lo que viene de Supabase
@@ -12,6 +13,7 @@ export type Project = {
   description: string;
   // Agregar created_at si queres mostrar fechas
   // updated at
+  // AGREGAR USERID para verif? owner
 };
 
 export interface PageProps {
@@ -61,6 +63,7 @@ export const ICONSTYPE = {
   canvascut: Scissors,
   canvasfilepenline: FilePenLine,
   canvashome: House,
+  canvasellipsis: Ellipsis,
 
 
   

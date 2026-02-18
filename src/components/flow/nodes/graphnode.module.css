@@ -1,0 +1,159 @@
+.wrapper {
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  border: 3px solid;
+  background: var(--bg);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+
+  position: relative;
+  user-select: none;
+  box-sizing: border-box;
+
+  cursor: grab;
+
+  transition:
+    transform 0.22s cubic-bezier(0.2, 0.8, 0.2, 1),
+    box-shadow 0.22s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.wrapper:hover {
+  transform: scale(1.05);
+}
+
+:global(.react-flow__node.dragging) .wrapper {
+  transform: translateY(-10px) scale(1.06) rotate(0.4deg);
+  box-shadow: 0 18px 40px rgba(0,0,0,0.55);
+  cursor: grabbing;
+}
+
+:global(.react-flow__node.dragging) .name,
+:global(.react-flow__node.dragging) .badge {
+  opacity: 0.6;
+  filter: blur(0.2px);
+}
+
+
+.name {
+  font-family: var(--font-title);
+  font-size: var(--font-sm);
+  font-weight: var(--font-weight);
+  color: var(--fg);
+  text-align: center;
+  padding: 0 16px;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  max-width: 100%;
+  line-height: 1.2;
+}
+
+.badge {
+  font-size: 9px;
+  font-family: var(--font-main);
+  color: var(--bg);
+  padding: 2px 8px;
+  border-radius: 99px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.menuButton {
+  position: absolute;
+  bottom: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: transparent;
+  border: none;
+  color: var(--fg);
+  font-size: 14px;
+  cursor: pointer;
+  padding: 2px 6px;
+  border-radius: 4px;
+  line-height: 1;
+  transition: background 0.15s ease;
+  letter-spacing: 2px;
+}
+
+.menuButton:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.menuButtonWrapper {
+  position: absolute;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+
+
+.renameInput {
+  background: var(--contrast);
+  border: 1px solid var(--fg);
+  border-radius: 4px;
+  color: var(--fg);
+  font-size: var(--font-sm);
+  font-family: var(--font-title);
+  text-align: center;
+  width: 90px;
+  padding: 2px 6px;
+  outline: none;
+}
+
+.renameInput:focus {
+  border-color: var(--accent);
+}
+
+.dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--contrast);
+  border: 1px solid var(--fg);
+  border-radius: 8px;
+  padding: 4px 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  z-index: 100;
+  min-width: 110px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.35);
+}
+
+.dropdown button {
+  background: transparent;
+  border: none;
+  color: var(--fg);
+  font-size: var(--font-sm);
+  font-family: var(--font-main);
+  padding: 6px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  text-align: left;
+  transition: transform 0.12s var(--ease-standard), transform 0.12s var(--ease-standard);
+  white-space: nowrap;
+}
+
+.dropdown button:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: scale(1.05);
+}
+
+.danger {
+  color: var(--negativeaccent) !important;
+}
+
+.handle {
+  width: 10px !important;
+  height: 10px !important;
+  background: var(--fg) !important;
+  border: none !important;
+  border-radius: 50% !important;
+  opacity: 0.35;
+}

@@ -11,13 +11,12 @@ const MAX_DESC = 40;
 
 
 
-export default function BaseNodeModal({ nodeData, nodeSize, onClose, onSave, dict, selected }: {
+export default function BaseNodeModal({ nodeData, nodeSize, onClose, onSave, dict }: {
   nodeData: NodeData | null;
   nodeSize?: { width: number; height: number };
   onClose: () => void;
   onSave: (data: { label: string; description: string }) => void;
   dict: any;
-  selected: boolean;
 }) {
   const [label, setLabel] = useState("");
   const [desc, setDesc] = useState("");

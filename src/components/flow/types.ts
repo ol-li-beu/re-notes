@@ -10,7 +10,7 @@ import { DefaultNodeString } from "./store/NodeFactory";
 import NoteNode from "./nodes/NoteNode";
 import SubNodeNode from "./nodes/SubNodeNode";
 
-/* sizes */
+/* sizes for nodes in node canvas*/
 
 // Collapsed (fixed)
 export const COLLAPSED_WIDTH = 330;
@@ -113,10 +113,68 @@ export type NoteNodeData = BaseNodeData & {
 
 export type SubNodeData = BaseNodeData & {
   type: "subnode";
-  redirectId: string;
+  targetCanvasId: string | null;
+  targetCanvasName: string | null;
+  linkId: string | null;
   projectId: string;
 };
 
 export type NodeData = NoteNodeData | SubNodeData;
 
 export type NodeObj = Node<NodeData>;
+
+
+/* Project Home page types */
+
+
+export interface ProjectState {
+  projectId: string | null;
+  projectName: string;
+  rootCanvasId: string | null;
+  canvases: CanvasMeta[];
+  links: CanvasLink[];
+
+  // In case of project state, initialization
+  initProject: (projectId: string, projectName: string, rootCanvasId: string, canvases: CanvasMeta[], links: CanvasLink[]) => void;
+
+  // canvas CRUD
+  addCanvas: (name: string, positionX?: number, positionY?: number) => string; // returns new id
+  deleteCanvas: (id: string) => void;
+  renameCanvas: (id: string, name: string) => void;
+  updateCanvasPosition: (id: string, x: number, y: number) => void;
+
+  // links
+  addLink: (fromCanvasId: string, toCanvasId: string) => string; // returns new linkId
+  removeLink: (linkId: string) => void;
+  removeLinksByCanvas: (canvasId: string) => void;
+
+  // helpers
+  getStatus: (canvasId: string) => CanvasStatus;
+  getCanvasStats: (canvasId: string) => { nodeCount: number; incomingCount: number; outgoingCount: number };
+} // NO SAVA ON HOME PAGE and UNDO WILL BE SKIPPED FOR NOW SINCE ONLY AWARE ACTIONS
+
+
+export type CanvasMeta = {
+  id: string;
+  projectId: string;
+  name: string;
+  positionX: number;
+  positionY: number;
+};
+
+export type CanvasLink = {
+  id: string;
+  projectId: string;
+  fromCanvasId: string;
+  toCanvasId: string;
+};
+
+export type CanvasStatus = "root" | "linked" | "orphan";
+
+export type GraphNodeData = {
+  canvasId: string;
+  name: string;         
+  status: CanvasStatus;
+  projectId: string;
+  isRenaming?: boolean;
+};

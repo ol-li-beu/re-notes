@@ -60,8 +60,10 @@ export function createNode(
         data: {
           type: "subnode",
           label,
+          targetCanvasId: "",
+          targetCanvasName: "",
+          linkId: "",
           description,
-          redirectId: id,
           projectId: projectId, 
           expanded: false,
           color: "",

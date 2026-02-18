@@ -44,6 +44,27 @@
   z-index: 20;
 }
 
+/* Project Name label */
+
+.topLeftLabel {
+  position: absolute;
+  top: calc(8px + env(safe-area-inset-top));
+  left: calc(8px + env(safe-area-inset-left));
+  z-index: 5;
+  background-color: transparent;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.topLeftLabel span {
+  color: var(--fg);
+  font-weight: var(--font-weight);
+  font-size: var(--font-sm);
+  font-family: var(--font-title);
+}
+
 /* React flow built in controls */
 
 :global(.react-flow__controls) {

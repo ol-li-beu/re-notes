@@ -18,18 +18,11 @@ export default async function NodePage({ params }: Props) {
   const { lang, projectId, nodeId } = await params;
 
   
-
-
-
-  const dict = await getDictionary(lang);
   // test return <div style={{ background: "red", height: 500 }}>NODE PAGE</div>;
   return (
-    <CanvasDictionaryContext dict={dict}>
     <CanvasClientWrapper
         lang= {lang}
-        dict= {dict.canvas}
         projectId = {projectId}
     />
-    </CanvasDictionaryContext>
   )
 }

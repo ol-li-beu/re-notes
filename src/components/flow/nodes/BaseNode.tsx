@@ -32,10 +32,11 @@ import BaseNodeModal from "../utils/BaseNodeModal";
 
 import styles from "./basenode.module.css";
 
-type BaseNodeProps = NodeProps<NodeObj> & { children?: React.ReactNode; iconName?: keyof typeof ICONSTYPE; resizable?: boolean; };
+type BaseNodeProps = NodeProps<NodeObj> & { children?: React.ReactNode; iconName?: keyof typeof ICONSTYPE; 
+  resizable?: boolean; noEdit?: boolean; onSpecialAction?: () => void; specialActionDescription?: string};
 type OpenMenu = "palette" | "menu" | null;
 
-export default function BaseNode({ id, data, children, iconName, resizable=true, selected }: BaseNodeProps) {
+export default function BaseNode({ id, data, children, iconName, resizable=true, selected, noEdit=false, onSpecialAction, specialActionDescription }: BaseNodeProps) {
   const router = useRouter();
   const dict = useDictionary();
   const updateNodeInternals = useUpdateNodeInternals();
@@ -290,9 +291,11 @@ export default function BaseNode({ id, data, children, iconName, resizable=true,
               {openMenu === "menu" && (
                 <div className={`${styles.dropdown} ${openMenu === "menu" ? styles.dropdownOpen : ""}`} ref={menuRef}
                 >
-                  <button onClick={() => { setOpenMenu(null); setShowEditModal(true); }}>
-                    <Icon name="edit"/> Edit
-                  </button>
+                  {noEdit !== true && (
+                    <button onClick={() => { setOpenMenu(null); setShowEditModal(true); }}>
+                      <Icon name="edit"/> Edit
+                    </button>
+                  )}
                   <button onClick={() => { setOpenMenu(null); handleCopy(); }}><Icon name="canvascopy"/> Copy</button>
                   <button onClick={() => { setOpenMenu(null); handleCut(); }}><Icon name="canvascut"/> Cut</button>
                   <button onClick={() => { setOpenMenu(null); handlePaste(); }}><Icon name="canvaspaste"/> Paste</button>
@@ -335,25 +338,12 @@ export default function BaseNode({ id, data, children, iconName, resizable=true,
           </div>
 
           <div className={styles.specialAction}>
-            {data.type === "subnode" && data.redirectId ? (
               <IconButtonWithHint
-                iconName="canvasarrowdowntoline"
-                description="navigate"
-                onClick={() =>
-                  router.push(
-                    `/canvas/${data.projectId}/${data.redirectId}`
-                  )
-                }
-                disabled={isDraggingNode}
-              />
-            ) : (
-              <IconButtonWithHint
-                iconName={!!iconName ? iconName : "canvasarrowdowntoline"}
-                description="expand"
-                onClick={toggleExpand}
-                disabled={isDraggingNode}
-              />
-            )}
+              iconName={iconName ?? "canvasarrowdowntoline"}
+              description={ specialActionDescription ? specialActionDescription : (isExpanded ? "Collapse" : "Expand")}
+              onClick={onSpecialAction ?? toggleExpand}
+              disabled={isDraggingNode}
+            />
           </div>
         </div>
 
@@ -386,8 +376,6 @@ export default function BaseNode({ id, data, children, iconName, resizable=true,
           onClose={() => setShowEditModal(false)}
           onSave={handleSaveEdit}
           dict={dict}
-          selected={selected}
-          
         />
        )}
      </div>
