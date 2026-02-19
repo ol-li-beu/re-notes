@@ -94,18 +94,6 @@
   background: var(--accent);
 }
 
-/* minimap */
-
-.nodeMinimap {
-  stroke: var(--bg);
-  stroke-width: 5;
-
-  width: clamp(70px, 9vw, 130px);
-  height: clamp(50px, 7vh, 90px);
-}
-
-
-
 .react-flow__resize-control {
   display: none !important;
 }

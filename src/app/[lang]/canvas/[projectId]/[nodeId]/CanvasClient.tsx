@@ -15,6 +15,7 @@ import Toolbar from "@/components/flow/toolbar/ToolBar";
 import Sidebar from "@/components/flow/sidebar/SideBar";
 import { NodeOptionCard } from "@/components/flow/sidebar/NodeOptionCard";
 import ClickCursor from "@/components/flow/cursor/ClickCursor";
+import { SquareMiniMapNode } from "@/components/flow/nodes/MinimapNodes"
 
 import styles from "./canvas.module.css";
 
@@ -61,7 +62,7 @@ export default function CanvasClient({lang, projectId, nodeId, canvasName} : Can
   const reactFlowWrapper = useRef<HTMLDivElement>(null);
 
   const projectName = useProjectStore((s) => s.projectName);
-
+  const rootCanvasId = useProjectStore((s) => s.rootCanvasId);
 
   
   // Shortcuts also take into account mac
@@ -187,7 +188,7 @@ return (
         <span>{projectName} | {canvasName}</span>
       </div>
       
-      {/* TOP RIGHT TOOLBAR */}
+      {/* TOP RIGHT TOOLBAR // ROOT AND PROJECT HOME CLEAN HISTORY */}
       <div className={styles.topRightToolbar}>
         <Toolbar children= {(<>
           <IconButtonWithHint iconName="canvasundo" description={dict.canvasclient.toolbar.undo} onClick={undo} disabled={!canUndo}/>
@@ -195,6 +196,7 @@ return (
           <IconButtonWithHint iconName="canvasplus" description={dict.canvasclient.toolbar.addNode} onClick={() => setSidebarOpen(true)}/>
           <IconButtonWithHint iconName="canvassave" description={dict.canvasclient.toolbar.save} onClick={() => {}} />
           <IconButtonWithHint iconName="canvasarrowuptoline" description={dict.canvasclient.toolbar.goBack} onClick={handleBack} />
+          <IconButtonWithHint iconName="canvasroot" description={dict.canvasclient.toolbar.goToRoot} onClick={() => {router.push(`/${lang}/canvas/${projectId}/${rootCanvasId}`)}} />
           <IconButtonWithHint iconName="canvashome" description={dict.canvasclient.toolbar.goToProjectHome} onClick={() => {router.push(`/${lang}/canvas/${projectId}`)}} />
         </>)}
         />
@@ -227,7 +229,7 @@ return (
         <Controls  />
         <MiniMap
           maskColor="var(--contrast)"
-          nodeClassName={styles.nodeMinimap}
+          nodeComponent={SquareMiniMapNode}
           style={{ backgroundColor: "var(--accent)" }}
         />
         </div>

@@ -10,9 +10,11 @@ import { useProjectStore } from "@/components/flow/store/useProjectStore";
 
 import GraphNode, { GraphNodeObj } from "@/components/flow/nodes/GraphNode";
 import ClickCursor from "@/components/flow/cursor/ClickCursor";
+import { CircleMiniMapNode } from "@/components/flow/nodes/MinimapNodes";
 
 import styles from "./[nodeId]/canvas.module.css";
 import "@xyflow/react/dist/style.css";
+
 
 
 const GraphNodeClasses = { graphnode: GraphNode };
@@ -111,7 +113,7 @@ export default function ProjectHomeClient({ lang, projectId }: ProjectHomeClient
             <Controls />
             <MiniMap
               maskColor="var(--contrast)"
-              nodeClassName={styles.nodeMinimap}
+              nodeComponent={CircleMiniMapNode}
               style={{ backgroundColor: "var(--accent)" }}
             />
           </div>

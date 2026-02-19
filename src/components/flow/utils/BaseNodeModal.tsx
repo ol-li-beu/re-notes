@@ -5,8 +5,8 @@ import { NodeData } from "../types";
 import { COLLAPSED_WIDTH, COLLAPSED_HEIGHT, EXPANDED_DEFAULT_WIDTH, EXPANDED_DEFAULT_HEIGHT } from "../types";
 import styles from "./basenodemodal.module.css";
 
-const MAX_TITLE = 20;
-const MAX_DESC = 40;
+const MAX_TITLE = 18;
+const MAX_DESC = 30;
 
 
 

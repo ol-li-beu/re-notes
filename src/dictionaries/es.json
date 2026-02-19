@@ -116,6 +116,7 @@
                 "addNode": "Agregar nodo",
                 "save": "Guardar",
                 "goBack": "Volver Atrás",
+                "goToRoot" : "Ir a la raíz",
                 "goToProjectHome": "Ir al inicio del proyecto"
             },
 

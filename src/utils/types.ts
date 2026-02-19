@@ -1,7 +1,8 @@
 import { Trash2, PlusSquare, PencilLine, Undo2, Mail, LogOut, LogIn, Sun, Moon,
-    Eye, EyeOff, Computer, UserCircle, UserRoundPen, Search, UserRoundPlus, LucideUserRoundX, Menu,
-    EllipsisVertical, ArrowRight,
-    Save, Undo, Redo, Lock, LockOpen, ArrowDownToLine, ArrowUpToLine, Palette, Plus, Copy, Clipboard, X, FilePenLine, Scissors, House, Ellipsis  } from "lucide-react";
+  Eye, EyeOff, Computer, UserCircle, UserRoundPen, Search, UserRoundPlus, LucideUserRoundX, Menu,
+  EllipsisVertical, ArrowRight,
+  Save, Undo, Redo, Lock, LockOpen, ArrowDownToLine, ArrowUpToLine, Palette, Plus, Copy, Clipboard, X, FilePenLine, Scissors, House, Ellipsis,
+  ArrowLeftFromLine  } from "lucide-react";
 
 import { SiGithub, } from "@icons-pack/react-simple-icons"
 
@@ -64,6 +65,7 @@ export const ICONSTYPE = {
   canvasfilepenline: FilePenLine,
   canvashome: House,
   canvasellipsis: Ellipsis,
+  canvasroot: ArrowLeftFromLine,
 
 
   

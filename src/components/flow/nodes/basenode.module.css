@@ -94,7 +94,7 @@
 }
 
 .description {
-  font-size: var(--font-canvastext);
+  font-size: var(--font-sm);
   font-family: var(--font-main);
   opacity: 0.8;
 }
@@ -259,14 +259,7 @@
 }
 
 
-.content textarea::-webkit-scrollbar {
-  width: 10px;
-}
 
-.content textarea::-webkit-scrollbar-thumb {
-  background: rgba(255,255,255,0.3);
-  border-radius: 6px;
-}
 
 .dropdown .danger {
     color: var(--negativeaccent);

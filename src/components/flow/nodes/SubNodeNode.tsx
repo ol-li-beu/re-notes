@@ -36,6 +36,7 @@ export default function SubNodeNode(props: NodeProps<NodeObj>) {
   const subdata = data as SubNodeData;
 
   const updateNodeData = useFlowStore((s) => s.updateNodeData);
+  const rootCanvasId = useProjectStore((s) => s.rootCanvasId);
   const canvases = useProjectStore((s) => s.canvases);
   const addCanvas = useProjectStore((s) => s.addCanvas);
   const addLink = useProjectStore((s) => s.addLink);
@@ -48,7 +49,7 @@ export default function SubNodeNode(props: NodeProps<NodeObj>) {
   const currentNodeId = params?.nodeId as string;
 
   const isLinked = !!subdata.targetCanvasId;
-  const available = canvases.filter((c) => c.id !== currentNodeId);
+  const available = canvases.filter((c) => c.id !== currentNodeId && c.id !== rootCanvasId);
 
   const handleNavigate = useCallback(() => {
     if (!subdata.targetCanvasId) return;

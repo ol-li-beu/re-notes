@@ -115,6 +115,7 @@
                 "addNode": "Add node",
                 "save": "Save",
                 "goBack": "Go back",
+                "goToRoot" : "Go to root",
                 "goToProjectHome": "Go to project home"
             },
 
