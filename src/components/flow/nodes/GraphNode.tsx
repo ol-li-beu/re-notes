@@ -2,7 +2,7 @@
 
 import { NodeProps, Handle, Position, Node as XYNode, } from "@xyflow/react";
 import { useState, useRef, useEffect, useCallback } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useParams } from "next/navigation";
 import { GraphNodeData, CanvasStatus,} from "../types";
 import { useProjectStore } from "../store/useProjectStore";
 import { useDictionary } from "@/utils/CanvasDictionaryContext";
@@ -44,6 +44,9 @@ export default function GraphNode({ data }: NodeProps<GraphNodeObj>) {
 
   const isRoot = data.canvasId === rootCanvasId;
   const color = STATUS_COLORS[data.status];
+
+  const params = useParams();
+  const lang = params?.lang as string;
 
   useEffect(() => {
     if (isRenaming) inputRef.current?.focus();
@@ -137,7 +140,7 @@ return (
       {menuOpen && (
         <div className={`nodrag ${styles.dropdown}`} ref={menuRef}>
           <button onClick={() => {
-            router.push(`/canvas/${data.projectId}/${data.canvasId}`);
+            router.push(`/${lang}/canvas/${data.projectId}/${data.canvasId}`);
             setMenuOpen(false);
           }}>
             <Icon name="canvasarrowdowntoline" /> Enter

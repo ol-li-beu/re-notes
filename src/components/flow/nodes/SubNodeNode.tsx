@@ -1,12 +1,14 @@
 "use client";
 
 import { NodeProps } from "@xyflow/react";
-import { useState, useRef, useCallback, useEffect } from "react";
+import { useState, useRef, useCallback, useEffect, useContext } from "react";
 import { useRouter, useParams, useSearchParams } from "next/navigation";
 
 import { NodeObj, SubNodeData, CanvasMeta } from "../types";
 import { useFlowStore } from "../store/useFlowStore";
 import { useProjectStore } from "../store/useProjectStore";
+import { ToastContext } from "@/hooks/ToastContext";
+
 import { Icon } from "@/components/ui/Icons/Icons";
 import BaseNode from "./BaseNode";
 
@@ -38,6 +40,8 @@ export default function SubNodeNode(props: NodeProps<NodeObj>) {
   const addCanvas = useProjectStore((s) => s.addCanvas);
   const addLink = useProjectStore((s) => s.addLink);
   const getStatus = useProjectStore((s) => s.getStatus);
+
+  const { showToast } = useContext(ToastContext)!;
 
   const lang = params?.lang as string;
   const projectId = params?.projectId as string;
@@ -75,7 +79,7 @@ export default function SubNodeNode(props: NodeProps<NodeObj>) {
       (c) => c.name.toLowerCase() === trimmed.toLowerCase()
     );
     if (exists) {
-      console.log("Already exists:", trimmed);
+      showToast(`Already exists: ${trimmed}`, "error");
       return;
     }
     const newCanvasId = addCanvas(trimmed, 200, 200);
@@ -136,6 +140,9 @@ return (
             >
               <Icon name="canvasplus" />
             </button>
+            <span className={styles.charCount}>
+              {newName.length}/15
+            </span>
           </div>
 
           {available.length > 0 && (

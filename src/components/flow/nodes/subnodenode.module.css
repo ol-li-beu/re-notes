@@ -63,6 +63,16 @@
   transform: scale(1.08);
 }
 
+.charCount {
+  font-size: 12px;
+  font-family: var(--font-main);
+  opacity: 0.7;
+  color: var(--fg);
+  text-align: right;
+  padding-right: 4px;
+  padding-left: 2px;
+}
+
 /* vertical scrollable list */
 .cardList {
   display: flex;
@@ -125,6 +135,8 @@
   white-space: nowrap;
   flex: 1;
 }
+
+
 
 @keyframes dropIn {
   from { opacity: 0; transform: translateY(-6px); }
