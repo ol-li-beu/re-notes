@@ -31,7 +31,7 @@ export default function Sidebar({ open, onClose, children }: SidebarProps) {
         className={`${styles.sidebar} ${open ? styles.sidebarOpen : ""}`}
         onClick={(e) => e.stopPropagation()}
       >
-        <div className={styles.content}>
+        <div className={`${styles.content} show-scrollbar`}>
           {children}
         </div>
       </aside>

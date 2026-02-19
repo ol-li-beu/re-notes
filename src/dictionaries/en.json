@@ -102,11 +102,59 @@
     },
 
     "canvas" : {
-        "canvasclient" : {},
-        "toolbar" : {},
+        "canvasclient": {
+            "nodeLabels": {
+                "note": "New Text Node",
+                "redirect": "New Redirect Node",
+                "group": "New Group Node"
+            },
+
+            "toolbar": {
+                "undo": "Undo",
+                "redo": "Redo",
+                "addNode": "Add node",
+                "save": "Save",
+                "goBack": "Go back",
+                "goToProjectHome": "Go to project home"
+            },
+
+            "sidebar": {
+                "textNodeTitle": "Text Node",
+                "textNodeDescription": "Simple note node",
+                "redirectNodeTitle" : "Redirect Node",
+                "redirectNodeDescription" : "Move to subcanvas",
+                "groupNodeTitle" : "Group Node",
+                "groupNodeDescription" : "Add a node container"
+            }
+        },
+
         "basenode" : {
             "palette" : "Change Color"
-        }
+        },
+
+        "notenode" : {
+
+        },
+
+        "groupnode" : {
+
+        },
+        
+        "graphnode" : {
+
+        },
+
+        "basenodemodal" : {
+
+        },
+
+        "subnodemodal" : {
+
+        },
+
+
+
+        "projectclient" : {}
 },
 
     "messages" : {},

@@ -1,6 +1,6 @@
 .card {
   background: var(--cardcontrast);
-  border: 1px outset var(--grid);
+  border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: 14px;
   padding: var(--space-xs);
   min-width: 0;
@@ -207,53 +207,42 @@
 
 /* Icons & special text */
 
-.iconWrapper {
+.specialCard {
   display: flex;
-  justify-content: flex-end;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xs);
+  cursor: pointer;
+  min-height: 160px;
 }
 
-.specialText {
-  padding: var(--space-2xs);
-  font-size: var(--font-md);
-  font-weight: var(--font-weight);
-  line-height: 1.35;
-  font-family: var(--font-title);
+.specialLabel {
+  font-size: var(--font-sm);
+  opacity: 0.4;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  transition: opacity var(--anim-fast) var(--ease-standard),
+              color var(--anim-fast) var(--ease-standard);
 }
 
-.specialIcon {
-  line-height: 1;
-  display: inline-flex;
-
-  padding: var(--space-2xs) var(--space-2xs);
-  border-radius: 6px;
-  font-size: var(--font-lg);
-
-  transform: scale(0.98);
-  opacity: var(--opacitychange);
-  
-  transition: transform var(--anim-fast) var(--ease-standard),
-              opacity var(--anim-fast) var(--ease-standard);
+.specialCard .specialIcon {
+  font-size: 2.2rem;
+  opacity: 0.5;
+  transform: none;
+  padding: 0;
 }
 
-.card:hover .specialIcon {
+.specialCard:hover .specialIcon {
+  opacity: 1;
+  transform: scale(1.15);
   color: var(--accent);
-  opacity: 1;
-  transform: scale(1.08);
-} 
-
-
-.card:hover .specialText {
-  opacity: 1;
 }
 
 
-/* Responsive */
-
-@media (max-width: 768px) {
-  .card {
-    min-height: 150px;
-    padding: var(--space-md);
-  }
+.specialCard:hover .specialLabel {
+  opacity: 0.8;
+  color: var(--accent);
 }
 
 
@@ -283,5 +272,29 @@
 
   .dropdown button {
     padding: 12px;
+  }
+}
+
+
+
+
+/* Responsive */
+
+@media (max-width: 768px) {
+  .card {
+    min-height: 150px;
+    padding: var(--space-md);
+  }
+  .openLink {
+    width: fit-content;
+  }
+  .trashActions {
+    flex-direction: column;
+    gap: var(--space-xs); 
+    margin-top: var(--space-xs);
+  }
+
+  .trashActions button {
+    flex: 1;
   }
 }

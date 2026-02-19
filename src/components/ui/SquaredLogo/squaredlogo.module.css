@@ -1,54 +1,44 @@
-/* container */
-
-.container {
+.wrapper {
   --logo-size: clamp(220px, 50vw, 420px);
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
+  position: relative;
   width: var(--logo-size);
   height: var(--logo-size);
 
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Both objects */
+
+.ring {
+  position: absolute;
+  inset: 0;
   border-radius: 50%;
   border: calc(var(--logo-size) * 0.03) dashed var(--fg);
-  background: transparent;
-
   transition: border-color var(--anim-normal) var(--ease-standard);
 }
 
-
-
-
-/* logo icon */
-
 .logoIcon {
+  position: absolute;
   width: calc(var(--logo-size) * 0.77);
   height: calc(var(--logo-size) * 0.77);
 
   background-color: var(--fg);
-
   -webkit-mask-image: url('/SquaredLogo.svg');
   mask-image: url('/SquaredLogo.svg');
-
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
-
   -webkit-mask-size: contain;
   mask-size: contain;
-
   -webkit-mask-position: center;
   mask-position: center;
-
-  transition: all var(--anim-normal) var(--ease-standard);
 }
 
-
-/* responsive */
-
 @media (max-width: 360px) {
-  .container {
+  .wrapper {
     --logo-size: 160px;
   }
 }

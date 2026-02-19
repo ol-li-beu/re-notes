@@ -1,5 +1,7 @@
 "use client";
 
+import { createPortal } from "react-dom";
+
 import styles from "./confirmmodal.module.css";
 
 export default function ConfirmModal({title, description, btncancel, btnconfirm,  
@@ -8,7 +10,7 @@ export default function ConfirmModal({title, description, btncancel, btnconfirm,
   onConfirm: () => void; onCancel: () => void; disabled?: boolean}) {
   
 
-  return (
+  return createPortal(
     <div className={styles.backdrop} onClick={onCancel}>
       <div
         className={styles.modal}
@@ -26,6 +28,6 @@ export default function ConfirmModal({title, description, btncancel, btnconfirm,
           </button>
         </div>
       </div>
-    </div>
+    </div>, document.body
   );
 }

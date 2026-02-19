@@ -1,0 +1,29 @@
+.ripple {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9998;
+  width: var(--ring-start, 15px);
+  height: var(--ring-start, 15px);
+  transform: translate(-50%, -50%);
+  animation: ripple 900ms ease-out forwards;
+}
+
+@keyframes ripple {
+  0% {
+    width: var(--ring-start, 50px);
+    height: var(--ring-start, 50px);
+    opacity: 0.9;
+  }
+  25% {
+    opacity: 0.5;
+  }
+  60% {
+    opacity: 0;
+  }
+  100% {
+    width: var(--ring-size, 90px);
+    height: var(--ring-size, 90px);
+    opacity: 0;
+  }
+}

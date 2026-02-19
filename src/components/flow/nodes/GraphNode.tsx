@@ -5,7 +5,9 @@ import { useState, useRef, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { GraphNodeData, CanvasStatus,} from "../types";
 import { useProjectStore } from "../store/useProjectStore";
+import { useDictionary } from "@/utils/CanvasDictionaryContext";
 
+import { Icon } from "@/components/ui/Icons/Icons";
 import IconButtonWithHint from "@/components/ui/Icons/IconButtonWithHint";
 import ConfirmModal from "@/components/ui/ConfirmModal/ConfirmModal";
 
@@ -20,7 +22,13 @@ const STATUS_COLORS: Record<CanvasStatus, string> = {
   orphan: "var(--contrast)",
 };
 
+const MAX_NAME = 15;
+
+
+
 export default function GraphNode({ data }: NodeProps<GraphNodeObj>) {
+  const dict = useDictionary();
+
   const router = useRouter();
   const [menuOpen, setMenuOpen] = useState(false);
   const [isRenaming, setIsRenaming] = useState(false);
@@ -65,116 +73,124 @@ export default function GraphNode({ data }: NodeProps<GraphNodeObj>) {
   const stats = getCanvasStats(data.canvasId);
   
 
-  return (
-    <>
-      <div
-        className={`${styles.wrapper}`}
+return (
+  <>
+    <div
+      className={styles.wrapper}
+      style={{
+        borderColor: color,
+        boxShadow: `0 0 0 3px ${color}22`,
+      }}
+    >
+      {isRenaming ? (
+        <div className={`nodrag ${styles.renameWrapper}`}>
+          <div className={styles.renameRow}>
+            <input
+              ref={inputRef}
+              className={styles.renameInput}
+              value={renameValue}
+              maxLength={MAX_NAME}
+              onChange={(e) => setRenameValue(e.target.value)}
+              onBlur={handleRename}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") handleRename();
+                if (e.key === "Escape") {
+                  setRenameValue(data.name);
+                  setIsRenaming(false);
+                }
+              }}
+            />
+            <button
+              className={`nodrag ${styles.renameConfirm}`}
+              onMouseDown={(e) => e.preventDefault()}
+              onClick={handleRename}
+            >
+              ✓
+            </button>
+          </div>
+          <span className={styles.charCount}>
+            {renameValue.length}/{MAX_NAME}
+          </span>
+        </div>
+      ) : (
+        <span className={styles.name}>{data.name}</span>
+      )}
+
+      <span
+        className={styles.badge}
         style={{
-            borderColor: color,
-            boxShadow: `0 0 0 3px ${color}22`,
+          background: color,
+          color: data.status === "orphan" ? "var(--fg)" : "var(--bg)",
         }}
       >
-        {isRenaming ? (
-          <input
-            ref={inputRef}
-            className={`nodrag ${styles.renameInput}`}
-            value={renameValue}
-            onChange={(e) => setRenameValue(e.target.value)}
-            onBlur={handleRename}
-            onKeyDown={(e) => {
-              if (e.key === "Enter") handleRename();
-              if (e.key === "Escape") {
-                setRenameValue(data.name);
-                setIsRenaming(false);
-              }
-            }}
-          />
-        ) : (
-          <span className={styles.name}>{data.name}</span>
-        )}
+        {data.status}
+      </span>
 
-        <span className={styles.badge} 
-              style={{ background: color, color: data.status === "orphan" ? "var(--fg)" : "var(--bg)",}}>
-          {data.status}
-        </span>
-
-        <div className={`nodrag nopan ${styles.menuButtonWrapper}`}>
-          <IconButtonWithHint
-            iconName="canvasellipsis"
-            description="options"
-            onClick={() => {
-                setMenuOpen((p) => !p);
-            }}
-            />
-        </div>
-
-        {menuOpen && (
-          <div className={`nodrag ${styles.dropdown}`} ref={menuRef}>
-            <button onClick={() => {
-              router.push(`/canvas/${data.projectId}/${data.canvasId}`);
-              setMenuOpen(false);
-            }}>
-              Enter
-            </button>
-
-            {!isRoot && (
-              <button onClick={() => {
-                setIsRenaming(true);
-                setMenuOpen(false);
-              }}>
-                Rename
-              </button>
-            )}
-
-            {!isRoot && (
-              <button
-                className={styles.danger}
-                onClick={() => {
-                  setShowDeleteModal(true);
-                  setMenuOpen(false);
-                }}
-              >
-                Delete
-              </button>
-            )}
-          </div>
-        )}
-
-        <Handle
-            type="source"
-            position={Position.Left}
-            style={{
-                opacity: 0,
-                top: "50%",
-                left: "50%",
-                transform: "translate(-50%, -50%)",
-                }}
-        />
-        <Handle
-            type="target"
-            position={Position.Left}
-            style={{
-                opacity: 0,
-                top: "50%",
-                left: "50%",
-                transform: "translate(-50%, -50%)",
-            }}
+      <div className={`nodrag nopan ${styles.menuButtonWrapper}`}>
+        <IconButtonWithHint
+          iconName="canvasellipsis"
+          description="options"
+          onClick={() => setMenuOpen((p) => !p)}
         />
       </div>
 
-      {showDeleteModal && (
-        <ConfirmModal
-          title={`Delete "${data.name}"?`}
-          description={`Incoming links: ${stats.incomingCount} · Outgoing: ${stats.outgoingCount}. This cannot be undone.`}
-          btncancel="Cancel"
-          btnconfirm="Delete"
-          onCancel={() => setShowDeleteModal(false)}
-          onConfirm={() => {
-            deleteCanvas(data.canvasId);
-            setShowDeleteModal(false);
-          }}
-        />
+      {menuOpen && (
+        <div className={`nodrag ${styles.dropdown}`} ref={menuRef}>
+          <button onClick={() => {
+            router.push(`/canvas/${data.projectId}/${data.canvasId}`);
+            setMenuOpen(false);
+          }}>
+            <Icon name="canvasarrowdowntoline" /> Enter
+          </button>
+
+          {!isRoot && (
+            <button onClick={() => {
+              setIsRenaming(true);
+              setMenuOpen(false);
+            }}>
+              <Icon name="edit" /> Rename
+            </button>
+          )}
+
+          {!isRoot && (
+            <button
+              className={styles.danger}
+              onClick={() => {
+                setShowDeleteModal(true);
+                setMenuOpen(false);
+              }}
+            >
+              <Icon name="canvasdelete" /> Delete
+            </button>
+          )}
+        </div>
       )}
-    </>
+
+      <Handle
+        type="source"
+        position={Position.Left}
+        style={{ opacity: 0, top: "50%", left: "50%", transform: "translate(-50%, -50%)" }}
+      />
+      <Handle
+        type="target"
+        position={Position.Left}
+        style={{ opacity: 0, top: "50%", left: "50%", transform: "translate(-50%, -50%)" }}
+      />
+    </div>
+
+    {showDeleteModal && (
+      <ConfirmModal
+        title={`Delete "${data.name}"?`}
+        description={`Incoming links: ${stats.incomingCount} · Outgoing: ${stats.outgoingCount}. This cannot be undone.`}
+        btncancel="Cancel"
+        btnconfirm="Delete"
+        onCancel={() => setShowDeleteModal(false)}
+        onConfirm={() => {
+          deleteCanvas(data.canvasId);
+          setShowDeleteModal(false);
+        }}
+      />
+    )}
+  </>
   );
 }

@@ -103,12 +103,60 @@
     },
 
     "canvas" : {
-        "canvasclient" : {},
-        "toolbar" : {},
+        "canvasclient": {
+            "nodeLabels": {
+                "note": "Nuevo nodo de texto",
+                "redirect": "Nuevo nodo de redirección",
+                "group": "Nuevo nodo de grupo"
+            },
+
+            "toolbar": {
+                "undo": "Deshacer",
+                "redo": "Rehacer",
+                "addNode": "Agregar nodo",
+                "save": "Guardar",
+                "goBack": "Volver Atrás",
+                "goToProjectHome": "Ir al inicio del proyecto"
+            },
+
+            "sidebar": {
+                "textNodeTitle": "Nodo de texto",
+                "textNodeDescription": "Nodo de nota simple",
+                "redirectNodeTitle": "Nodo de redirección",
+                "redirectNodeDescription": "Ir a un subcanvas",
+                "groupNodeTitle": "Nodo de grupo",
+                "groupNodeDescription": "Agregar un contenedor de nodos"
+            }
+        },
+
         "basenode" : {
             "palette" : "Cambiar Color"
-        }
-},
+        },
+
+        "notenode" : {
+
+        },
+
+        "groupnode" : {
+
+        },
+        
+        "graphnode" : {
+
+        },
+
+        "basenodemodal" : {
+
+        },
+
+        "subnodemodal" : {
+
+        },
+
+
+
+        "projectclient" : {}
+    },
 
     "messages" : {},
     "toasts" : {}

@@ -102,13 +102,6 @@ export const useFlowStore = create<FlowState>((set, get) => ({
   /* initial load */
 
   setFlow: (nodes, edges) => {
-    const state = get();
-
-    if (!state.isBatching) {
-      state.commitHistory();
-    }
-
-    
     set({ nodes, edges });
   },
 

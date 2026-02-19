@@ -113,6 +113,17 @@ html.dark {
   box-sizing: border-box;
 }
 
+* {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+*::-webkit-scrollbar {
+  display: none;
+}
+
+
+
 html {
   height: 100%;
   margin: 0;
@@ -178,7 +189,37 @@ select:focus {
   box-shadow: none;
 }
 
+/* For enabling scrollbar in specific components */
+.show-scrollbar {
+  scrollbar-width: auto;
+  scrollbar-color: rgba(128,128,128,0.4) transparent;
+  -ms-overflow-style: auto;
+}
 
+.show-scrollbar::-webkit-scrollbar {
+  display: block;
+  width: 8px;
+}
+
+.show-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.show-scrollbar::-webkit-scrollbar-button {
+  display: none;
+  height: 0;
+}
+
+.show-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(128,128,128,0.4);
+  border-radius: 8px;
+  min-height: 30px;
+  transition: background 0.2s ease;
+}
+
+.show-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(128,128,128,0.7);
+}
 /* UI UTILS */
 
 .circle-fill {
@@ -219,6 +260,8 @@ select:focus {
 .toolbutton {
   border-radius: 1em;
 }
+
+
 
 /*  Responsive */
 

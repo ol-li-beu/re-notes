@@ -1,17 +1,20 @@
 "use client";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 
 import { ReactFlow, Background, BackgroundVariant, Controls, MiniMap, useReactFlow, } from "@xyflow/react";
 import { NodeClasses, NodeObj, NodeTypes, COLLAPSED_WIDTH, COLLAPSED_HEIGHT } from "@/components/flow/types";
 
-import { useFlowStore } from "@/components/flow/store/useFlowStore";
+import { useFlowStore, } from "@/components/flow/store/useFlowStore";
+import { useProjectStore } from "@/components/flow/store/useProjectStore";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/useToast";
+import { useSearchParams } from "next/navigation";
 
 import IconButtonWithHint from "@/components/ui/Icons/IconButtonWithHint";
 import Toolbar from "@/components/flow/toolbar/ToolBar";
 import Sidebar from "@/components/flow/sidebar/SideBar";
 import { NodeOptionCard } from "@/components/flow/sidebar/NodeOptionCard";
+import ClickCursor from "@/components/flow/cursor/ClickCursor";
 
 import styles from "./canvas.module.css";
 
@@ -21,11 +24,14 @@ import { useDictionary } from "@/utils/CanvasDictionaryContext";
 export interface CanvasClientProps {
     lang: string,
     projectId: string,
+    nodeId: string,
+    canvasName: string,
 }
 
-export default function CanvasClient({lang, projectId} : CanvasClientProps) { // TODO props initial loaded from page.tsx (SUPABASE)
+export default function CanvasClient({lang, projectId, nodeId, canvasName} : CanvasClientProps) { // TODO props initial loaded from page.tsx (SUPABASE)
 
   const dict = useDictionary();
+  const searchParams = useSearchParams();
   
   const nodes = useFlowStore((s) => s.nodes);
   const edges = useFlowStore((s) => s.edges);
@@ -54,14 +60,8 @@ export default function CanvasClient({lang, projectId} : CanvasClientProps) { //
   const { screenToFlowPosition } = useReactFlow();
   const reactFlowWrapper = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    const store = useFlowStore.getState();
-    if (store.nodes.length === 0) {
-        store.addNodeAtPosition("note", { x: 100, y: 100 }, {label: "new NOte Node", description: "hello", projectId: ""});
-        store.addNodeAtPosition("subnode", { x: 400, y: 150 }, {label: "New SUbonde Node", description: "bye", projectId: projectId});
-        store.addNodeAtPosition("subnode", { x: 700, y: 150 }, {label: "New SUbonde Node", description: "bye2", projectId: projectId});
-    }
-  }, []);
+  const projectName = useProjectStore((s) => s.projectName);
+
 
   
   // Shortcuts also take into account mac
@@ -133,6 +133,13 @@ export default function CanvasClient({lang, projectId} : CanvasClientProps) { //
 
   // handlers
 
+  // adding node 
+  const labelMap: Record<NodeTypes, string> = {
+    note: dict.canvasclient.nodeLabels.note,
+    subnode: dict.canvasclient.nodeLabels.redirect,
+    //group: dict.canvasclient.nodeLabels.group,
+  };
+
   const handleAddNodeCentered = (type: NodeTypes) => {
     const wrapper = reactFlowWrapper.current;
     if (!wrapper) return;
@@ -144,13 +151,30 @@ export default function CanvasClient({lang, projectId} : CanvasClientProps) { //
       y: (rect.top + rect.height / 2) - COLLAPSED_HEIGHT / 2,
     });
 
+    const label = labelMap[type];
+
     addNodeAtPosition(type, position, {
-        label: "New Node",
+        label: label,
         description: "",
         projectId, 
       });
     setSidebarOpen(false);
   };
+
+  // URL history for back up (from the project navigation)
+  const handleBack = useCallback(() => {
+    const history = searchParams.get("history") ?? "";
+    const stack = history ? history.split(",") : [];
+    const previous = stack[stack.length - 1];
+    if (!previous) {
+      router.push(`/${lang}/canvas/${projectId}`);
+    } else {
+      const newStack = stack.slice(0, -1);
+      router.push(
+        `/${lang}/canvas/${projectId}/${previous}${newStack.length ? `?history=${newStack.join(",")}` : ""}`
+      );
+    }
+  }, [searchParams, lang, projectId, router]);
 
 // RENDERING
 
@@ -160,19 +184,18 @@ return (
 
       {/* TOP LEFT TOOLBAR */}
       <div className={styles.topLeftLabel}>
-        <span>Project name: Node name</span>
+        <span>{projectName} | {canvasName}</span>
       </div>
       
       {/* TOP RIGHT TOOLBAR */}
       <div className={styles.topRightToolbar}>
         <Toolbar children= {(<>
-          <IconButtonWithHint iconName="canvasundo" description="undo" onClick={undo} disabled={!canUndo}/>
-          <IconButtonWithHint iconName="canvasredo" description="redo" onClick={redo} disabled={!canRedo}/>
-          <IconButtonWithHint iconName="canvasplus" description="add node" onClick={() => setSidebarOpen(true)}/>
-          <IconButtonWithHint iconName="canvassave" description="save" onClick={() => {}} />
-          <IconButtonWithHint iconName="canvasarrowuptoline" description="Go back" onClick={() => {}} />
-          <IconButtonWithHint iconName="canvashome" description="Go to project home" onClick={() => {router.push(`/${lang}/canvas/${projectId}`)}} />
-
+          <IconButtonWithHint iconName="canvasundo" description={dict.canvasclient.toolbar.undo} onClick={undo} disabled={!canUndo}/>
+          <IconButtonWithHint iconName="canvasredo" description={dict.canvasclient.toolbar.redo} onClick={redo} disabled={!canRedo}/>
+          <IconButtonWithHint iconName="canvasplus" description={dict.canvasclient.toolbar.addNode} onClick={() => setSidebarOpen(true)}/>
+          <IconButtonWithHint iconName="canvassave" description={dict.canvasclient.toolbar.save} onClick={() => {}} />
+          <IconButtonWithHint iconName="canvasarrowuptoline" description={dict.canvasclient.toolbar.goBack} onClick={handleBack} />
+          <IconButtonWithHint iconName="canvashome" description={dict.canvasclient.toolbar.goToProjectHome} onClick={() => {router.push(`/${lang}/canvas/${projectId}`)}} />
         </>)}
         />
 
@@ -193,6 +216,7 @@ return (
         onNodeClick={(_, node) => setSelectedNodeId(node.id)}
         onPaneClick={() => setSelectedNodeId(null)}
       >
+        <ClickCursor />
         <Background
           variant={BackgroundVariant.Dots}
           gap={30}
@@ -212,11 +236,25 @@ return (
       <Sidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)}>
         <NodeOptionCard
           icon={<> </>}
-          title="Text Node"
-          description="Simple note node"
+          title={dict.canvasclient.sidebar.textNodeTitle}
+          description={dict.canvasclient.sidebar.textNodeDescription}
           onClick={() => {
           handleAddNodeCentered("note"); }}
-          /> 
+        /> 
+        <NodeOptionCard
+          icon={<> </>}
+          title={dict.canvasclient.sidebar.redirectNodeTitle}
+          description={dict.canvasclient.sidebar.redirectNodeDescription}
+          onClick={() => {
+          handleAddNodeCentered("note"); }}
+        /> 
+        <NodeOptionCard
+          icon={<> </>}
+          title={dict.canvasclient.sidebar.groupNodeTitle}
+          description={dict.canvasclient.sidebar.groupNodeDescription}
+          onClick={() => {
+          handleAddNodeCentered("note"); }}
+        /> 
       </Sidebar>
     </div>
   </div>

@@ -11,6 +11,7 @@ import styles from "./notenode.module.css";
 
 export default function NoteNode(props: NodeProps<NodeObj>) {
   const { id, data } = props;
+  const dict = useDictionary();
 
   const updateNodeData = useFlowStore((s) => s.updateNodeData);
   const startBatch = useFlowStore((s) => s.startBatch);
@@ -42,7 +43,7 @@ export default function NoteNode(props: NodeProps<NodeObj>) {
         onBlur={endBatch}
         onChange={handleChange}
         placeholder="Write your note here..." 
-        className={`nodrag nowheel ${styles.noteTextarea}`} 
+        className={`nodrag show-scrollbar ${styles.noteTextarea}`}
       />
     </BaseNode>
   );

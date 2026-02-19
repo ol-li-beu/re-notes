@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useMemo, useState, useCallback } from "react";
+import { useRef, useMemo, useState, useCallback, useEffect } from "react";
 import { ReactFlow, Background, BackgroundVariant, Controls, MiniMap, applyNodeChanges, NodeChange, EdgeTypes, MarkerType } from "@xyflow/react";
 import ArrowEdge from "@/components/flow/edges/ArrowEdge";
 
@@ -9,22 +9,11 @@ import { useDictionary } from "@/utils/CanvasDictionaryContext";
 import { useProjectStore } from "@/components/flow/store/useProjectStore";
 
 import GraphNode, { GraphNodeObj } from "@/components/flow/nodes/GraphNode";
+import ClickCursor from "@/components/flow/cursor/ClickCursor";
 
 import styles from "./[nodeId]/canvas.module.css";
 import "@xyflow/react/dist/style.css";
 
-// MOCK DATA
-const mockCanvases = [
-  { id: "root-1", projectId: "proj-1", name: "Root", positionX: 400, positionY: 300 },
-  { id: "canvas-2", projectId: "proj-1", name: "Ideas", positionX: 200, positionY: 500 },
-  { id: "canvas-3", projectId: "proj-1", name: "Research", positionX: 600, positionY: 500 },
-  { id: "canvas-4", projectId: "proj-1", name: "Orphan", positionX: 800, positionY: 200 },
-];
-
-const mockLinks = [
-  { id: "link-1", projectId: "proj-1", fromCanvasId: "root-1", toCanvasId: "canvas-2" },
-  { id: "link-2", projectId: "proj-1", fromCanvasId: "root-1", toCanvasId: "canvas-3" },
-];
 
 const GraphNodeClasses = { graphnode: GraphNode };
 const GraphEdgeClasses: EdgeTypes = { arrowedge: ArrowEdge };
@@ -43,29 +32,34 @@ export default function ProjectHomeClient({ lang, projectId }: ProjectHomeClient
   const getStatus = useProjectStore((s) => s.getStatus);
   const updateCanvasPosition = useProjectStore((s) => s.updateCanvasPosition);
 
+  const dict = useDictionary();
+  const router = useRouter();
+  const reactFlowWrapper = useRef<HTMLDivElement>(null);
 
-  const [rfNodesState, setRfNodesState] = useState<GraphNodeObj[]>(() => {
-    useProjectStore.getState().initProject(
-        "proj-1", "My Project", "root-1", mockCanvases, mockLinks
-    );
-    const store = useProjectStore.getState();
-      return store.canvases.map((canvas) => ({
-        id: canvas.id,
-        type: "graphnode" as const,
-        position: { x: canvas.positionX, y: canvas.positionY },
-        data: {
+
+  const [rfNodesState, setRfNodesState] = useState<GraphNodeObj[]>([]);
+
+  useEffect(() => {
+    if (canvases.length === 0) return;
+      setRfNodesState(
+        canvases.map((canvas) => ({
+          id: canvas.id,
+          type: "graphnode" as const,
+          position: { x: canvas.positionX, y: canvas.positionY },
+          data: {
             canvasId: canvas.id,
             name: canvas.name,
-            status: store.getStatus(canvas.id),
+            status: getStatus(canvas.id),
             projectId,
-        },
-      }));
-  });
+            },
+        }))
+    );
+  }, [canvases.length]);
 
 
    const onNodesChange = useCallback((changes: NodeChange<GraphNodeObj>[]) => {
-        setRfNodesState((nds) => applyNodeChanges(changes, nds));
-        }, []);
+      setRfNodesState((nds) => applyNodeChanges(changes, nds));
+    }, []);
 
   const rfEdges = useMemo(() => links.map((link) => ({
     id: link.id,
@@ -82,12 +76,6 @@ export default function ProjectHomeClient({ lang, projectId }: ProjectHomeClient
     },
   })), [links]);
 
-
-
-
-  const dict = useDictionary();
-  const router = useRouter();
-  const reactFlowWrapper = useRef<HTMLDivElement>(null);
 
   return (
     <div className={styles.canvasPage}>
@@ -112,6 +100,7 @@ export default function ProjectHomeClient({ lang, projectId }: ProjectHomeClient
             updateCanvasPosition(node.id, node.position.x, node.position.y);
           }}
         >
+          <ClickCursor />
           <Background
             variant={BackgroundVariant.Lines}
             gap={80}

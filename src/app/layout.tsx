@@ -24,13 +24,16 @@ export const metadata = {
   icons: {
     icon: '/favicon.png', 
   },
+  other: {
+    google: 'notranslate',
+  },
 }
 
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
 
   return (
-    <html className={`${inter.variable} ${merriweather.variable}`} suppressHydrationWarning>
+    <html className={`${inter.variable} ${merriweather.variable}`}  translate="no" suppressHydrationWarning>
       <body>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <ToastProvider>

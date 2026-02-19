@@ -11,11 +11,11 @@ interface SpecialProjectCardProps {
 
 export default function SpecialProjectCard({ onClick, title, iconName}: SpecialProjectCardProps) {
   return (
-    <div className={`${styles.card} ${styles.specialCard}`} onClick={onClick}>
-      <p className={styles.specialText}>{title}</p>
-      <div className={styles.iconWrapper}> 
-        <span className={styles.specialIcon}> <Icon name={iconName}/> </span>
-      </div>
+    <div className={`${styles.card} ${styles.specialCard}`} onClick={onClick} aria-label={title}>
+      <span className={styles.specialIcon}>
+        <Icon name={iconName}/>
+      </span>
+      <span className={styles.specialLabel}>{title}</span>
     </div>
   );
 }

@@ -33,10 +33,14 @@ import BaseNodeModal from "../utils/BaseNodeModal";
 import styles from "./basenode.module.css";
 
 type BaseNodeProps = NodeProps<NodeObj> & { children?: React.ReactNode; iconName?: keyof typeof ICONSTYPE; 
-  resizable?: boolean; noEdit?: boolean; onSpecialAction?: () => void; specialActionDescription?: string};
+  resizable?: boolean; noEdit?: boolean; onSpecialAction?: () => void; specialActionDescription?: string; noExpand?: boolean;
+  modal?: React.ReactNode; };
+
 type OpenMenu = "palette" | "menu" | null;
 
-export default function BaseNode({ id, data, children, iconName, resizable=true, selected, noEdit=false, onSpecialAction, specialActionDescription }: BaseNodeProps) {
+export default function BaseNode({ id, data, children, iconName, resizable=true, selected, noEdit=false, 
+  onSpecialAction, specialActionDescription, noExpand = false, modal, }: BaseNodeProps) {
+
   const router = useRouter();
   const dict = useDictionary();
   const updateNodeInternals = useUpdateNodeInternals();
@@ -59,6 +63,8 @@ export default function BaseNode({ id, data, children, iconName, resizable=true,
   const isDraggingNode = draggingNodeId === id;
 
   const nodeRef = useRef<HTMLDivElement>(null);
+
+  const hasModal = showEditModal;
 
 
 
@@ -213,8 +219,8 @@ export default function BaseNode({ id, data, children, iconName, resizable=true,
           height: localSize.height,
           fontSize: "var(--font-canvastitle)",
           fontWeight: "var(--font-weight)",
-          opacity: showEditModal ? 0 : 1,
-          pointerEvents: showEditModal ? "none" : "auto",
+          opacity: hasModal ? 0 : 1,
+          pointerEvents: hasModal ? "none" : "auto",
           transform: isDraggingNode
             ? "translateY(-10px) scale(1.04) rotate(0.4deg)"
             : "translateY(0px) scale(1) rotate(0deg)",
@@ -227,7 +233,7 @@ export default function BaseNode({ id, data, children, iconName, resizable=true,
         }}
       >
         {/* Resizer only when expanded */}
-        {!data.locked && !showEditModal && isExpanded && resizable !== false && (
+        {!data.locked && !showEditModal && isExpanded && resizable !== false && noExpand !== true && (
           <NodeResizer
             minWidth={EXPANDED_MIN_WIDTH}
             minHeight={EXPANDED_MIN_HEIGHT}
@@ -340,8 +346,14 @@ export default function BaseNode({ id, data, children, iconName, resizable=true,
           <div className={styles.specialAction}>
               <IconButtonWithHint
               iconName={iconName ?? "canvasarrowdowntoline"}
-              description={ specialActionDescription ? specialActionDescription : (isExpanded ? "Collapse" : "Expand")}
-              onClick={onSpecialAction ?? toggleExpand}
+              description={
+                specialActionDescription
+                ? specialActionDescription
+                : noExpand
+                ? ""
+                : isExpanded ? "Collapse" : "Expand"
+              }
+              onClick={noExpand ? onSpecialAction : (onSpecialAction ?? toggleExpand)}
               disabled={isDraggingNode}
             />
           </div>
@@ -377,7 +389,10 @@ export default function BaseNode({ id, data, children, iconName, resizable=true,
           onSave={handleSaveEdit}
           dict={dict}
         />
-       )}
+      )}
+
+      {modal} {/* If custom modal apart from desc and label */}
+
      </div>
     </>
   );

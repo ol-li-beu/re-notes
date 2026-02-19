@@ -1,0 +1,133 @@
+.picker {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  width: 100%;
+  max-width: 330px;
+  background: var(--contrast);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 10px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  z-index: 100;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.35);
+  animation: dropIn 0.14s ease forwards;
+}
+
+.createRow {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.createInput {
+  flex: 1;
+  background: var(--bg);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 6px;
+  color: var(--fg);
+  font-size: var(--font-sm);
+  font-family: var(--font-main);
+  padding: 5px 8px;
+  outline: none;
+  min-width: 0;
+  transition: border-color 0.15s ease;
+}
+
+.createInput:focus {
+  border-color: var(--accent);
+}
+
+.createBtn {
+  background: var(--accent);
+  color: var(--bg);
+  border: none;
+  border-radius: 6px;
+  padding: 5px 8px;
+  cursor: pointer;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  transition: transform 0.12s ease, opacity 0.12s ease;
+}
+
+.createBtn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.createBtn:not(:disabled):hover {
+  transform: scale(1.08);
+}
+
+/* vertical scrollable list */
+.cardList {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-height: 180px;   
+  padding: 4px 6px;
+  margin-bottom: 4px;
+
+  overflow-y: scroll;
+  overflow-x: hidden;
+
+  padding-right: 8px;
+}
+
+.cardList::-webkit-scrollbar {
+  width: 4px;
+}
+
+.cardList::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.15);
+  border-radius: 4px;
+}
+
+/* single row: dot + name */
+.card {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 7px 10px;
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 7px;
+  color: var(--fg);
+  font-family: var(--font-main);
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.1s ease, transform 0.1s ease;
+  box-sizing: border-box;
+}
+
+.card:hover {
+  background: rgba(255,255,255,0.07);
+  transform: translateX(2px);
+}
+
+.statusDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.cardName {
+  font-size: var(--font-sm);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex: 1;
+}
+
+@keyframes dropIn {
+  from { opacity: 0; transform: translateY(-6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+

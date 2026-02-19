@@ -17,12 +17,14 @@ export default async function NodePage({ params }: Props) {
 
   const { lang, projectId, nodeId } = await params;
 
+  // fetch canvas name from supas
   
-  // test return <div style={{ background: "red", height: 500 }}>NODE PAGE</div>;
   return (
     <CanvasClientWrapper
         lang= {lang}
         projectId = {projectId}
+        nodeId = {nodeId}
+        canvasName = "TODO"
     />
   )
 }

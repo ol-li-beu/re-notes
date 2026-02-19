@@ -1,6 +1,6 @@
 .wrapper {
-  width: 180px;
-  height: 180px;
+  width: 200px;
+  height: 200px;
   border-radius: 50%;
   border: 3px solid;
   background: var(--bg);
@@ -41,19 +41,23 @@
 
 .name {
   font-family: var(--font-title);
-  font-size: var(--font-sm);
+  font-size: clamp(0.35rem, 0.52rem + 0.4vw, 2.2rem);
   font-weight: var(--font-weight);
   color: var(--fg);
   text-align: center;
   padding: 0 16px;
-  overflow-wrap: break-word;
-  word-break: break-word;
   max-width: 100%;
   line-height: 1.2;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  word-break: break-word;
 }
 
 .badge {
-  font-size: 9px;
+  font-size: clamp(0.2rem, 0.3rem + 0.2vw, 1.6rem);
   font-family: var(--font-main);
   color: var(--bg);
   padding: 2px 8px;
@@ -62,60 +66,12 @@
   letter-spacing: 0.05em;
 }
 
-.menuButton {
-  position: absolute;
-  bottom: 18px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: transparent;
-  border: none;
-  color: var(--fg);
-  font-size: 14px;
-  cursor: pointer;
-  padding: 2px 6px;
-  border-radius: 4px;
-  line-height: 1;
-  transition: background 0.15s ease;
-  letter-spacing: 2px;
-}
-
-.menuButton:hover {
-  background: rgba(255, 255, 255, 0.12);
-}
-
-.menuButtonWrapper {
-  position: absolute;
-  bottom: 12px;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-
-
-.renameInput {
-  background: var(--contrast);
-  border: 1px solid var(--fg);
-  border-radius: 4px;
-  color: var(--fg);
-  font-size: var(--font-sm);
-  font-family: var(--font-title);
-  text-align: center;
-  width: 90px;
-  padding: 2px 6px;
-  outline: none;
-}
-
-.renameInput:focus {
-  border-color: var(--accent);
-}
-
 .dropdown {
   position: absolute;
   top: calc(100% + 8px);
   left: 50%;
   transform: translateX(-50%);
   background: var(--contrast);
-  border: 1px solid var(--fg);
   border-radius: 8px;
   padding: 4px 6px;
   display: flex;
@@ -133,16 +89,20 @@
   font-size: var(--font-sm);
   font-family: var(--font-main);
   padding: 6px 10px;
-  border-radius: 4px;
+  border-radius: 8px;
   cursor: pointer;
   text-align: left;
-  transition: transform 0.12s var(--ease-standard), transform 0.12s var(--ease-standard);
   white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  transition:
+    transform 0.12s ease;
 }
 
 .dropdown button:hover {
   background: rgba(255, 255, 255, 0.1);
-  transform: scale(1.05);
+  transform: scale(1.1);
 }
 
 .danger {
@@ -156,4 +116,59 @@
   border: none !important;
   border-radius: 50% !important;
   opacity: 0.35;
+}
+
+
+.renameWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 0 8px;
+}
+
+.renameRow {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.renameInput {
+  background: var(--contrast);
+  border: 1px solid var(--fg);
+  border-radius: 4px;
+  color: var(--fg);
+  font-size: var(--font-sm);
+  font-family: var(--font-title);
+  text-align: center;
+  width: 80px;
+  padding: 2px 6px;
+  outline: none;
+}
+
+.renameInput:focus {
+  border-color: var(--accent);
+}
+
+.renameConfirm {
+  background: var(--accent);
+  border: none;
+  border-radius: 4px;
+  color: var(--bg);
+  cursor: pointer;
+  padding: 2px 6px;
+  font-size: 12px;
+  line-height: 1.4;
+  transition: transform 0.12s ease;
+}
+
+.renameConfirm:hover {
+  transform: scale(1.1);
+}
+
+.charCount {
+  font-size: var(--font-xs);
+  font-family: var(--font-main);
+  opacity: 0.5;
+  color: var(--fg);
 }

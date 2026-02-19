@@ -2,8 +2,9 @@
 
 import { EdgeProps, } from "@xyflow/react";
 
-const RADIUS_X = 90;
-const RADIUS_Y = 90;
+const RADIUS_X = 100;
+const RADIUS_Y = 100;
+const TARGET_OFFSET = 20;
 
 export default function ArrowEdge({ sourceX, sourceY, targetX, targetY, markerEnd, }: EdgeProps) {
 
@@ -13,8 +14,8 @@ export default function ArrowEdge({ sourceX, sourceY, targetX, targetY, markerEn
   // offset 
   const srcX = sourceX + Math.cos(angle) * RADIUS_X;
   const srcY = sourceY + Math.sin(angle) * RADIUS_Y;
-  const tgtX = targetX - Math.cos(angle) * RADIUS_X;
-  const tgtY = targetY - Math.sin(angle) * RADIUS_Y;
+  const tgtX = targetX - Math.cos(angle) * (RADIUS_X + TARGET_OFFSET);
+  const tgtY = targetY - Math.sin(angle) * (RADIUS_Y + TARGET_OFFSET);
 
   // bezier control points
   const dx = tgtX - srcX;
