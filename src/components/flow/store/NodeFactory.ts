@@ -82,6 +82,7 @@ export function createNode(
       zIndex: 0,
       type: "group",
       position,
+      dragHandle: ".groupDragHandle",
       style: { width: COLLAPSED_WIDTH, height: COLLAPSED_HEIGHT },
       data: {
         type: "group",

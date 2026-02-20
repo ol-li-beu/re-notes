@@ -34,12 +34,12 @@ import styles from "./basenode.module.css";
 
 type BaseNodeProps = NodeProps<NodeObj> & { children?: React.ReactNode; iconName?: keyof typeof ICONSTYPE; 
   resizable?: boolean; noEdit?: boolean; onSpecialAction?: () => void; specialActionDescription?: string; noExpand?: boolean;
-  modal?: React.ReactNode; noLock?: boolean };
+  modal?: React.ReactNode; noLock?: boolean; dragHandle?: string; };
 
 type OpenMenu = "palette" | "menu" | null;
 
 export default function BaseNode({ id, data, children, iconName, resizable=true, selected, noEdit=false, 
-  onSpecialAction, specialActionDescription, noExpand = false, modal, noLock=false }: BaseNodeProps) {
+  onSpecialAction, specialActionDescription, noExpand = false, modal, noLock=false, dragHandle }: BaseNodeProps) {
 
   const router = useRouter();
   const dict = useDictionary();
@@ -276,7 +276,7 @@ export default function BaseNode({ id, data, children, iconName, resizable=true,
         )}
 
         {/* TOP BAR */}
-        <div className={styles.topBar}>
+        <div className={`${styles.topBar} ${dragHandle ? "groupDragHandle" : ""}`}>
           <div className={styles.topRow}>
             <div className={styles.leftBlock}>
               <div className={styles.label}>{data.label}</div>
@@ -393,7 +393,9 @@ export default function BaseNode({ id, data, children, iconName, resizable=true,
       
           <div
             className={`${styles.content} ${isExpanded ? styles.contentExpanded : styles.contentCollapsed} 
-            ${data.type === "group" ? styles.contentGroup : ""}`}>
+            ${data.type === "group" ? styles.contentGroup : ""}
+            ${data.type === "group" ? "nodrag" : ""}`}
+          >
 
             {children}
           </div>

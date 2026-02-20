@@ -15,6 +15,7 @@ export default function GroupNode(props: NodeProps<NodeObj>) {
       resizable={false}
       noEdit={false}
       noLock={true}  
+      dragHandle=".groupDragHandle" 
     >
       {null}
     </BaseNode>
