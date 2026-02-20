@@ -8,8 +8,8 @@ export function SquareMiniMapNode({ x, y, width, height }: { x: number; y: numbe
       height={height}
       rx={0}
       ry={0}
-      fill="var(--fg)"
-      stroke="var(--bg)"
+      fill="var(--node-bg)"
+      stroke="var(--fg)"
       strokeWidth={15}
     />
   );
@@ -22,8 +22,8 @@ export function CircleMiniMapNode({ x, y, width, height }: { x: number; y: numbe
       cx={x + width / 2}
       cy={y + height / 2}
       r={Math.max(width, height) / 2}
-      fill="var(--fg)"
-      stroke="var(--bg)"
+      fill="var(--node.bg)"
+      stroke="var(--fg)"
       strokeWidth={15}
     />
   );

@@ -4,8 +4,8 @@
   padding: 16px;
   border-radius: 12px;
 
-  background: color-mix(in srgb, var(--bg) 95%, black);
-  border: 3px solid rgba(255,255,255,0.06);
+  background: color-mix(in srgb, var(--card-contrast) 95%, black);
+  border: 2px solid color-mix(in srgb, var(--fg) 10%, transparent);
   
 
   cursor: pointer;
@@ -20,7 +20,7 @@
   transform: translateY(-3px);
   box-shadow: 0 8px 20px rgba(0,0,0,0.35);
   background: color-mix(in srgb, var(--bg) 85%, var(--fg) 5%);
-  border: 3px solid var(--accent);
+  border: 2px solid color-mix(in srgb, var(--accent) 60%, transparent);
 }
 
 .card:active {

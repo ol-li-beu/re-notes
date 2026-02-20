@@ -60,7 +60,6 @@ export const useProjectStore = create<ProjectState>((set, get) => ({
    },
 
   renameCanvas: (id, name) => {
-    // patch flow store — update all subnodes pointing here
     const flowNodes = useFlowStore.getState().nodes;
     flowNodes.forEach((node) => {
       if (node.data.type === "subnode" && node.data.targetCanvasId === id) {
@@ -125,9 +124,8 @@ export const useProjectStore = create<ProjectState>((set, get) => ({
   getCanvasStats: (canvasId) => {
     const { links } = get();
     // nodeCount requires knowing which canvas is currently loaded in flowStore
-    // for now derive from flowStore if it matches, else 0
     const flowState = useFlowStore.getState();
-    const nodeCount = flowState.nodes.length; // only accurate if this canvas is loaded
+    const nodeCount = flowState.nodes.length; // accurate if only canvas is load
 
     return {
       nodeCount,

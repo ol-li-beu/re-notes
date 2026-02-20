@@ -29,8 +29,9 @@
 .overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.55);
   z-index: 998;
+  background: rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(2px);
 }
 
 
@@ -42,15 +43,16 @@
   left: 0;
   width: fit-content;
   height: 100dvh;
-  background: var(--contrast);
+  background: var(--bg);
   z-index: 999;
 
   padding: var(--space-xs) var(--space-md);
   display: flex;
   flex-direction: column;
 
-  border: 2px solid var(--grid);
-  border-radius: 6px;
+  border: none;
+  border-right: 1px solid color-mix(in srgb, var(--fg) 12%, transparent);
+  box-shadow: 4px 0 24px rgba(0, 0, 0, 0.15);
 
   touch-action: pan-y;
 
@@ -125,7 +127,7 @@
   max-width: 600px;
 
   padding: var(--space-xs) var(--space-sm);
-  border-radius: 4px;
+  border-radius: 6px;
 
   background: transparent;
   color: var(--fg);
@@ -145,13 +147,16 @@
 }
 
 .button.active {
-  background-color: var(--contrast);
+  background-color: color-mix(in srgb, var(--accent) 12%, transparent);
   color: var(--accent);
-  border-left: 4px solid var(--accent);
+  border-left: 3px solid var(--accent);
 }
 
 .button.active:hover {
-  background-color: var(--bg);
+  background-color: color-mix(in srgb, var(--accent) 8%, transparent);
+  color: var(--accent);
+  transform: translateY(-2px);
+  opacity: 1;
 }
 
 
@@ -162,7 +167,14 @@
   margin-bottom: var(--space-md);
   padding: var(--space-xs) var(--space-md);
 }
+.close {
+  color: color-mix(in srgb, var(--fg) 50%, transparent);
+}
 
+.close:hover {
+  color: var(--accent);
+  transform: translateY(-1.5px);
+}
 
 /* Animation */
 

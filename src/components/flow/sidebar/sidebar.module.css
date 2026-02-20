@@ -2,7 +2,8 @@
 .overlay {
   position: absolute;  /* ← was fixed */
   inset: 0;
-  background: rgba(0, 0, 0, 0.4);
+  background: rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(2px);
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.25s ease;
@@ -25,7 +26,8 @@
   max-width: 90vw;
 
   background: var(--bg);
-  border-right: 2px solid var(--fg);
+  border-top: 1px solid var(--fg);
+  border-right: 1px solid var(--contrast);
 
   transform: translateX(-100%) scale(0.98);
   opacity: 0;
@@ -38,6 +40,7 @@
   flex-direction: column;
 
   box-shadow: 4px 0 24px rgba(0, 0, 0, 0.4);
+  z-index: 1000;
 }
 
 .sidebarOpen {

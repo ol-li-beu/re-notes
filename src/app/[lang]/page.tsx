@@ -14,18 +14,24 @@ export default async function HomePage({params} : PageProps) {
     <main className={styles.main}>
       <section>
       <header className={styles.header}>
-        <div className={styles.left}>
-          <h1 className={styles.softwareName}>Re-Notes</h1>
-          <p className={styles.description}>
-            {dict.home.description}
+        <div className={`${styles.left}`}>
+          <h1 className={`${styles.softwareName} ${styles.animateFadeUp}`} style={{ animationDelay: "20ms" }}>
+            Re-Notes
+          </h1>
+          <p className={`${styles.description} ${styles.animateFadeUp}`} style={{ animationDelay: "140ms" }}>            
+             {dict.home.description}
           </p>
-          <div className={styles.actions}>
-            <Link href="" className={`${styles.btn} ${styles.ghost}`}>{dict.home.btnlearn}</Link>
-            <Link href="" className={`${styles.btn} ${styles.primary}`}>{dict.home.btnregister}</Link>
+          <div className={`${styles.actions}`}>
+            <Link href="" className={`${styles.btn} ${styles.ghost} ${styles.animateFadeUp}`} style={{ animationDelay: "280ms" }}> 
+              {dict.home.btnlearn}
+            </Link>
+            <Link href="" className={`${styles.btn} ${styles.primary} ${styles.animateFadeUp}`} style={{ animationDelay: "380ms" }}>   
+              {dict.home.btnregister}
+            </Link>
           </div>
         </div>
 
-        <div className={styles.logoContainer}>
+        <div className={`${styles.logoContainer} ${styles.animateFadeUp}`} style={{ animationDelay: "200ms" }}>
           <div className={styles.logoGlow}></div>
           <SquaredLogo />
         </div>

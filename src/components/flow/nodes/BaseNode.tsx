@@ -231,7 +231,7 @@ export default function BaseNode({ id, data, children, iconName, resizable=true,
         className={`${styles.node} ${selected ? styles.selected : ""}`}
         ref={nodeRef}
         style={{
-          background: data.color || "var(--color-default)",
+          background: data.color || " var(--node-bg)",
           width: localSize.width,
           height: localSize.height,
           fontSize: "var(--font-canvastitle)",

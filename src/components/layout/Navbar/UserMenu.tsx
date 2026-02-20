@@ -103,7 +103,7 @@ export default function UserMenu({ username, email, dict, lang }: UserDropdownPr
           onClick={() => setOpen((v) => !v)}
           className={`${styles.trigger}`} // Mantenemos tus clases
           aria-expanded={open}>
-          <Icon name="user" />  
+          <Icon name="user" strokeWidth={1.5} />  
         </button>
 
         {open && (

@@ -182,27 +182,29 @@ export default function CanvasClient({lang, projectId, nodeId, canvasName} : Can
 
 return (
   <div className={styles.canvasPage}>
+    <ClickCursor />
     <div className={styles.reactFlowWrapper} ref={reactFlowWrapper}>
 
-      {/* TOP LEFT TOOLBAR */}
-      <div className={styles.topLeftLabel}>
-        <span>{projectName} | {canvasName}</span>
-      </div>
-      
-      {/* TOP RIGHT TOOLBAR // ROOT AND PROJECT HOME CLEAN HISTORY */}
-      <div className={styles.topRightToolbar}>
-        <Toolbar children= {(<>
-          <IconButtonWithHint iconName="canvasundo" description={dict.canvasclient.toolbar.undo} onClick={undo} disabled={!canUndo}/>
-          <IconButtonWithHint iconName="canvasredo" description={dict.canvasclient.toolbar.redo} onClick={redo} disabled={!canRedo}/>
-          <IconButtonWithHint iconName="canvasplus" description={dict.canvasclient.toolbar.addNode} onClick={() => setSidebarOpen(true)}/>
-          <IconButtonWithHint iconName="canvassave" description={dict.canvasclient.toolbar.save} onClick={() => {}} />
-          <IconButtonWithHint iconName="canvasarrowuptoline" description={dict.canvasclient.toolbar.goBack} onClick={handleBack} />
-          <IconButtonWithHint iconName="canvasroot" description={dict.canvasclient.toolbar.goToRoot} onClick={() => {router.push(`/${lang}/canvas/${projectId}/${rootCanvasId}`)}} />
-          <IconButtonWithHint iconName="canvashome" description={dict.canvasclient.toolbar.goToProjectHome} onClick={() => {router.push(`/${lang}/canvas/${projectId}`)}} />
-        </>)}
-        />
 
-       
+     <div className={styles.topActions}>
+       {/* TOP LEFT TOOLBAR */}
+       <div className={styles.topLeftLabel}>
+         <span>{projectName} | {canvasName}</span>
+       </div>
+      
+       {/* TOP RIGHT TOOLBAR // ROOT AND PROJECT HOME CLEAN HISTORY */}
+       <div className={styles.topRightToolbar}>
+         <Toolbar children= {(<>
+           <IconButtonWithHint iconName="canvasundo" description={dict.canvasclient.toolbar.undo} onClick={undo} disabled={!canUndo}/>
+           <IconButtonWithHint iconName="canvasredo" description={dict.canvasclient.toolbar.redo} onClick={redo} disabled={!canRedo}/>
+           <IconButtonWithHint iconName="canvasplus" description={dict.canvasclient.toolbar.addNode} onClick={() => setSidebarOpen(true)}/>
+           <IconButtonWithHint iconName="canvassave" description={dict.canvasclient.toolbar.save} onClick={() => {}} />
+           <IconButtonWithHint iconName="canvasarrowuptoline" description={dict.canvasclient.toolbar.goBack} onClick={handleBack} />
+           <IconButtonWithHint iconName="canvasroot" description={dict.canvasclient.toolbar.goToRoot} onClick={() => {router.push(`/${lang}/canvas/${projectId}/${rootCanvasId}`)}} />
+           <IconButtonWithHint iconName="canvashome" description={dict.canvasclient.toolbar.goToProjectHome} onClick={() => {router.push(`/${lang}/canvas/${projectId}`)}} />
+         </>)}
+         />
+       </div>
       </div>
     
       <ReactFlow<NodeObj>
@@ -293,7 +295,6 @@ return (
         onNodeClick={(_, node) => setSelectedNodeId(node.id)}
         onPaneClick={() => setSelectedNodeId(null)}
       >
-        <ClickCursor />
         <Background
           variant={BackgroundVariant.Dots}
           gap={30}

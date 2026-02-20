@@ -6,11 +6,11 @@
   --accent: #00aa00;
   --grid: #4a4a4a;
   --contrast: #d1d1d1;
-  --cardcontrast: #e0e0e0;
-  --negativeaccent: #d20000;
+  --cardcontrast: #ffffff;
+  --negativeaccent: #d20000;     
 
   /* Node Colors */
-
+  --node-bg: #ffffff;   
   --color-default: #e9e9e9;
   --color-blue: #1E90FF;
   --color-orange: #FFA500;
@@ -90,7 +90,7 @@ html.dark {
   --negativeaccent: #d40000;
 
   /* Node Colors */
-
+  --node-bg: #161616;
   --color-default: #1d1d1d;
   --color-blue: #3399FF;
   --color-orange: #d66407;

@@ -56,7 +56,7 @@ export default function HamburgerMenu({dict, lang} : HamburgerProps) {
             <div>
              <button
               className={`${styles.close}`}
-              onClick={() => setOpen(false)}
+              onClick={handleClose}
               aria-label="Close menu">
               ✕
              </button>
