@@ -9,6 +9,7 @@ import type {
 import { DefaultNodeString } from "./store/NodeFactory";
 import NoteNode from "./nodes/NoteNode";
 import SubNodeNode from "./nodes/SubNodeNode";
+import GroupNode from "./nodes/GroupNode";
 
 /* sizes for nodes in node canvas*/
 
@@ -75,6 +76,9 @@ export interface FlowState {
   cutNode: (id: string) => void;
 
   clipboard: NodeObj | null;
+
+  setNodeParent: (nodeId: string, parentId: string | undefined, position: { x: number; y: number }) => void;
+  resizeGroupToFitChildren: (groupId: string) => void;
 }
 
 export type FlowSnapshot = {
@@ -86,9 +90,10 @@ export type FlowSnapshot = {
 export const NodeClasses = {
   note: NoteNode,
   subnode: SubNodeNode,
+  group: GroupNode,
 };
 
-export type NodeTypes = "note" | "subnode";
+export type NodeTypes = "note" | "subnode" | "group";
 
 
 
@@ -119,7 +124,11 @@ export type SubNodeData = BaseNodeData & {
   projectId: string;
 };
 
-export type NodeData = NoteNodeData | SubNodeData;
+export type GroupData = BaseNodeData & {
+  type: "group";
+};
+
+export type NodeData = NoteNodeData | SubNodeData | GroupData;
 
 export type NodeObj = Node<NodeData>;
 
@@ -151,7 +160,9 @@ export interface ProjectState {
   // helpers
   getStatus: (canvasId: string) => CanvasStatus;
   getCanvasStats: (canvasId: string) => { nodeCount: number; incomingCount: number; outgoingCount: number };
-} // NO SAVA ON HOME PAGE and UNDO WILL BE SKIPPED FOR NOW SINCE ONLY AWARE ACTIONS
+
+  
+}
 
 
 export type CanvasMeta = {

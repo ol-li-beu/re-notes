@@ -2,7 +2,7 @@
 import { useEffect, useState, useRef, useCallback } from "react";
 
 import { ReactFlow, Background, BackgroundVariant, Controls, MiniMap, useReactFlow, } from "@xyflow/react";
-import { NodeClasses, NodeObj, NodeTypes, COLLAPSED_WIDTH, COLLAPSED_HEIGHT } from "@/components/flow/types";
+import { NodeClasses, NodeObj, NodeTypes, COLLAPSED_WIDTH, COLLAPSED_HEIGHT, EXPANDED_MIN_WIDTH, EXPANDED_MIN_HEIGHT} from "@/components/flow/types";
 
 import { useFlowStore, } from "@/components/flow/store/useFlowStore";
 import { useProjectStore } from "@/components/flow/store/useProjectStore";
@@ -11,6 +11,7 @@ import { useToast } from "@/hooks/useToast";
 import { useSearchParams } from "next/navigation";
 
 import IconButtonWithHint from "@/components/ui/Icons/IconButtonWithHint";
+import { Icon } from "@/components/ui/Icons/Icons";
 import Toolbar from "@/components/flow/toolbar/ToolBar";
 import Sidebar from "@/components/flow/sidebar/SideBar";
 import { NodeOptionCard } from "@/components/flow/sidebar/NodeOptionCard";
@@ -138,7 +139,7 @@ export default function CanvasClient({lang, projectId, nodeId, canvasName} : Can
   const labelMap: Record<NodeTypes, string> = {
     note: dict.canvasclient.nodeLabels.note,
     subnode: dict.canvasclient.nodeLabels.redirect,
-    //group: dict.canvasclient.nodeLabels.group,
+    group: dict.canvasclient.nodeLabels.group,
   };
 
   const handleAddNodeCentered = (type: NodeTypes) => {
@@ -152,9 +153,9 @@ export default function CanvasClient({lang, projectId, nodeId, canvasName} : Can
       y: (rect.top + rect.height / 2) - COLLAPSED_HEIGHT / 2,
     });
 
-    const label = labelMap[type];
+  const label = labelMap[type];
 
-    addNodeAtPosition(type, position, {
+  addNodeAtPosition(type, position, {
         label: label,
         description: "",
         projectId, 
@@ -212,7 +213,81 @@ return (
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}
         onNodeDragStart={(_, node) => {startBatch(); setDraggingNodeId(node.id);}}
-        onNodeDragStop={(_, node) => {endBatch(); setDraggingNodeId(null);}}
+        onNodeDragStop={(e, node) => {  
+          endBatch();
+          setDraggingNodeId(null);
+          if (node.type === "group") return;
+
+          const allNodes = useFlowStore.getState().nodes;
+
+          const absPosition = node.parentId
+            ? (() => {
+                const par = allNodes.find((n) => n.id === node.parentId);
+                return {
+                  x: node.position.x + (par?.position.x ?? 0),
+                  y: node.position.y + (par?.position.y ?? 0),
+                };
+              })()
+            : node.position;
+
+          const BOUNDARY_TOLERANCE = 30;
+
+          const expandedGroups = useFlowStore.getState().nodes.filter(
+            (n) => 
+              n.type === "group" && 
+              n.id !== node.id && 
+              !!n.data.expanded
+            );
+
+          const TOP_OFFSET = COLLAPSED_HEIGHT/2;
+          const parent = expandedGroups.find((g) => {
+          const gw = (g.style?.width as number) ?? EXPANDED_MIN_WIDTH;
+          const gh = (g.style?.height as number) ?? EXPANDED_MIN_HEIGHT;
+            return (
+              absPosition.x > g.position.x - BOUNDARY_TOLERANCE &&
+              absPosition.y > g.position.y + TOP_OFFSET &&
+              absPosition.x < g.position.x + gw + BOUNDARY_TOLERANCE &&
+              absPosition.y < g.position.y + gh + BOUNDARY_TOLERANCE
+            );
+          });
+
+
+          if (parent && node.parentId !== parent.id) {
+          // entering a group
+            useFlowStore.getState().setNodeParent(node.id, parent.id, {
+              x: absPosition.x - parent.position.x,
+              y: absPosition.y - parent.position.y,
+            });
+          } else if (!parent && node.parentId) {
+            // only unparent if truly outside the group bounds 
+            const currentParent = expandedGroups.find(g => g.id === node.parentId);
+            if (currentParent) {
+              const gw = (currentParent.style?.width as number) ?? (currentParent.data.width as number) ?? EXPANDED_MIN_WIDTH;
+              const gh = (currentParent.style?.height as number) ?? (currentParent.data.height as number) ?? EXPANDED_MIN_HEIGHT;
+              const trulyOutside = 
+                absPosition.x < currentParent.position.x - BOUNDARY_TOLERANCE ||
+                absPosition.y < currentParent.position.y - BOUNDARY_TOLERANCE ||
+                absPosition.x > currentParent.position.x + gw + BOUNDARY_TOLERANCE ||
+                absPosition.y > currentParent.position.y + gh + BOUNDARY_TOLERANCE;
+    
+              if (trulyOutside) {
+                const oldParent = allNodes.find((n) => n.id === node.parentId);
+                useFlowStore.getState().setNodeParent(node.id, undefined, {
+                  x: node.position.x + (oldParent?.position.x ?? 0),
+                  y: node.position.y + (oldParent?.position.y ?? 0),
+                });
+              }
+            // if not truly outside ( in topbar area) keep as child 
+            } else {
+            // parent not found in expandedGroups  
+              const oldParent = allNodes.find((n) => n.id === node.parentId);
+              useFlowStore.getState().setNodeParent(node.id, undefined, {
+                x: node.position.x + (oldParent?.position.x ?? 0),
+                y: node.position.y + (oldParent?.position.y ?? 0),
+              });
+            }
+          }
+        }}
         fitView
         proOptions={{ hideAttribution: true }}
         onNodeClick={(_, node) => setSelectedNodeId(node.id)}
@@ -237,25 +312,25 @@ return (
 
       <Sidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)}>
         <NodeOptionCard
-          icon={<> </>}
+          icon={<> <Icon name="canvasfilepenline" /> </>}
           title={dict.canvasclient.sidebar.textNodeTitle}
           description={dict.canvasclient.sidebar.textNodeDescription}
           onClick={() => {
           handleAddNodeCentered("note"); }}
         /> 
         <NodeOptionCard
-          icon={<> </>}
+          icon={<> <Icon name="canvasarrowdowntoline" /> </>}
           title={dict.canvasclient.sidebar.redirectNodeTitle}
           description={dict.canvasclient.sidebar.redirectNodeDescription}
           onClick={() => {
-          handleAddNodeCentered("note"); }}
+          handleAddNodeCentered("subnode"); }}
         /> 
         <NodeOptionCard
-          icon={<> </>}
+          icon={<> <Icon name="canvasgroup" /> </>}
           title={dict.canvasclient.sidebar.groupNodeTitle}
           description={dict.canvasclient.sidebar.groupNodeDescription}
           onClick={() => {
-          handleAddNodeCentered("note"); }}
+          handleAddNodeCentered("group"); }}
         /> 
       </Sidebar>
     </div>

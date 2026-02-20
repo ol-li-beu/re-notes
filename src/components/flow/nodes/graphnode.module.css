@@ -144,11 +144,14 @@
   width: 80px;
   padding: 2px 6px;
   outline: none;
+  transform-origin: center;
+  will-change: transform;
 }
 
 .renameInput:focus {
   border-color: var(--accent);
 }
+
 
 .renameConfirm {
   background: var(--accent);

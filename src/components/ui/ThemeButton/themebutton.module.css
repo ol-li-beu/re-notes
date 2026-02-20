@@ -28,7 +28,7 @@
   color: var(--fg);
 
   transition:
-    transform var(--anim-slow) var(--ease-standard),
+    transform var(--anim-normal) var(--ease-standard),
     opacity var(--anim-normal) ease;
 }
 
@@ -44,25 +44,13 @@
 
 
 /* icon variants */
+.sun.visible   { opacity: 1; transform: scale(1) rotate(0deg) translateY(0); }
+.sun.hidden    { opacity: 0; transform: scale(0.3) rotate(60deg) translateY(0); pointer-events: none; }
 
-.sun {
-  transform: scale(1) rotate(0deg);
-}
+.moon.visible  { opacity: 1; transform: scale(1) rotate(10deg) translateY(0); }
+.moon.hidden   { opacity: 0; transform: scale(0.3) rotate(60deg) translateY(0); pointer-events: none; }
 
-.moon {
-  transform: scale(0.5) rotate(-40deg);
-}
+.button:hover .sun.visible  { transform: scale(1) rotate(30deg) translateY(-2px); }
+.button:hover .moon.visible { transform: scale(1) rotate(-20deg) translateY(-2px); }
 
 
-/* visibility state */
-
-.visible {
-  opacity: 1;
-  transform: scale(1) rotate(0deg);
-}
-
-.hidden {
-  opacity: 0;
-  transform: scale(0.3) rotate(60deg);
-  pointer-events: none;
-}

@@ -46,9 +46,12 @@
 
 .topBar {
   display: flex;
-  flex-direction: column; 
+  flex-direction: column;
   gap: 8px;
   margin-top: var(--space-sm);
+  flex-shrink: 0;
+  align-self: flex-start;
+  width: 100%;
 }
 
 .topRow {
@@ -102,6 +105,8 @@
 .specialAction {
   display: flex;
   justify-content: center; 
+  align-items: center;
+  gap: var(--space-xs);
   width: 100%;
   line-height: 1.4;
 }
@@ -259,7 +264,14 @@
 }
 
 
-
+.contentGroup {
+  pointer-events: none;
+  border: 2px dashed var(--fg);
+  border-radius: 6px;
+  background: rgba(255,255,255,0.1);
+  padding: 0 var(--space-md);
+  flex: 0 0 auto;
+}
 
 .dropdown .danger {
     color: var(--negativeaccent);

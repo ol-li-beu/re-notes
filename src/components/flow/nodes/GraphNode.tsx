@@ -37,6 +37,7 @@ export default function GraphNode({ data }: NodeProps<GraphNodeObj>) {
   const menuRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
+  
   const renameCanvas = useProjectStore((s) => s.renameCanvas);
   const deleteCanvas = useProjectStore((s) => s.deleteCanvas);
   const getCanvasStats = useProjectStore((s) => s.getCanvasStats);
@@ -61,6 +62,7 @@ export default function GraphNode({ data }: NodeProps<GraphNodeObj>) {
     document.addEventListener("mousedown", handleClickOutside, true);
     return () => document.removeEventListener("mousedown", handleClickOutside, true);
   }, []);
+
 
   const handleRename = useCallback(() => {
     const trimmed = renameValue.trim();
@@ -92,8 +94,10 @@ return (
               ref={inputRef}
               className={styles.renameInput}
               value={renameValue}
-              maxLength={MAX_NAME}
-              onChange={(e) => setRenameValue(e.target.value)}
+              onChange={(e) => {
+                if (e.target.value.length <= MAX_NAME) {
+                  setRenameValue(e.target.value);
+              }}}
               onBlur={handleRename}
               onKeyDown={(e) => {
                 if (e.key === "Enter") handleRename();
@@ -111,9 +115,9 @@ return (
               ✓
             </button>
           </div>
-          <span className={styles.charCount}>
+          <div className={`${styles.charCount}`}>
             {renameValue.length}/{MAX_NAME}
-          </span>
+          </div>
         </div>
       ) : (
         <span className={styles.name}>{data.name}</span>

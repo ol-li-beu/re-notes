@@ -1,8 +1,8 @@
 
 import { NodeObj, NodeTypes } from "../types";
 import {
-  EXPANDED_DEFAULT_WIDTH,
-  EXPANDED_DEFAULT_HEIGHT,
+  EXPANDED_DEFAULT_WIDTH, COLLAPSED_WIDTH,
+  EXPANDED_DEFAULT_HEIGHT, COLLAPSED_HEIGHT
 } from "../types";
 
 
@@ -33,6 +33,7 @@ export function createNode(
         id,
         type: "note",
         position,
+        zIndex: 10,
         data: {
           type: "note",
           label,
@@ -57,6 +58,7 @@ export function createNode(
         id,
         type: "subnode",
         position,
+        zIndex: 10,
         data: {
           type: "subnode",
           label,
@@ -73,6 +75,23 @@ export function createNode(
         },
       };
     }
+
+   case "group":
+    return {
+      id,
+      zIndex: 0,
+      type: "group",
+      position,
+      style: { width: COLLAPSED_WIDTH, height: COLLAPSED_HEIGHT },
+      data: {
+        type: "group",
+        label: label,
+        description: description,
+        expanded: false,
+        color: "",
+        locked: false,
+      },
+    };
     
     default:
       throw new Error(`Unsupported node type: ${type}`);

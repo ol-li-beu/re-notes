@@ -34,12 +34,12 @@ import styles from "./basenode.module.css";
 
 type BaseNodeProps = NodeProps<NodeObj> & { children?: React.ReactNode; iconName?: keyof typeof ICONSTYPE; 
   resizable?: boolean; noEdit?: boolean; onSpecialAction?: () => void; specialActionDescription?: string; noExpand?: boolean;
-  modal?: React.ReactNode; };
+  modal?: React.ReactNode; noLock?: boolean };
 
 type OpenMenu = "palette" | "menu" | null;
 
 export default function BaseNode({ id, data, children, iconName, resizable=true, selected, noEdit=false, 
-  onSpecialAction, specialActionDescription, noExpand = false, modal, }: BaseNodeProps) {
+  onSpecialAction, specialActionDescription, noExpand = false, modal, noLock=false }: BaseNodeProps) {
 
   const router = useRouter();
   const dict = useDictionary();
@@ -66,7 +66,13 @@ export default function BaseNode({ id, data, children, iconName, resizable=true,
 
   const hasModal = showEditModal;
 
+  const maxWidth = data.type === "group" ? Infinity : EXPANDED_MAX_WIDTH;
+  const maxHeight = data.type === "group" ? Infinity : EXPANDED_MAX_HEIGHT;
 
+  
+  const thisNode = useFlowStore((s) => s.nodes.find((n) => n.id === id));
+  const isInGroup = !!thisNode?.parentId;
+  
 
   // CLICK OUTSIDE HANDLER ON MODAL
   useEffect(() => {
@@ -109,12 +115,14 @@ export default function BaseNode({ id, data, children, iconName, resizable=true,
 
   const isExpanded = !!data.expanded;
 
+
+  // group on first expand included 
   const computedWidth = isExpanded
-    ? data.width ?? EXPANDED_MIN_WIDTH
+    ? data.width ?? (data.type === "group" ? 600 : EXPANDED_MIN_WIDTH)
     : COLLAPSED_WIDTH;
 
   const computedHeight = isExpanded
-    ? data.height ?? EXPANDED_MIN_HEIGHT
+    ? data.height ?? (data.type === "group" ? 500 : EXPANDED_MIN_HEIGHT)
     : COLLAPSED_HEIGHT;
 
   const [localSize, setLocalSize] = useState({
@@ -122,7 +130,7 @@ export default function BaseNode({ id, data, children, iconName, resizable=true,
     height: computedHeight,
   });
 
-  // Sync when data changes (undo/redo etc.)
+  // Sync when data changes (undo/redo etc
   useEffect(() => {
     setLocalSize({
       width: computedWidth,
@@ -162,7 +170,16 @@ export default function BaseNode({ id, data, children, iconName, resizable=true,
   }, [id, data.type, isExpanded, localSize, updateNodeData]);
 
 
-
+  const handleRemoveFromGroup = useCallback(() => {
+      const allNodes = useFlowStore.getState().nodes;
+      const self = allNodes.find((n) => n.id === id);
+      if (!self?.parentId) return;
+        const parent = allNodes.find((n) => n.id === self.parentId);
+        useFlowStore.getState().setNodeParent(id, undefined, {
+          x: self.position.x + (parent?.position.x ?? 0),
+          y: self.position.y + (parent?.position.y ?? 0),
+        });
+    }, [id]);
 
 
   /* MENU ACTIONS */
@@ -226,6 +243,8 @@ export default function BaseNode({ id, data, children, iconName, resizable=true,
             : "translateY(0px) scale(1) rotate(0deg)",
           transition: isResizing
             ? "none"
+            : isInGroup
+            ? "none"
             : "width 0.2s ease, height 0.2s ease, transform 0.22s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.22s cubic-bezier(0.2, 0.8, 0.2, 1)",
           boxShadow: isDraggingNode
             ? "0 18px 40px rgba(0,0,0,0.55)"
@@ -237,8 +256,8 @@ export default function BaseNode({ id, data, children, iconName, resizable=true,
           <NodeResizer
             minWidth={EXPANDED_MIN_WIDTH}
             minHeight={EXPANDED_MIN_HEIGHT}
-            maxWidth={EXPANDED_MAX_WIDTH}
-            maxHeight={EXPANDED_MAX_HEIGHT}
+            maxWidth={maxWidth}
+            maxHeight={maxHeight}
             isVisible
             lineStyle={{ display: "none" }}
             handleStyle={{
@@ -283,7 +302,8 @@ export default function BaseNode({ id, data, children, iconName, resizable=true,
                 disabled={isDraggingNode}
               />
 
-              <IconButtonWithHint
+              {noLock !== true && (
+               <IconButtonWithHint
                 iconName={data.locked ? "canvaslock" : "canvaslockopen"}
                 description={data.locked ? "Unlock resizing" : "Lock resizing"}
                 onClick={() =>
@@ -292,7 +312,8 @@ export default function BaseNode({ id, data, children, iconName, resizable=true,
                   })
                 }
                 disabled={isDraggingNode}
-              />
+               />
+              )}    
 
               {openMenu === "menu" && (
                 <div className={`${styles.dropdown} ${openMenu === "menu" ? styles.dropdownOpen : ""}`} ref={menuRef}
@@ -356,15 +377,24 @@ export default function BaseNode({ id, data, children, iconName, resizable=true,
               onClick={noExpand ? onSpecialAction : (onSpecialAction ?? toggleExpand)}
               disabled={isDraggingNode}
             />
+
+            {isInGroup && (
+               <IconButtonWithHint
+                iconName="canvasungroup"
+                description="Remove from group"
+                onClick={handleRemoveFromGroup}
+                disabled={isDraggingNode}
+               />
+              )}
           </div>
         </div>
 
         {/* CONTENT */}
       
           <div
-            className={`${styles.content} ${
-            isExpanded ? styles.contentExpanded : styles.contentCollapsed
-            }`}>
+            className={`${styles.content} ${isExpanded ? styles.contentExpanded : styles.contentCollapsed} 
+            ${data.type === "group" ? styles.contentGroup : ""}`}>
+
             {children}
           </div>
         
