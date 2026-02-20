@@ -16,6 +16,7 @@
 
 .modal {
   background: var(--bg);
+  
   border-radius: 14px;
   padding: 20px;
   width: 90%;
@@ -29,12 +30,12 @@
 }
 
 .modal h3 {
-  font-size: 16px;
+  font-size: var(--font-md);
   font-weight: 600;
 }
 
 .modal p {
-  font-size: 13px;
+  font-size: var(--font-xs);
 }
 
 
@@ -49,7 +50,7 @@
 
 .actions button {
   padding: 8px 12px;
-  font-size: 13px;
+  font-size: var(--font-xs);
   border-radius: 8px;
   cursor: pointer;
 

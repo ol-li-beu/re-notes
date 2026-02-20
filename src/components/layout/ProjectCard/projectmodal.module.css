@@ -3,7 +3,8 @@
 .backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,.4);
+  background: rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(2px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -108,7 +109,7 @@
 }
 
 .buttons:disabled {
-  opacity: var(--opacitychange);
+  opacity: 0.6;
   cursor: not-allowed;
   transform: none;
 }

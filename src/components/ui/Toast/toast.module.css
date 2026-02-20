@@ -17,7 +17,7 @@
   gap: var(--space-sm);
 
   color: var(--fg);
-  font-size: var(--font-sm);
+  font-size: var(--font-xs);
 
   z-index: 9999;
   animation: slideUp var(--anim-fast) var(--ease-standard);

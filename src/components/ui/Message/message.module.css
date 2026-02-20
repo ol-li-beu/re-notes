@@ -2,7 +2,7 @@
   position: relative;
   padding: var(--space-xs) var(--space-sm);
   border-radius: 10px;
-  font-size: var(--font-sm);
+  font-size: var(--font-xs);
   display: flex;
   align-items: center;
   justify-content: space-between;

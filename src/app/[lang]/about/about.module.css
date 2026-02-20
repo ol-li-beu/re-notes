@@ -1,0 +1,112 @@
+/* Logo and text  */
+
+.main {
+  display: flex;
+  flex-direction: column;
+  flex: 1; 
+  min-height: 0;
+  background: var(--bg);
+  overflow-y: auto;
+}
+
+.hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+
+  margin: 0 auto;
+  padding: var(--section-padding) var(--space-xl);
+  gap: var(--space-md);
+}
+
+.title {
+  font-size: var(--font-xl);
+  font-weight: 600;
+  font-family: var(--font-title);
+  line-height: 1.2;
+  margin: 0;
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+.body p {
+  font-size: var(--font-sm);
+  font-family: var(--font-title);
+  line-height: 1.75;
+  color: var(--fg);
+  text-align: center;
+  margin: 0;
+}
+
+/* Stack pill */
+
+.pillRow {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-xs);
+  margin-top: var(--space-sm);
+}
+
+.pill {
+  padding: var(--space-2xs) var(--space-sm);
+  border-radius: 999px;
+
+  border: 1px solid color-mix(in srgb, var(--fg) 20%, transparent);
+  background: color-mix(in srgb, var(--accent) 8%, transparent);
+
+  font-size: var(--font-sm);
+  font-family: var(--font-title);
+  color: var(--fg);
+
+  transition: 
+    transform var(--anim-fast) var(--ease-standard),
+    border-color var(--anim-fast) var(--ease-standard);
+}
+
+.pill:hover {
+  transform: translateY(-2px);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+
+/* Animation */
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(32px);
+    filter: blur(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0px);
+  }
+}
+
+.animateFadeUp {
+  opacity: 0;
+  animation: fadeUp 0.7s var(--ease-standard) both;
+}
+
+/* ressponsiveness */
+
+@media (max-width: 768px) {
+  .pillRow {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 100%;
+  }
+
+  .pill {
+    justify-content: center;
+    text-align: center;
+  }
+}

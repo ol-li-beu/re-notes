@@ -5,7 +5,7 @@
     },
     "navbar": {
         "about" : "Sobre Nosotros",
-        "learn" : "Aprender",
+        "learn" : "Aprender (WIP)",
         "projects" : "Mis Proyectos",
         "login" : "Iniciar Sesión",
         "register" : "Crear Cuenta",
@@ -41,7 +41,7 @@
         "emailinvalid" : "El Email Ingresado No es Válido",
         "passwordinvalid" : "La Contraseña Debe Tener 10 Caracteres, Mínimo 1 Letra y 1 Número",
         "passwordrequired" : "Se Requiere Ingresar una Contraseña",
-        "userdatarequired" : "Se Requiere Ingresar Nombre de Usuario o Email", 
+        "userdatarequired" : "Se Requiere Ingresar un Email", 
 
         "resettitle" : "Reestablecimiento de Contraseña",
         "email" : "Email",
@@ -98,7 +98,7 @@
     "home" : {
         "description" : "Conectá y Expandé tus Ideas Recursivamente",
         "btnregister" : "Comenzar ahora",
-        "btnlearn" : "Aprender más"
+        "btnlearn" : "Aprender (WIP)"
 
     },
 

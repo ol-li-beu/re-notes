@@ -27,10 +27,11 @@
 
 .input {
   width: 100%;
-  padding: var(--space-sm) var(--space-md);
+  padding: var(--space-xs) var(--space-sm);
   border-radius: 6px;
   border: 2px solid var(--contrast);
-  font-size: var(--font-sm);
+  font-family: var(--font-title);
+  font-size: var(--font-xs);
   outline: none;
   transition: none;
 }
@@ -74,17 +75,17 @@
 /* buttons base */
 
 .button {
-  min-height: var(--touch-target-min);
+  min-height: 52px;
   line-height: 1.2;
   padding: 12px 20px;
-  font-size: 16px;
+  font-size: var(--font-sm);
   border-radius: 8px;
 
   display: inline-flex;
   align-items: center;
   justify-content: center;
 
-  border: 2px solid var(--fg);
+  border: 2px solid color-mix(in srgb, var(--fg) 35%, transparent);
   background-color: var(--bg);
   color: var(--fg);
   transition: transform var(--anim-fast) var(--ease-standard),
@@ -97,6 +98,7 @@
   border-color: var(--accent);
   transform: translateY(-2px);
   opacity: var(--opacitychange);
+  color: var(--bg);
 }
 
 .button:active {
@@ -120,6 +122,7 @@
   background-color: var(--accent);
   transform: translateY(-2px);
   opacity: var(--opacitychange);
+  color: var(--fg);
 }
 
 .resendbtn:disabled {
@@ -135,9 +138,12 @@
 /* links */
 
 .links {
+  border-top: 1px solid var(--contrast);
   display: flex;
   flex-direction: column;
   gap: 6px;
+  padding-top: 16px;
+  margin-top: 4px
 }
 
 .link {
@@ -184,7 +190,8 @@
 .modalOverlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.4);
+  background: rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(2px);
 
   display: flex;
   align-items: center;
@@ -198,7 +205,6 @@
 
 .modal {
   background: var(--bg);
-  border: 2px solid var(--fg);
   padding: var(--space-md);
 
   width: 100%;
@@ -267,5 +273,9 @@
 @media (max-width: 768px) {
   .modalActions {
     flex-direction: column;
+  }
+
+  .button {
+    min-height: var(--touch-target-min);
   }
 }

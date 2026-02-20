@@ -5,7 +5,7 @@
     },
     "navbar": {
         "about" : "About",
-        "learn" : "Learn",
+        "learn" : "Learn (WIP)",
         "projects" : "My Projects",
         "login" : "Log In",
         "register" : "Sign Up",
@@ -41,7 +41,7 @@
         "emailinvalid" : "The email entered is not valid",
         "passwordinvalid" : "The password needs to be at least 10 character, with a minimum of 1 letter and 1 number",
         "passwordrequired" : "It is Required to Enter a Password",
-        "userdatarequired" : "It is Required to Enter a Username or Email", 
+        "userdatarequired" : "It is Required to Enter an Email", 
 
         "resettitle" : "Password Reset",
         "email" : "Email",
@@ -97,7 +97,7 @@
     "home" : {
         "description" : "Connect and Expand your Ideas Recursively",
         "btnregister" : "Get Started",
-        "btnlearn" : "Learn More"
+        "btnlearn" : "Learn More (WIP)"
 
     },
 

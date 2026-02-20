@@ -4,7 +4,7 @@ import { Trash2, PlusSquare, PencilLine, Undo2, Mail, LogOut, LogIn, Sun, Moon,
   Save, Undo, Redo, Lock, LockOpen, ArrowDownToLine, ArrowUpToLine, Palette, Plus, Copy, Clipboard, X, FilePenLine, Scissors, House, Ellipsis,
   ArrowLeftFromLine, Group, Ungroup  } from "lucide-react";
 
-import { SiGithub, } from "@icons-pack/react-simple-icons"
+import { SiGithub, SiTypescript, SiSupabase, SiReact, SiNextdotjs, SiXyflow } from "@icons-pack/react-simple-icons"
 
 // Project card
 export type Project = {
@@ -27,6 +27,11 @@ export interface PagePropsCanvas {
 
 export const ICONSTYPE = {
   github: SiGithub,
+  supabase: SiSupabase, 
+  nextjs: SiNextdotjs,
+  typescript: SiTypescript,
+  react: SiReact,
+  reactflow: SiXyflow,
 
   trash: Trash2,
   create: PlusSquare,

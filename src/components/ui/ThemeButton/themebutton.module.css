@@ -45,12 +45,12 @@
 
 /* icon variants */
 .sun.visible   { opacity: 1; transform: scale(1) rotate(0deg) translateY(0); }
-.sun.hidden    { opacity: 0; transform: scale(0.3) rotate(60deg) translateY(0); pointer-events: none; }
+.sun.hidden    { opacity: 0; transform: scale(0.3) rotate(0deg) translateY(0); pointer-events: none; }
 
-.moon.visible  { opacity: 1; transform: scale(1) rotate(10deg) translateY(0); }
-.moon.hidden   { opacity: 0; transform: scale(0.3) rotate(60deg) translateY(0); pointer-events: none; }
+.moon.visible  { opacity: 1; transform: scale(1) rotate(0deg) translateY(0); }
+.moon.hidden   { opacity: 0; transform: scale(0.3) rotate(0deg) translateY(0); pointer-events: none; }
 
-.button:hover .sun.visible  { transform: scale(1) rotate(30deg) translateY(-2px); }
-.button:hover .moon.visible { transform: scale(1) rotate(-20deg) translateY(-2px); }
+.button:hover .sun.visible  { transform: scale(1) rotate(0deg) translateY(-2px); }
+.button:hover .moon.visible { transform: scale(1) rotate(0deg) translateY(-2px); }
 
 
