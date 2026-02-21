@@ -108,42 +108,45 @@ export const useFlowStore = create<FlowState>((set, get) => ({
   /* React flow handlers */
 
   onNodesChange: (changes: NodeChange<NodeObj>[]) => {
-    const state = get();
+  const state = get();
 
-    const meaningfulChange = changes.some(change => {
-      if (change.type === "dimensions") return false;
-      if (change.type === "select") return false;
-      if (change.type === "position") {
-        const prevNode = state.nodes.find(n => n.id === change.id);
-        if (
-          prevNode &&
-          prevNode.position.x === change.position?.x &&
-          prevNode.position.y === change.position?.y
-        ) {
-          return false; // same position, not meaningful
-        }
+  const filteredChanges = changes.filter(c => {
+    if (c.type !== "dimensions") return true;
+    const node = state.nodes.find(n => n.id === c.id);
+    return !node?.data.expanded;
+  });
+
+  const meaningfulChange = filteredChanges.some(change => {
+    if (change.type === "select") return false;
+    if (change.type === "position") {
+      const prevNode = state.nodes.find(n => n.id === change.id);
+      if (
+        prevNode &&
+        prevNode.position.x === change.position?.x &&
+        prevNode.position.y === change.position?.y
+      ) {
+        return false;
       }
-      return true; // all other changes are meaningful
-    });
-
-    if (!state.isBatching && meaningfulChange) {
-      state.commitHistory();
     }
+    return true;
+  });
 
-    const newNodes = applyNodeChanges<NodeObj>(changes, state.nodes);
-    set({ nodes: newNodes });
+  if (!state.isBatching && meaningfulChange) {
+    state.commitHistory();
+  }
 
+  const newNodes = applyNodeChanges<NodeObj>(filteredChanges, state.nodes);
+  set({ nodes: newNodes });
 
-    // Resize goup when children move
-    changes.forEach((change) => {
-      if (change.type === "position") {
-        const movedNode = state.nodes.find((n) => n.id === change.id);
-        if (movedNode?.parentId) {
-          get().resizeGroupToFitChildren(movedNode.parentId);
-        }
+  filteredChanges.forEach((change) => {
+    if (change.type === "position") {
+      const movedNode = state.nodes.find((n) => n.id === change.id);
+      if (movedNode?.parentId) {
+        get().resizeGroupToFitChildren(movedNode.parentId);
       }
-    });
-  },
+    }
+  });
+},
 
   onEdgesChange: (changes: EdgeChange<Edge>[]) => {
     const state = get();
@@ -195,31 +198,57 @@ export const useFlowStore = create<FlowState>((set, get) => ({
   },
 
   updateNodeData: (id, type, updates) => {
-    const state = get();
-    if (!state.isBatching) state.commitHistory();
+  console.log("UPDATE NODE DATA", id, updates);
+  const state = get();
+  if (!state.isBatching) state.commitHistory();
 
-    const isGroupExpandToggle = type === "group" && "expanded" in updates;
-    const isExpanded = isGroupExpandToggle ? (updates.expanded as boolean) : false;
+  const isGroupExpandToggle = type === "group" && "expanded" in updates;
+  const isExpanded = isGroupExpandToggle ? (updates.expanded as boolean) : false;
 
-    set((s) => ({
-      nodes: s.nodes.map((n) => {
-        // update the target node
-        if (n.id === id && n.data.type === type) {
-    const updatedData = { ...n.data, ...updates };
-    const updated = { ...n, data: updatedData };
-    if (isGroupExpandToggle) {
-      updated.style = isExpanded
-        ? { width: updatedData.width ?? 600, height: updatedData.height ?? 500 } 
-        : { width: COLLAPSED_WIDTH, height: COLLAPSED_HEIGHT };
-    }
-    return updated;
-  }
-      // hide/show children if group expand toggled
+  set((s) => ({
+    nodes: s.nodes.map((n) => {
+      if (n.id === id && n.data.type === type) {
+        const updatedData = { ...n.data, ...updates };
+        const updated: NodeObj = { ...n, data: updatedData };
+
+        if (isGroupExpandToggle) {
+          // Group expand/collapse
+          updated.style = isExpanded
+            ? { width: updatedData.width ?? 600, height: updatedData.height ?? 500 }
+            : { width: COLLAPSED_WIDTH, height: COLLAPSED_HEIGHT };
+
+        } else if ("expanded" in updates && !isGroupExpandToggle) {
+          if (updatedData.expanded) {
+            updated.style = {
+              width: updatedData.width ?? EXPANDED_MIN_WIDTH,
+              height: updatedData.height ?? EXPANDED_MIN_HEIGHT,
+             };
+          } else {
+          // Clear so RF remeasure
+            const { width: _w, height: _h, ...rest } = n.style ?? {};
+            updated.style = rest;
+          }
+
+        } else if ("width" in updates || "height" in updates) {
+          if (updatedData.expanded) {
+            updated.style = {
+              ...n.style,
+              width: updatedData.width ?? EXPANDED_MIN_WIDTH,
+              height: updatedData.height ?? EXPANDED_MIN_HEIGHT,
+            };
+          }
+        }
+        return updated;
+      }
+
+      // hide/show childre
       if (isGroupExpandToggle && n.parentId === id) {
         return { ...n, hidden: !isExpanded };
       }
+
       return n;
     }),
+
   }));
 
   // resize parent group if inner node size changed
@@ -408,13 +437,17 @@ export const useFlowStore = create<FlowState>((set, get) => ({
 
     const maxX = Math.max(
       ...children.map((n) => {
-        const w = n.data.expanded ? (n.data.width ?? EXPANDED_MIN_WIDTH) : COLLAPSED_WIDTH;
+        const w =
+          (n.style?.width as number) ??
+          (n.data.expanded ? (n.data.width ?? EXPANDED_MIN_WIDTH) : COLLAPSED_WIDTH);
         return n.position.x + w;
       })
     );
     const maxY = Math.max(
       ...children.map((n) => {
-        const h = n.data.expanded ? (n.data.height ?? EXPANDED_MIN_HEIGHT) : COLLAPSED_HEIGHT;
+        const h =
+          (n.style?.height as number) ??
+          (n.data.expanded ? (n.data.height ?? EXPANDED_MIN_HEIGHT) : COLLAPSED_HEIGHT);
         return n.position.y + h;
       })
     );

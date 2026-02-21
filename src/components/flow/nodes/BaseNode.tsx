@@ -141,11 +141,19 @@ export default function BaseNode({ id, data, children, iconName, resizable=true,
     height: computedHeight,
   });
 
+  const localSizeRef = useRef(localSize);
+
   // Sync when data changes (undo/redo etc
+
   useEffect(() => {
+    localSizeRef.current = localSize;
+  }, [localSize]);
+
+  useEffect(() => {
+    if (isResizing) return;
     setLocalSize({ width: computedWidth, height: computedHeight, });
     updateNodeInternals(id);
-  }, [data.width, data.height, data.expanded, id]);
+  }, [data.width, data.height, data.expanded, id, isResizing]);
   
   /* EDGE UPDATE based on observer for optimal performance*/
   useEffect(() => {
@@ -164,19 +172,22 @@ export default function BaseNode({ id, data, children, iconName, resizable=true,
    
   const toggleExpand = useCallback(() => {
     updateNodeData(id, data.type, {
-    expanded: !isExpanded,
+      expanded: !isExpanded,
     });
-  }, [id, data.type, isExpanded, updateNodeData])
+    setTimeout(() => updateNodeInternals(id), 0);
+  }, [id, data.type, isExpanded, updateNodeData, updateNodeInternals])
 
   const handleResizeEnd = useCallback(() => {
     setIsResizing(false);
     if (!isExpanded) return;
 
-    updateNodeData(id, data.type, {
-      width: localSize.width,
-      height: localSize.height,
-    });
-  }, [id, data.type, isExpanded, localSize, updateNodeData]);
+    const { width, height } = localSizeRef.current;
+    console.log("RESIZE END", { localSize, id, type: data.type });
+    console.log("RESIZE END from ref", { width, height });
+
+    updateNodeData(id, data.type, { width, height});
+    updateNodeInternals(id);
+  }, [id, data.type, isExpanded, localSize, updateNodeData, updateNodeInternals]);
 
 
   const handleRemoveFromGroup = useCallback(() => {
@@ -241,8 +252,8 @@ export default function BaseNode({ id, data, children, iconName, resizable=true,
         ref={nodeRef}
         style={{
           background: data.color || " var(--node-bg)",
-          width: localSize.width,
-          height: localSize.height,
+          width: isExpanded ? "100%" : COLLAPSED_WIDTH,
+          height: isExpanded ? "100%" : COLLAPSED_HEIGHT,
           fontSize: "var(--font-canvastitle)",
           fontWeight: "var(--font-weight)",
           opacity: hasModal ? 0 : 1,
@@ -254,7 +265,9 @@ export default function BaseNode({ id, data, children, iconName, resizable=true,
             ? "none"
             : isInGroup
             ? "none"
-            : "width 0.2s ease, height 0.2s ease, transform 0.22s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.22s cubic-bezier(0.2, 0.8, 0.2, 1)",
+            : isExpanded
+            ? "width 0.2s ease, height 0.2s ease, transform 0.22s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.22s cubic-bezier(0.2, 0.8, 0.2, 1)"
+            : "transform 0.22s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.22s cubic-bezier(0.2, 0.8, 0.2, 1)",
           boxShadow: isDraggingNode
             ? "0 18px 40px rgba(0,0,0,0.55)"
             : "0 2px 6px rgba(0,0,0,0.4)"
@@ -276,10 +289,18 @@ export default function BaseNode({ id, data, children, iconName, resizable=true,
             border: "none",
             }}
             onResizeStart={() => {setIsResizing(true); startBatch();}}
-            onResize={(e, { width, height }) =>
-              setLocalSize({ width, height })
-            }
+            onResize={(_, { width, height }) => {
+              localSizeRef.current = { width, height };
+              useFlowStore.setState(s => ({
+                nodes: s.nodes.map(n =>
+                    n.id === id
+                      ? { ...n, style: { ...n.style, width, height }, data: { ...n.data, width, height } }
+                      : n
+                  )
+                }));
+            }}
             onResizeEnd={() => {handleResizeEnd(); endBatch(); }}
+            nodeId={id}
             
           />
         )}
