@@ -12,7 +12,7 @@ export default function Navbar({ lang, dict, user }: NavbarProps) {
 
   const navLinks = [
     { name: dict.navbar.about, href: `/${lang}/about` },
-    { name: dict.navbar.learn, href: `` }, // TODO LEARN PAGE
+    //{ name: dict.navbar.learn, href: `` }, // TODO LEARN PAGE
     { name: dict.navbar.projects, href: `/${lang}/projects` },
   ];
 

@@ -147,7 +147,7 @@ return (
             router.push(`/${lang}/canvas/${data.projectId}/${data.canvasId}`);
             setMenuOpen(false);
           }}>
-            <Icon name="canvasarrowdowntoline" /> Enter
+            <Icon name="canvasarrowdowntoline" /> {dict.graphnode.enter}
           </button>
 
           {!isRoot && (
@@ -155,7 +155,7 @@ return (
               setIsRenaming(true);
               setMenuOpen(false);
             }}>
-              <Icon name="edit" /> Rename
+              <Icon name="edit" /> {dict.graphnode.rename}
             </button>
           )}
 
@@ -167,7 +167,7 @@ return (
                 setMenuOpen(false);
               }}
             >
-              <Icon name="canvasdelete" /> Delete
+              <Icon name="canvasdelete" /> {dict.graphnode.delete}
             </button>
           )}
         </div>
@@ -187,8 +187,9 @@ return (
 
     {showDeleteModal && (
       <ConfirmModal
-        title={`Delete "${data.name}"?`}
-        description={`Incoming links: ${stats.incomingCount} · Outgoing: ${stats.outgoingCount}. This cannot be undone.`}
+        title={`${dict.graphnode.delete} "${data.name}"?`}
+        description={`${dict.graphnode.incoming}: ${stats.incomingCount} - ${dict.graphnode.outgoing}: ${stats.outgoingCount}\n 
+                      T${dict.graphnode.warning}.`}
         btncancel="Cancel"
         btnconfirm="Delete"
         onCancel={() => setShowDeleteModal(false)}

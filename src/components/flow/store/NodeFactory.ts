@@ -42,6 +42,7 @@ export function createNode(
           expanded: false,
           color: "",
           locked: false,
+          
 
           // Expanded size 
           width: EXPANDED_DEFAULT_WIDTH,

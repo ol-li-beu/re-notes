@@ -45,7 +45,7 @@ export default function SquaredLogo() {
       }
 
       const rawDelta = (timestamp - lastTimeRef.current) / 1000;
-      const delta = Math.min(rawDelta, 0.05);
+      const delta = Math.min(rawDelta, 0.05); 
       lastTimeRef.current = timestamp;
 
       const isHovering = hoveringRef.current;

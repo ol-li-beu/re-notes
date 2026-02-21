@@ -1,19 +1,29 @@
 import StaticSquaredLogo from "@/components/ui/SquaredLogo/StaticSquaredLogo";
 import styles from "./about.module.css";
 import { Icon } from "@/components/ui/Icons/Icons";
+import { getDictionary } from "@/utils/get-dictionary";
 
-export default function AboutPage() {
+interface PageProps {
+  params: {
+    lang: string;
+  };
+}
+
+export default async function AboutPage({ params }: PageProps) {
+  const { lang } = await params;
+  const dict = await getDictionary(lang as any);
+
   return (
     <main className={styles.main}>
       <section className={styles.hero}>
 
         <h1 className={`${styles.title} ${styles.animateFadeUp}`} style={{ animationDelay: "0ms" }}>
-          Sobre Nosotros
+          {dict.about.title}
         </h1>
 
         <div className={`${styles.body} ${styles.animateFadeUp}`} style={{ animationDelay: "120ms" }}>
-          <p>Re-Notes nació de querer tomar notas sin tener la necesidad de pensar en formato primero. El espacio horizontal para conectar y agrupar en un mismo canvas, vertical para redirigirte a un subespacio si una idea necesita su propio lugar.</p>
-          <p>Sin estructura predefinida. La jerarquía la construís vos, cuando y como la necesitás.</p>
+          <p>{dict.about.intro1}</p>
+          <p>{dict.about.intro2}</p>
         </div>
 
         <div className={`${styles.pillRow} ${styles.animateFadeUp}`} style={{ animationDelay: "240ms" }}>

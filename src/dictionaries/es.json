@@ -98,7 +98,14 @@
     "home" : {
         "description" : "Conectá y Expandé tus Ideas Recursivamente",
         "btnregister" : "Comenzar ahora",
-        "btnlearn" : "Aprender (WIP)"
+        "btnlearn" : "Aprender Más"
+
+    },
+
+    "about" : {
+        "title" : "Sobre Re-notes",
+        "intro1" : "Re-Notes nació de querer tomar notas sin tener la necesidad de pensar en formato primero. El espacio horizontal para conectar y agrupar en un mismo canvas, vertical para redirigirte a un subespacio si una idea necesita su propio lugar.",
+        "intro2" : "Sin estructura predefinida. La jerarquía la construís vos, cuando y como la necesitás."
 
     },
 
@@ -124,34 +131,64 @@
                 "textNodeTitle": "Nodo de texto",
                 "textNodeDescription": "Nodo de nota simple",
                 "redirectNodeTitle": "Nodo de redirección",
-                "redirectNodeDescription": "Ir a un subcanvas",
+                "redirectNodeDescription": "Ir a un subespacio",
                 "groupNodeTitle": "Nodo de grupo",
                 "groupNodeDescription": "Agregar un contenedor de nodos"
             }
         },
 
         "basenode" : {
-            "palette" : "Cambiar Color"
+            "menu" : "Abrir menú",
+            "palette" : "Cambiar color",
+            "lock" : "Desbloquear redimensionamiento",
+            "unlock" : "Bloquear redimensionamiento",
+            "edit" : "Editar",
+            "cut" : "Cortar",
+            "delete" : "Eliminar",
+            "copy" : "Copiar",
+            "paste" : "Pegar",
+            "collapse" : "Colapsar",
+            "expand" : "Expandir",
+            "ungroup" : "Quitar del grupo",
+            "colors": {
+                "default": "Estándar",
+                "blue": "Azul",
+                "red": "Rojo",
+                "green": "Verde",
+                "yellow": "Amarillo",
+                "orange": "Naranja",
+                "purple": "Violeta",
+                "teal": "Verde azulado"
+            }
         },
 
         "notenode" : {
-
+            "placeholder" : "Escriba su nota aquí..."
         },
 
-        "groupnode" : {
-
+        "subnode" : {
+            "alreadyexist" : "Ya existe",
+            "nolink" : "Sin enlace",
+            "newsubspace" : "Nuevo subespacio..."
         },
+
+        "groupnode" : {},
         
         "graphnode" : {
-
+            "enter" : "Entrar",
+            "rename" : "Renombrar",
+            "delete" : "Eliminar",
+            "incoming" : "Enlaces entrantes",
+            "outgoing" : "Enlaces salientes",
+            "warning" : "Esta acción no se puede deshacer"
         },
 
         "basenodemodal" : {
-
-        },
-
-        "subnodemodal" : {
-
+            "edit" : "Editar Nodo",
+            "label" : "Etiqueta de nodo",
+            "description" : "Descripción de nodo",
+            "cancel" : "Cancelar",
+            "save" : "Guardar"
         },
 
 

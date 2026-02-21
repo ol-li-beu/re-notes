@@ -46,7 +46,7 @@
 
 
 .disabled {
-  opacity: var(--opacitychange);
+  opacity: 0.5;
   cursor: not-allowed;
   pointer-events: none;
 }

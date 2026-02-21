@@ -111,6 +111,8 @@ export const useFlowStore = create<FlowState>((set, get) => ({
     const state = get();
 
     const meaningfulChange = changes.some(change => {
+      if (change.type === "dimensions") return false;
+      if (change.type === "select") return false;
       if (change.type === "position") {
         const prevNode = state.nodes.find(n => n.id === change.id);
         if (

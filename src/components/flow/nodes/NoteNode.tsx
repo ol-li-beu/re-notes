@@ -42,7 +42,7 @@ export default function NoteNode(props: NodeProps<NodeObj>) {
         onFocus={startBatch}
         onBlur={endBatch}
         onChange={handleChange}
-        placeholder="Write your note here..." 
+        placeholder={dict.notenode.placeholder}
         className={`nodrag show-scrollbar ${styles.noteTextarea}`}
       />
     </BaseNode>

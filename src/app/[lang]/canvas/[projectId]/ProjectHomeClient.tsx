@@ -34,8 +34,8 @@ export default function ProjectHomeClient({ lang, projectId }: ProjectHomeClient
   const getStatus = useProjectStore((s) => s.getStatus);
   const updateCanvasPosition = useProjectStore((s) => s.updateCanvasPosition);
 
-  const dict = useDictionary();
-  const router = useRouter();
+  //const dict = useDictionary();
+  //const router = useRouter();
   const reactFlowWrapper = useRef<HTMLDivElement>(null);
 
 

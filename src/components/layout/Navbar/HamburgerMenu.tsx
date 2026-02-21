@@ -21,7 +21,7 @@ export default function HamburgerMenu({dict, lang} : HamburgerProps) {
 
   const navLinks = dict ? [
     { name: dict.about, href: `/${lang}/about` },
-    { name: dict.learn, href: `/${lang}/learn` },
+    //{ name: dict.learn, href: `/${lang}/learn` }, // TODO LEARN ROUTE
     { name: dict.projects, href: `/${lang}/projects` },
   ] : [];
 

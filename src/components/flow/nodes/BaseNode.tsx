@@ -68,7 +68,7 @@ export default function BaseNode({ id, data, children, iconName, resizable=true,
 
   const maxWidth = data.type === "group" ? Infinity : EXPANDED_MAX_WIDTH;
   const maxHeight = data.type === "group" ? Infinity : EXPANDED_MAX_HEIGHT;
-
+  const prevDataRef = useRef(data);
   
   const thisNode = useFlowStore((s) => s.nodes.find((n) => n.id === id));
   const isInGroup = !!thisNode?.parentId;
@@ -111,12 +111,32 @@ export default function BaseNode({ id, data, children, iconName, resizable=true,
     };
   }, [showEditModal]);
 
+  /* COlors array with typing */
+  const COLORS: { value: string; key: keyof typeof dict.basenode.colors }[] = [
+    { value: "var(--color-default)", key: "default" },
+    { value: "var(--color-blue)",    key: "blue"    },
+    { value: "var(--color-red)",     key: "red"     },
+    { value: "var(--color-green)",   key: "green"   },
+    { value: "var(--color-yellow)",  key: "yellow"  },
+    { value: "var(--color-orange)",  key: "orange"  },
+    { value: "var(--color-purple)",  key: "purple"  },
+    { value: "var(--color-teal)",    key: "teal"    },
+  ];
+
   /* SIZE LOGIC */
 
-  const isExpanded = !!data.expanded;
+  
 
+  useEffect(() => {
+    if (prevDataRef.current.width !== data.width || 
+        prevDataRef.current.height !== data.height) {
+      updateNodeInternals(id);
+    }
+    prevDataRef.current = data;
+  }, [data.width, data.height, id, updateNodeInternals]);
 
   // group on first expand included 
+  const isExpanded = !!data.expanded;
   const computedWidth = isExpanded
     ? data.width ?? (data.type === "group" ? 600 : EXPANDED_MIN_WIDTH)
     : COLLAPSED_WIDTH;
@@ -132,11 +152,9 @@ export default function BaseNode({ id, data, children, iconName, resizable=true,
 
   // Sync when data changes (undo/redo etc
   useEffect(() => {
-    setLocalSize({
-      width: computedWidth,
-      height: computedHeight,
-    });
-  }, [computedWidth, computedHeight]);
+    setLocalSize({ width: computedWidth, height: computedHeight, });
+    updateNodeInternals(id);
+  }, [data.width, data.height, data.expanded, id]);
 
   /* EDGE UPDATE based on observer for optimal performance*/
   useEffect(() => {
@@ -286,7 +304,7 @@ export default function BaseNode({ id, data, children, iconName, resizable=true,
             <div className={styles.rightBlock}>
               <IconButtonWithHint
                 iconName="ellipsisvertical"
-                description="menu"
+                description={dict.basenode.menu}
                 onClick={() => {
                   setOpenMenu(prev => (prev === "menu" ? null : "menu"))
                 }}
@@ -295,7 +313,7 @@ export default function BaseNode({ id, data, children, iconName, resizable=true,
 
               <IconButtonWithHint
                 iconName="canvaspalette"
-                description="change color"
+                description={dict.basenode.palette}
                 onClick={() =>
                   setOpenMenu(openMenu === "palette" ? null : "palette")
                 }
@@ -305,7 +323,7 @@ export default function BaseNode({ id, data, children, iconName, resizable=true,
               {noLock !== true && (
                <IconButtonWithHint
                 iconName={data.locked ? "canvaslock" : "canvaslockopen"}
-                description={data.locked ? "Unlock resizing" : "Lock resizing"}
+                description={data.locked ? dict.basenode.lock : dict.basenode.unlock}
                 onClick={() =>
                   updateNodeData(id, data.type, {
                     locked: !data.locked,
@@ -320,46 +338,38 @@ export default function BaseNode({ id, data, children, iconName, resizable=true,
                 >
                   {noEdit !== true && (
                     <button onClick={() => { setOpenMenu(null); setShowEditModal(true); }}>
-                      <Icon name="edit"/> Edit
+                      <Icon name="edit"/> {dict.basenode.edit}
                     </button>
                   )}
-                  <button onClick={() => { setOpenMenu(null); handleCopy(); }}><Icon name="canvascopy"/> Copy</button>
-                  <button onClick={() => { setOpenMenu(null); handleCut(); }}><Icon name="canvascut"/> Cut</button>
-                  <button onClick={() => { setOpenMenu(null); handlePaste(); }}><Icon name="canvaspaste"/> Paste</button>
+                  <button onClick={() => { setOpenMenu(null); handleCopy(); }}><Icon name="canvascopy"/> {dict.basenode.copy}</button>
+                  <button onClick={() => { setOpenMenu(null); handleCut(); }}><Icon name="canvascut"/> {dict.basenode.cut}</button>
+                  <button onClick={() => { setOpenMenu(null); handlePaste(); }}><Icon name="canvaspaste"/> {dict.basenode.paste}</button>
                   <button
                     className={styles.danger}
                     onClick={() => { setOpenMenu(null); handleDelete(); }}
                   >
-                    <Icon name="canvasdelete"/> Delete
+                    <Icon name="canvasdelete"/> {dict.basenode.delete}
                   </button>
                 </div>
               )}
 
               {openMenu === "palette" && (
                 <div className={`${styles.dropdown} ${styles.dropdownOpen}`} ref={paletteRef}>
-                  {[
-                    "var(--color-default)",
-                    "var(--color-blue)",
-                    "var(--color-red)",
-                    "var(--color-green)",
-                    "var(--color-yellow)",
-                    "var(--color-orange)",
-                    "var(--color-purple)",
-                    "var(--color-teal)",
-                  ].map((c) => (
+                  {COLORS.map(({ value, key }) => (
                     <button
-                      key={c}
+                      key={value}
                       onClick={() => {
-                      changeColor(c);
+                      changeColor(value);
                       setOpenMenu(null);
-                    }}>
-                      <span
-                        className={styles.colorPreview}
-                        style={{ background: c }}
-                      />
-                      {c.replace("var(--color-", "").replace(")", "")}
+                      }}
+                    >
+                     <span
+                       className={styles.colorPreview}
+                       style={{ background: value }}
+                     />
+                       {dict.basenode.colors[key]}
                     </button>
-                    ))}
+                  ))}
                 </div> )}
             </div>
           </div>
@@ -372,7 +382,7 @@ export default function BaseNode({ id, data, children, iconName, resizable=true,
                 ? specialActionDescription
                 : noExpand
                 ? ""
-                : isExpanded ? "Collapse" : "Expand"
+                : isExpanded ? dict.basenode.collapse : dict.basenode.expand
               }
               onClick={noExpand ? onSpecialAction : (onSpecialAction ?? toggleExpand)}
               disabled={isDraggingNode}
@@ -381,7 +391,7 @@ export default function BaseNode({ id, data, children, iconName, resizable=true,
             {isInGroup && (
                <IconButtonWithHint
                 iconName="canvasungroup"
-                description="Remove from group"
+                description={dict.basenode.ungroup}
                 onClick={handleRemoveFromGroup}
                 disabled={isDraggingNode}
                />
@@ -419,7 +429,7 @@ export default function BaseNode({ id, data, children, iconName, resizable=true,
           nodeSize={localSize}
           onClose={() => setShowEditModal(false)}
           onSave={handleSaveEdit}
-          dict={dict}
+          dict={dict.basenodemodal}
         />
       )}
 

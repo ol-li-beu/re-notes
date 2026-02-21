@@ -8,6 +8,7 @@ import { NodeObj, SubNodeData, CanvasMeta } from "../types";
 import { useFlowStore } from "../store/useFlowStore";
 import { useProjectStore } from "../store/useProjectStore";
 import { ToastContext } from "@/hooks/ToastContext";
+import { useDictionary } from "@/utils/CanvasDictionaryContext";
 
 import { Icon } from "@/components/ui/Icons/Icons";
 import BaseNode from "./BaseNode";
@@ -22,6 +23,7 @@ const STATUS_COLORS = {
 
 export default function SubNodeNode(props: NodeProps<NodeObj>) {
   const { id, data } = props;
+  const dict = useDictionary();
 
   const router = useRouter();
   const params = useParams();
@@ -80,7 +82,7 @@ export default function SubNodeNode(props: NodeProps<NodeObj>) {
       (c) => c.name.toLowerCase() === trimmed.toLowerCase()
     );
     if (exists) {
-      showToast(`Already exists: ${trimmed}`, "error");
+      showToast(`${dict.subnode.alreadyexist}: ${trimmed}`, "error");
       return;
     }
     const newCanvasId = addCanvas(trimmed, 200, 200);
@@ -113,7 +115,7 @@ return (
     resizable={false}
     noEdit={false}
     iconName="canvasarrowdowntoline"
-    specialActionDescription={isLinked ? `→ ${subdata.targetCanvasName}` : "No link"}
+    specialActionDescription={isLinked ? `→ ${subdata.targetCanvasName}` : dict.subnode.nolink}
     onSpecialAction={isLinked ? handleNavigate : () => {
       setPickerOpen((p) => !p);
       setTimeout(() => inputRef.current?.focus(), 50);
@@ -125,7 +127,7 @@ return (
             <input
               ref={inputRef}
               className={styles.createInput}
-              placeholder="New subspace..."
+              placeholder={dict.subnode.newsubspace}
               value={newName}
               maxLength={15}
               onChange={(e) => setNewName(e.target.value)}

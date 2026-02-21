@@ -22,10 +22,10 @@ export default async function HomePage({params} : PageProps) {
              {dict.home.description}
           </p>
           <div className={`${styles.actions}`}>
-            <Link href="" className={`${styles.btn} ${styles.ghost} ${styles.animateFadeUp}`} style={{ animationDelay: "280ms" }}> 
-              {dict.home.btnlearn}
+            <Link href={`/${lang}/about`} className={`${styles.btn} ${styles.ghost} ${styles.animateFadeUp}`} style={{ animationDelay: "280ms" }}> 
+              {dict.home.btnlearn}   {/*{dict.home.btnlearn} TODO*/}
             </Link>
-            <Link href="" className={`${styles.btn} ${styles.primary} ${styles.animateFadeUp}`} style={{ animationDelay: "380ms" }}>   
+            <Link href={`/${lang}/register`} className={`${styles.btn} ${styles.primary} ${styles.animateFadeUp}`} style={{ animationDelay: "380ms" }}>   
               {dict.home.btnregister}
             </Link>
           </div>

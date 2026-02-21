@@ -2,7 +2,9 @@
 
 import { useEffect, useState, useRef } from "react";
 import { NodeData } from "../types";
-import { COLLAPSED_WIDTH, COLLAPSED_HEIGHT, EXPANDED_DEFAULT_WIDTH, EXPANDED_DEFAULT_HEIGHT } from "../types";
+import { EXPANDED_DEFAULT_WIDTH, EXPANDED_DEFAULT_HEIGHT } from "../types";
+
+
 import styles from "./basenodemodal.module.css";
 
 const MAX_TITLE = 18;
@@ -18,6 +20,8 @@ export default function BaseNodeModal({ nodeData, nodeSize, onClose, onSave, dic
   onSave: (data: { label: string; description: string }) => void;
   dict: any;
 }) {
+
+  
   const [label, setLabel] = useState("");
   const [desc, setDesc] = useState("");
   const [shakeLabel, setShakeLabel] = useState(false);
@@ -41,6 +45,8 @@ export default function BaseNodeModal({ nodeData, nodeSize, onClose, onSave, dic
       };
     }
   }, [nodeData]);
+
+  // 
 
   // Handle Escape key
   useEffect(() => {
@@ -90,7 +96,7 @@ export default function BaseNodeModal({ nodeData, nodeSize, onClose, onSave, dic
       }}
       onClick={(e) => e.stopPropagation()}
     >
-      <h2>{dict.editnode || "Edit Node"}</h2>
+      <h2>{dict.edit}</h2>
 
       <div className={styles.formContent}>
         <div className={styles.inputGroup}>
@@ -104,7 +110,7 @@ export default function BaseNodeModal({ nodeData, nodeSize, onClose, onSave, dic
               }
               setLabel(e.target.value);
             }}
-            placeholder={dict.nodelabel || "Node label"}
+            placeholder={dict.label}
             autoFocus
           />
           <span className={styles.counter}>
@@ -123,7 +129,7 @@ export default function BaseNodeModal({ nodeData, nodeSize, onClose, onSave, dic
               }
               setDesc(e.target.value);
             }}
-            placeholder={dict.nodedescription || "Node description"}
+            placeholder={dict.description}
           />
           <span className={styles.counter}>
             {desc.length}/{MAX_DESC}
@@ -136,7 +142,7 @@ export default function BaseNodeModal({ nodeData, nodeSize, onClose, onSave, dic
           className={`${styles.buttons} ${styles.ghost}`}
           onClick={onClose}
         >
-          {dict.cancel || "Cancel"}
+          {dict.cancel}
         </button>
         <button
           className={`${styles.buttons} ${styles.primary}`}
@@ -145,7 +151,7 @@ export default function BaseNodeModal({ nodeData, nodeSize, onClose, onSave, dic
             onSave({ label: label.trim(), description: desc.trim() })
           }
         >
-          {dict.save || "Save"}
+          {dict.save}
         </button>
       </div>
     </div>

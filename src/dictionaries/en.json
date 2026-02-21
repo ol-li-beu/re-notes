@@ -97,7 +97,14 @@
     "home" : {
         "description" : "Connect and Expand your Ideas Recursively",
         "btnregister" : "Get Started",
-        "btnlearn" : "Learn More (WIP)"
+        "btnlearn" : "Learn More"
+
+    },
+
+    "about" : {
+        "title" : "About Re-notes",
+        "intro1" : "Re-Notes was born from the desire to take notes without having to think about the format first. Horizontal space lets you connect and group items on the same canvas, vertical space lets you move to a 'subspace' if an idea needs its own place.",
+        "intro2" : "No predefined structure. You build the hierarchy yourself, when and how you need it."
 
     },
 
@@ -123,41 +130,74 @@
                 "textNodeTitle": "Text Node",
                 "textNodeDescription": "Simple note node",
                 "redirectNodeTitle" : "Redirect Node",
-                "redirectNodeDescription" : "Move to subcanvas",
+                "redirectNodeDescription" : "Move to subspace",
                 "groupNodeTitle" : "Group Node",
                 "groupNodeDescription" : "Add a node container"
             }
         },
 
         "basenode" : {
-            "palette" : "Change Color"
+            "menu" : "Open menu",
+            "palette" : "Change color",
+            "lock" : "Lock resizing",
+            "unlock" : "Unlock resizing",
+            "edit" : "Edit",
+            "cut" : "Cut",
+            "delete" : "Delete",
+            "copy" : "Copy",
+            "paste" : "Paste",
+            "collapse" : "Collapse",
+            "expand" : "Expand",
+            "ungroup" : "Remove from group",
+            "colors": {
+                "default": "Default",
+                "blue": "Blue",
+                "red": "Red",
+                "green": "Green",
+                "yellow": "Yellow",
+                "orange": "Orange",
+                "purple": "Purple",
+                "teal": "Teal"
+            }
         },
+     
 
         "notenode" : {
-
+            "placeholder" : "Write your note here..." 
         },
 
-        "groupnode" : {
-
+        "subnode" : {
+            "alreadyexist" : "Already exist",
+            "nolink" : "No link",
+            "newsubspace" : "New subspace..."
         },
+
+        "groupnode" : {},
+        
         
         "graphnode" : {
-
+            "enter" : "Enter",
+            "rename" : "Rename",
+            "delete" : "Delete",
+            "incoming" : "Incoming links",
+            "outgoing" : "Outgoing links",
+            "warning" : "This cannot be undone"
         },
 
         "basenodemodal" : {
-
+            "edit" : "Edit Node",
+            "label" : "Node label",
+            "description" : "Node description",
+            "cancel" : "Cancel",
+            "save" : "Save"
         },
 
-        "subnodemodal" : {
+        
 
-        },
-
-
-
+        
         "projectclient" : {}
-},
 
+        },
     "messages" : {},
     "toasts" : {}
 
