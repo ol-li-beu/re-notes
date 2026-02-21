@@ -66,8 +66,8 @@ export default function BaseNode({ id, data, children, iconName, resizable=true,
 
   const hasModal = showEditModal;
 
-  const maxWidth = data.type === "group" ? Infinity : EXPANDED_MAX_WIDTH;
-  const maxHeight = data.type === "group" ? Infinity : EXPANDED_MAX_HEIGHT;
+  const maxWidth = data.type === "group" ? 999999 : EXPANDED_MAX_WIDTH;
+  const maxHeight = data.type === "group" ? 999999 : EXPANDED_MAX_HEIGHT;
   
   const thisNode = useFlowStore((s) => s.nodes.find((n) => n.id === id));
   const isInGroup = !!thisNode?.parentId;
@@ -171,10 +171,8 @@ export default function BaseNode({ id, data, children, iconName, resizable=true,
     }, [id, updateNodeInternals]);
    
   const toggleExpand = useCallback(() => {
-    updateNodeData(id, data.type, {
-      expanded: !isExpanded,
-    });
-    requestAnimationFrame(() => {
+    updateNodeData(id, data.type, { expanded: !isExpanded, });
+    requestAnimationFrame(() => { 
       updateNodeInternals(id);
     });
   }, [id, data.type, isExpanded, updateNodeData, updateNodeInternals])
@@ -260,7 +258,7 @@ export default function BaseNode({ id, data, children, iconName, resizable=true,
           minHeight: COLLAPSED_HEIGHT,
           fontSize: "var(--font-canvastitle)",
           fontWeight: "var(--font-weight)",
-          opacity: hasModal ? 0 : 1,
+          opacity: 1,
           pointerEvents: hasModal ? "none" : "auto",
           transform: isDraggingNode
             ? "translateY(-10px) scale(1.04) rotate(0.4deg)"
@@ -269,8 +267,10 @@ export default function BaseNode({ id, data, children, iconName, resizable=true,
             ? "none"
             : isInGroup
             ? "none"
+            : data.type === "group"
+            ? "width 0.15s ease, height 0.15s ease, transform 0.22s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.22s cubic-bezier(0.2, 0.8, 0.2, 1)"
             : isExpanded
-            ? "width 0.2s ease, height 0.2s ease, transform 0.22s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.22s cubic-bezier(0.2, 0.8, 0.2, 1)"
+            ? "transform 0.22s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.22s cubic-bezier(0.2, 0.8, 0.2, 1)"
             : "transform 0.22s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.22s cubic-bezier(0.2, 0.8, 0.2, 1)",
           boxShadow: isDraggingNode
             ? "0 18px 40px rgba(0,0,0,0.55)"
@@ -297,11 +297,16 @@ export default function BaseNode({ id, data, children, iconName, resizable=true,
               localSizeRef.current = { width, height };
               useFlowStore.setState(s => ({
                 nodes: s.nodes.map(n =>
-                    n.id === id
-                      ? { ...n, style: { ...n.style, width, height }, data: { ...n.data, width, height } }
-                      : n
-                  )
-                }));
+                  n.id === id
+                  ? { ...n, style: { ...n.style, width, height }, data: { ...n.data, width, height } }
+                  : n
+                )
+              }));
+              // Live group container resize
+              const node = useFlowStore.getState().nodes.find(n => n.id === id);
+              if (node?.parentId) {
+                useFlowStore.getState().resizeGroupToFitChildren(node.parentId);
+              }
             }}
             onResizeEnd={() => {handleResizeEnd(); endBatch(); }}
             nodeId={id}

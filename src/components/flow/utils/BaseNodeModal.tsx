@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useRef } from "react";
 import { NodeData } from "../types";
-import { EXPANDED_DEFAULT_WIDTH, EXPANDED_DEFAULT_HEIGHT } from "../types";
+import { createPortal } from "react-dom";
 
 
 import styles from "./basenodemodal.module.css";
@@ -32,9 +32,6 @@ export default function BaseNodeModal({ nodeData, nodeSize, onClose, onSave, dic
     desc: "",
   });
 
-  const modalWidth = Math.max(nodeSize?.width ?? 0, EXPANDED_DEFAULT_WIDTH) + 10;
-  const modalHeight = Math.max(nodeSize?.height ?? 0, EXPANDED_DEFAULT_HEIGHT) + 10;
-
   useEffect(() => {
     if (nodeData) {
       setLabel(nodeData.label);
@@ -59,23 +56,6 @@ export default function BaseNodeModal({ nodeData, nodeSize, onClose, onSave, dic
     return () => document.removeEventListener('keydown', handleEscape);
   }, [onClose]);
 
-  // Click outside to close modal
-  useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
-        onClose();
-      }
-    };
-    
-    const timer = setTimeout(() => {
-      document.addEventListener('mousedown', handleClickOutside);
-    }, 100);
-
-    return () => {
-      clearTimeout(timer);
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [onClose]);
 
   const isDirty =
     label.trim() !== initial.current.label ||
@@ -86,14 +66,12 @@ export default function BaseNodeModal({ nodeData, nodeSize, onClose, onSave, dic
     if (shakeDesc) setTimeout(() => setShakeDesc(false), 300);
   }, [shakeLabel, shakeDesc]);
 
-  return (
+  return createPortal(
+    <>
+    <div className={styles.overlay} onClick={onClose} />
     <div
       ref={modalRef}
       className={`${styles.modal}`}
-      style={{
-        width: `${modalWidth}px`,
-        height: `${modalHeight}px`,
-      }}
       onClick={(e) => e.stopPropagation()}
     >
       <h2>{dict.edit}</h2>
@@ -155,5 +133,6 @@ export default function BaseNodeModal({ nodeData, nodeSize, onClose, onSave, dic
         </button>
       </div>
     </div>
+    </>, document.body
   );
 }

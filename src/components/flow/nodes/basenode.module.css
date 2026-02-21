@@ -24,7 +24,7 @@
   box-sizing: border-box;
   outline: none;
   user-select: none;
-  border: 3px solid var(--fg);
+  border: 2px solid var(--contrast);
   border-radius: 6px;
   z-index: 1; 
   overflow: visible;

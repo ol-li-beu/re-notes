@@ -183,13 +183,16 @@ export const useFlowStore = create<FlowState>((set, get) => ({
     const state = get();
     if (!state.isBatching) state.commitHistory();
 
+    const deselectedNodes = state.nodes.map(n => ({ ...n, selected: false }));
+
     const newNode = createNode(type, pos, strings);
+    newNode.selected = true;
 
     set({
       // groups go at start of array, others at end
       nodes: type === "group" 
-        ? [newNode, ...state.nodes]
-        : [...state.nodes, newNode],
+        ? [newNode, ...deselectedNodes]
+        : [...deselectedNodes, newNode],
     });
   },
 
@@ -221,10 +224,7 @@ export const useFlowStore = create<FlowState>((set, get) => ({
              };
           } else {
           // Collapsed so RF remeasure
-           updated.style = {
-              width: COLLAPSED_WIDTH,
-              height: COLLAPSED_HEIGHT,
-            };
+            updated.style = { width: COLLAPSED_WIDTH, height: COLLAPSED_HEIGHT, };
           }
 
         } else if ("width" in updates || "height" in updates) {
@@ -384,7 +384,7 @@ export const useFlowStore = create<FlowState>((set, get) => ({
             ...n,
             parentId,
             expandParent: false,
-            extent: parentId ? ("parent" as const) : undefined,
+            extent: undefined,
             position: clampedPosition,
         } : n
     );
