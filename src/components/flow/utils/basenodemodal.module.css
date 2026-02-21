@@ -2,7 +2,7 @@
 .modal {
   max-width: 720px;
 
-  background: var(--bg);
+  background: var(--node-bg);
   border-radius: 12px;
   padding: clamp(16px, 2vw, 28px);
   
@@ -33,7 +33,7 @@
   font-family: var(--font-title);
   font-size: var(--font-lg);
   flex-shrink: 0;
-  border-bottom: 2px solid var(--fg);
+  border-bottom: 1px solid var(--contrast);
   margin-bottom: var(--space-sm); 
 }
 
@@ -53,6 +53,7 @@
   flex-direction: column;
   gap: 6px; 
   flex-shrink: 0;
+
 }
 
 /* Form Inputs */
@@ -65,9 +66,9 @@
   width: 100%;
 
   padding: var(--space-xs);
-  border: 2px solid var(--fg);
+  border: 2px solid var(--contrast);
   border-radius: 6px;
-  background: var(--bg);
+  background: var(--node-bg);
   color: var(--fg);
   outline: none;
   transition: border-color 0.2s ease, box-shadow 0.15s ease;;
@@ -88,9 +89,9 @@
   resize: none;
   overflow-y: auto;
   
-  border: 2px solid var(--fg);
+  border: 2px solid var(--contrast);
   border-radius: 6px;
-  background: var(--bg);
+  background: var(--node-bg);
   color: var(--fg);
   outline: none;
   transition: border-color 0.2s ease;

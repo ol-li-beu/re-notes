@@ -16,7 +16,7 @@ import Toolbar from "@/components/flow/toolbar/ToolBar";
 import Sidebar from "@/components/flow/sidebar/SideBar";
 import { NodeOptionCard } from "@/components/flow/sidebar/NodeOptionCard";
 import ClickCursor from "@/components/flow/cursor/ClickCursor";
-import { SquareMiniMapNode } from "@/components/flow/nodes/MinimapNodes"
+import { SquareMiniMapNode } from "@/components/flow/nodes/MinimapNodes";
 
 import styles from "./canvas.module.css";
 
@@ -303,11 +303,13 @@ return (
         />
         <div className={`${styles.hideOnMobile}`}>
         <Controls  />
+        {/* Temporary exclusion, incompatible with style based 
         <MiniMap
+          style={{ backgroundColor: "var(--accent)" }}
           maskColor="var(--contrast)"
           nodeComponent={SquareMiniMapNode}
-          style={{ backgroundColor: "var(--accent)" }}
         />
+        */}
         </div>
       </ReactFlow>
 

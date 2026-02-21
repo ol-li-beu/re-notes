@@ -174,7 +174,9 @@ export default function BaseNode({ id, data, children, iconName, resizable=true,
     updateNodeData(id, data.type, {
       expanded: !isExpanded,
     });
-    setTimeout(() => updateNodeInternals(id), 0);
+    requestAnimationFrame(() => {
+      updateNodeInternals(id);
+    });
   }, [id, data.type, isExpanded, updateNodeData, updateNodeInternals])
 
   const handleResizeEnd = useCallback(() => {
@@ -252,8 +254,10 @@ export default function BaseNode({ id, data, children, iconName, resizable=true,
         ref={nodeRef}
         style={{
           background: data.color || " var(--node-bg)",
-          width: isExpanded ? "100%" : COLLAPSED_WIDTH,
-          height: isExpanded ? "100%" : COLLAPSED_HEIGHT,
+          width: isResizing ? localSizeRef.current.width : isExpanded ? "100%" : COLLAPSED_WIDTH,
+          height: isResizing ? localSizeRef.current.height : isExpanded ? "100%" : COLLAPSED_HEIGHT,
+          minWidth: COLLAPSED_WIDTH,
+          minHeight: COLLAPSED_HEIGHT,
           fontSize: "var(--font-canvastitle)",
           fontWeight: "var(--font-weight)",
           opacity: hasModal ? 0 : 1,

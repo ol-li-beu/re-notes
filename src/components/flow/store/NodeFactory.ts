@@ -34,6 +34,7 @@ export function createNode(
         type: "note",
         position,
         zIndex: 10,
+        style: { width: COLLAPSED_WIDTH, height: COLLAPSED_HEIGHT },
         data: {
           type: "note",
           label,
@@ -60,6 +61,7 @@ export function createNode(
         type: "subnode",
         position,
         zIndex: 10,
+        style: { width: COLLAPSED_WIDTH, height: COLLAPSED_HEIGHT },
         data: {
           type: "subnode",
           label,

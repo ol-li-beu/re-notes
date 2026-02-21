@@ -84,8 +84,10 @@ export default function ProjectHomeClient({ lang, projectId }: ProjectHomeClient
       <div className={styles.reactFlowWrapper} ref={reactFlowWrapper}>
 
         {/* TOP LEFT */}
-        <div className={styles.topLeftLabel}>
-          <span>{projectName}</span>
+        <div className={styles.topActions}>
+          <div className={styles.topLeftLabel}>
+            <span>{projectName}</span>
+          </div>
         </div>
 
         <ReactFlow

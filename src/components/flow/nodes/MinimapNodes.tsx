@@ -1,5 +1,10 @@
-// Canvas
-export function SquareMiniMapNode({ x, y, width, height }: { x: number; y: number; width: number; height: number }) {
+import { useFlowStore } from "../store/useFlowStore";
+import { COLLAPSED_HEIGHT, COLLAPSED_WIDTH } from "../types";
+
+
+// Canvas // since no width and height and only style use store for reading source
+export function SquareMiniMapNode({ x, y, width, height }: { x: number; y: number; width: number; height: number  }) {
+  
   return (
     <rect
       x={x}

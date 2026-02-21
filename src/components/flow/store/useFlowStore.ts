@@ -108,44 +108,40 @@ export const useFlowStore = create<FlowState>((set, get) => ({
   /* React flow handlers */
 
   onNodesChange: (changes: NodeChange<NodeObj>[]) => {
-  const state = get();
+    const state = get();
 
-  const filteredChanges = changes.filter(c => {
-    if (c.type !== "dimensions") return true;
-    const node = state.nodes.find(n => n.id === c.id);
-    return !node?.data.expanded;
-  });
+    const filteredChanges = changes.filter(c => c.type !== "dimensions");
 
-  const meaningfulChange = filteredChanges.some(change => {
-    if (change.type === "select") return false;
-    if (change.type === "position") {
-      const prevNode = state.nodes.find(n => n.id === change.id);
-      if (
-        prevNode &&
-        prevNode.position.x === change.position?.x &&
-        prevNode.position.y === change.position?.y
-      ) {
-        return false;
+    const meaningfulChange = filteredChanges.some(change => {
+      if (change.type === "select") return false;
+      if (change.type === "position") {
+        const prevNode = state.nodes.find(n => n.id === change.id);
+        if (
+          prevNode &&
+          prevNode.position.x === change.position?.x &&
+          prevNode.position.y === change.position?.y
+        ) {
+          return false;
+        }
       }
+      return true;
+    } );
+
+    if (!state.isBatching && meaningfulChange) {
+      state.commitHistory();
     }
-    return true;
-  });
 
-  if (!state.isBatching && meaningfulChange) {
-    state.commitHistory();
-  }
+    const newNodes = applyNodeChanges<NodeObj>(filteredChanges, state.nodes);
+    set({ nodes: newNodes });
 
-  const newNodes = applyNodeChanges<NodeObj>(filteredChanges, state.nodes);
-  set({ nodes: newNodes });
-
-  filteredChanges.forEach((change) => {
-    if (change.type === "position") {
-      const movedNode = state.nodes.find((n) => n.id === change.id);
-      if (movedNode?.parentId) {
-        get().resizeGroupToFitChildren(movedNode.parentId);
+    filteredChanges.forEach((change) => {
+      if (change.type === "position") {
+        const movedNode = state.nodes.find((n) => n.id === change.id);
+        if (movedNode?.parentId) {
+          get().resizeGroupToFitChildren(movedNode.parentId);
+        }
       }
-    }
-  });
+    });
 },
 
   onEdgesChange: (changes: EdgeChange<Edge>[]) => {
@@ -224,9 +220,11 @@ export const useFlowStore = create<FlowState>((set, get) => ({
               height: updatedData.height ?? EXPANDED_MIN_HEIGHT,
              };
           } else {
-          // Clear so RF remeasure
-            const { width: _w, height: _h, ...rest } = n.style ?? {};
-            updated.style = rest;
+          // Collapsed so RF remeasure
+           updated.style = {
+              width: COLLAPSED_WIDTH,
+              height: COLLAPSED_HEIGHT,
+            };
           }
 
         } else if ("width" in updates || "height" in updates) {
