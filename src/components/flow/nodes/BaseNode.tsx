@@ -68,7 +68,6 @@ export default function BaseNode({ id, data, children, iconName, resizable=true,
 
   const maxWidth = data.type === "group" ? Infinity : EXPANDED_MAX_WIDTH;
   const maxHeight = data.type === "group" ? Infinity : EXPANDED_MAX_HEIGHT;
-  const prevDataRef = useRef(data);
   
   const thisNode = useFlowStore((s) => s.nodes.find((n) => n.id === id));
   const isInGroup = !!thisNode?.parentId;
@@ -125,15 +124,7 @@ export default function BaseNode({ id, data, children, iconName, resizable=true,
 
   /* SIZE LOGIC */
 
-  
 
-  useEffect(() => {
-    if (prevDataRef.current.width !== data.width || 
-        prevDataRef.current.height !== data.height) {
-      updateNodeInternals(id);
-    }
-    prevDataRef.current = data;
-  }, [data.width, data.height, id, updateNodeInternals]);
 
   // group on first expand included 
   const isExpanded = !!data.expanded;
@@ -155,7 +146,7 @@ export default function BaseNode({ id, data, children, iconName, resizable=true,
     setLocalSize({ width: computedWidth, height: computedHeight, });
     updateNodeInternals(id);
   }, [data.width, data.height, data.expanded, id]);
-
+  
   /* EDGE UPDATE based on observer for optimal performance*/
   useEffect(() => {
     if (!nodeRef.current) return;
