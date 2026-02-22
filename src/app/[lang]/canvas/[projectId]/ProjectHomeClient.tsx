@@ -59,7 +59,7 @@ export default function ProjectHomeClient({ lang, projectId }: ProjectHomeClient
         };
       })
     );
-  }, [canvases]);
+  }, [canvases, links]);
 
 
    const onNodesChange = useCallback((changes: NodeChange<GraphNodeObj>[]) => {
