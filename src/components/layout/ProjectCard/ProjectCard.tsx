@@ -21,10 +21,11 @@ type Props = {
   onRestore?: (p: Project) => void;
   onPermanentDelete?: (p: Project) => void;
   dict: any;
+  isRestoring? : boolean;
 };
 
 export default function ProjectCard({project, lang, mode = "normal", isMenuOpen, 
-  onToggleMenu, onCloseMenu, onEdit, onDelete, onRestore, onPermanentDelete, dict,}: Props) {
+  onToggleMenu, onCloseMenu, onEdit, onDelete, onRestore, onPermanentDelete, dict, isRestoring=false}: Props) {
   
 
   return (
@@ -98,7 +99,7 @@ export default function ProjectCard({project, lang, mode = "normal", isMenuOpen,
       {/* Recyclebin Actions */}
       {mode === "trash" && (
         <div className={styles.trashActions}>
-          <button onClick={() => { onRestore?.(project);}}>
+          <button className={isRestoring ? "isLoading" : ""} disabled={isRestoring} onClick={() => { onRestore?.(project);}}>
             <Icon name="undo" />
             {dict.restore}
           </button>

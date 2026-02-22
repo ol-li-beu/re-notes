@@ -39,6 +39,7 @@ export default function UserFormClient({
   const [forgotEmail, setForgotEmail] = useState("");
   const [sending, setSending] = useState(false);
   const [cooldown, setCooldown] = useState(0);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const { message, showMessage, clearMessage } = useMessage();
   const { showToast } = useToast();
@@ -117,7 +118,9 @@ export default function UserFormClient({
     const formData = new FormData(e.currentTarget);
 
     // 3. Ejecutar Server Action
+    setIsSubmitting(true);
     const result = await action(formData);
+    setIsSubmitting(false);
 
     if (result?.error) {
       // Manejo especial para errores comunes de Supabase
@@ -211,7 +214,7 @@ export default function UserFormClient({
           />
         )}
 
-        <button type="submit" className={styles.button}>
+        <button type="submit" className={`${styles.button} ${isSubmitting ? "isLoading" : ""}`} disabled={isSubmitting}>
           {mode === "login" && dict.btnlogin}
           {mode === "register" && dict.btnregister}
           {mode === "set-password" && dict.btnsetpassword}

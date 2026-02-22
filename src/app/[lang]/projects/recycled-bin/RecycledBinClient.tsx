@@ -6,7 +6,6 @@ import SearchController from "@/components/ui/SearchBar/SearchBarController";
 import ConfirmModal from "@/components/ui/ConfirmModal/ConfirmModal";
 import { Project } from "@/utils/types";
 import { ToastContext } from "@/hooks/ToastContext";
-import Spinner from "@/components/ui/Spinner/Spinner";
 import EmptyState from "@/components/ui/EmptyState/EmptyState";
 import { useLockBodyScroll } from "@/hooks/useLockBodyScroll";
 
@@ -32,10 +31,11 @@ export default function RecycledBinClient({ dict, initialProjects, lang }: Recyc
   }, [initialProjects]);
 
   const [confirmDelete, setConfirmDelete] = useState<Project | null>(null);
-  const [loading, setLoading] = useState(false);
 
   const [deleting, setDeleting] = useState(false);
   const [cooldown, setCooldown] = useState(0);
+
+  const [restoringId, setRestoringId] = useState<string | null>(null);
 
   // Intervalo de seguridad para borrar
   useEffect(() => {
@@ -53,13 +53,6 @@ export default function RecycledBinClient({ dict, initialProjects, lang }: Recyc
     return () => clearInterval(timer);
   }, [confirmDelete]);
 
-  if (loading) {
-    return (
-      <div className={styles.center}>
-        <Spinner />
-      </div>
-    );
-  }
  
   useLockBodyScroll(!!confirmDelete);
 
@@ -94,11 +87,12 @@ export default function RecycledBinClient({ dict, initialProjects, lang }: Recyc
                   
                   // 3. LOGICA DE RESTAURAR CONECTADA
                   onRestore={async (p) => {
-                    // Optimistic UI: Lo sacamos de la lista visualmente
+                    setRestoringId(p.id);
                     setProjects((ps) => ps.filter((x) => x.id !== p.id));
                     
                     // Server Action
                     const res = await restoreProject(lang, p.id);
+                    setRestoringId(null);
                     
                     if (res?.error) {
                         showToast("Error restoring", "error");
@@ -110,6 +104,8 @@ export default function RecycledBinClient({ dict, initialProjects, lang }: Recyc
                   }}
                   
                   onPermanentDelete={(p) => setConfirmDelete(p)}
+
+                  isRestoring={restoringId === project.id}
                 />
               ))}
             </div>

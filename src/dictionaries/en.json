@@ -123,7 +123,9 @@
                 "save": "Save",
                 "goBack": "Go back",
                 "goToRoot" : "Go to root",
-                "goToProjectHome": "Go to project home"
+                "goToProjectHome": "Go to project home",
+                "saved" : "Saved Successfully",
+                "notsaved" : "Save failed"
             },
 
             "sidebar": {

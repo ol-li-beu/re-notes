@@ -124,7 +124,9 @@
                 "save": "Guardar",
                 "goBack": "Volver Atrás",
                 "goToRoot" : "Ir a la raíz",
-                "goToProjectHome": "Ir al inicio del proyecto"
+                "goToProjectHome": "Ir al inicio del proyecto",
+                "saved" : "Guardado exitosamente",
+                "notsaved" : "Fallo al guardar"
             },
 
             "sidebar": {

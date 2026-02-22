@@ -23,7 +23,7 @@ export default function ConfirmModal({title, description, btncancel, btnconfirm,
           <button onClick={onCancel}>
             {btncancel}
           </button>
-          <button className={styles.danger} onClick={onConfirm} disabled={disabled}>
+          <button className={`${styles.danger} ${disabled ? "isLoading" : ""}`} onClick={onConfirm} disabled={disabled}>
             {btnconfirm}
           </button>
         </div>

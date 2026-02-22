@@ -204,6 +204,9 @@
   opacity: var(--opacitychange);
 }
 
+.trashActions button:disabled {
+  cursor: not-allowed;
+}
 
 /* Icons & special text */
 

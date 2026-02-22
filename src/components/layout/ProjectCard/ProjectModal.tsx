@@ -8,8 +8,8 @@ import styles from "./projectmodal.module.css";
 const MAX_TITLE = 30;
 const MAX_DESC = 100;
 
-export default function ProjectModal({project ,onClose, onSave, dict}: {project: Project | null; onClose: () => void; 
-  onSave: (data: { title: string; description: string }) => void; dict: any;}, ) {
+export default function ProjectModal({project ,onClose, onSave, dict, isSaving = false}: {project: Project | null; onClose: () => void; 
+  onSave: (data: { title: string; description: string; }) => void; dict: any; isSaving: boolean}, ) {
 
   const [title, setTitle] = useState("");
   const [desc, setDesc] = useState("");
@@ -45,8 +45,6 @@ export default function ProjectModal({project ,onClose, onSave, dict}: {project:
   }, [shakeTitle, shakeDesc]);
 
 
-
-  // BCK Functiones para guardar ediciones y eliminaciones de proyectos
 
   return (
     <div className={styles.backdrop} onClick={onClose}>
@@ -92,8 +90,8 @@ export default function ProjectModal({project ,onClose, onSave, dict}: {project:
 
         <div className={styles.actions}>
           <button className={`${styles.buttons} ${styles.ghost}`} onClick={onClose}> {dict.cancel} </button>
-          <button className={`${styles.buttons} ${styles.primary}`} 
-            disabled={!title.trim() || (!!project && !isDirty)} // !! force boolean
+          <button className={`${styles.buttons} ${styles.primary} ${isSaving ? "isLoading" : ""}`} 
+            disabled={!title.trim() || (!!project && !isDirty) || isSaving} // !! force boolean
             onClick={() =>
               onSave({ title: title.trim(), description: desc.trim() })
             }

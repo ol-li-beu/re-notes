@@ -3,13 +3,11 @@
 import { useState, useContext, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
-import Link from "next/link";
 import ProjectCard from "@/components/layout/ProjectCard/ProjectCard";
 import SpecialProjectCard from "@/components/layout/ProjectCard/SpecialProjectCard";
 import ProjectModal from "@/components/layout/ProjectCard/ProjectModal";
 import SearchController from "@/components/ui/SearchBar/SearchBarController";
 import ConfirmModal from "@/components/ui/ConfirmModal/ConfirmModal";
-import Spinner from "@/components/ui/Spinner/Spinner";
 
 import { Project } from "@/utils/types";
 import { ToastContext } from "@/hooks/ToastContext";
@@ -33,7 +31,8 @@ export default function ProjectsClient({ lang, dict, initialProjects }: Projects
   // este componente se volverá a renderizar con los datos nuevos.
   const [projects, setProjects] = useState(initialProjects); 
   const [openMenuId, setOpenMenuId] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [isSaving, setIsSaving] = useState(false); 
   const [editing, setEditing] = useState<Project | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [toDelete, setToDelete] = useState<Project | null>(null);
@@ -53,13 +52,6 @@ export default function ProjectsClient({ lang, dict, initialProjects }: Projects
   useLockBodyScroll(modalOpen);
   useLockBodyScroll(!!toDelete);
 
-  if (loading) {
-    return (
-      <div className={styles.loading}>
-        <Spinner />
-      </div>
-    );
-  }
 
   return (
     <>
@@ -137,6 +129,7 @@ export default function ProjectsClient({ lang, dict, initialProjects }: Projects
           project={editing}
           onClose={() => setModalOpen(false)}
           onSave={async (data) => {
+            setIsSaving(true);
             // CASO 1: EDITAR
             if (editing) {
               // Optimistic UI: Actualizar visualmente rápido
@@ -174,12 +167,14 @@ export default function ProjectsClient({ lang, dict, initialProjects }: Projects
                    router.refresh();    // Recargamos para ver el nuevo proyecto
               }
             }
+            setIsSaving(false);
             setModalOpen(false);
           }}
+          isSaving={isSaving}
         />
       )}
 
-      {/* MODAL CONFIRMAR BORRADO */}
+      {/* MODAL CONFIRMAR BORRAR */}
       {toDelete && (
         <ConfirmModal
           title={dict.confirmdelete ?? "Delete project?"}
@@ -189,12 +184,12 @@ export default function ProjectsClient({ lang, dict, initialProjects }: Projects
           onCancel={() => setToDelete(null)}
           onConfirm={async () => {
             if (!toDelete) return;
-
-            // Optimistic UI
+            setIsDeleting(true);
             setProjects((ps) => ps.filter((x) => x.id !== toDelete.id));
             
             // Llamada al servidor
             const res = await softDeleteProject(lang, toDelete.id);
+            setIsDeleting(false);
 
             if (res?.error) {
                  showToast("Error deleting project", "error");
@@ -205,6 +200,7 @@ export default function ProjectsClient({ lang, dict, initialProjects }: Projects
             }
             setToDelete(null);
           }}
+          disabled={isDeleting}
         />
       )}
     </>

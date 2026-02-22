@@ -178,6 +178,22 @@ export default function CanvasClient({lang, projectId, nodeId, canvasName} : Can
     }
   }, [searchParams, lang, projectId, router]);
 
+
+// SAVE HANDLER
+const [isSaving, setIsSaving] = useState(false);
+
+const handleSave = async () => {
+  setIsSaving(true);
+  // BCK TODO: SUPSBASE
+  await new Promise(r => setTimeout(r, 500)); // placeholder until wired
+  setIsSaving(false);
+  showToast(dict.canvasclient.toolbar.saved, "success");
+
+  // showToast(dict.canvasclient.toolbar.notsaved, "error"); if error
+};
+
+
+
 // RENDERING
 
 return (
@@ -198,7 +214,7 @@ return (
            <IconButtonWithHint iconName="canvasundo" description={dict.canvasclient.toolbar.undo} onClick={undo} disabled={!canUndo}/>
            <IconButtonWithHint iconName="canvasredo" description={dict.canvasclient.toolbar.redo} onClick={redo} disabled={!canRedo}/>
            <IconButtonWithHint iconName="canvasplus" description={dict.canvasclient.toolbar.addNode} onClick={() => setSidebarOpen(true)}/>
-           <IconButtonWithHint iconName="canvassave" description={dict.canvasclient.toolbar.save} onClick={() => {}} /> {/* SHOW TOAST TODO after finish*/ }
+           <IconButtonWithHint iconName="canvassave" description={dict.canvasclient.toolbar.save} onClick={handleSave} disabled={isSaving} /> 
            <IconButtonWithHint iconName="canvasarrowuptoline" description={dict.canvasclient.toolbar.goBack} onClick={handleBack} />
            <IconButtonWithHint iconName="canvasroot" description={dict.canvasclient.toolbar.goToRoot} onClick={() => {router.push(`/${lang}/canvas/${projectId}/${rootCanvasId}`)}} />
            <IconButtonWithHint iconName="canvashome" description={dict.canvasclient.toolbar.goToProjectHome} onClick={() => {router.push(`/${lang}/canvas/${projectId}`)}} />
