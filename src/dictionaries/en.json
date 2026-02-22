@@ -183,7 +183,8 @@
             "delete" : "Delete",
             "incoming" : "Incoming links",
             "outgoing" : "Outgoing links",
-            "warning" : "This cannot be undone"
+            "warning" : "This cannot be undone",
+            "alreadyexist" : "Already exist"
         },
 
         "basenodemodal" : {

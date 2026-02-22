@@ -43,20 +43,23 @@ export default function ProjectHomeClient({ lang, projectId }: ProjectHomeClient
 
   useEffect(() => {
     if (canvases.length === 0) return;
-      setRfNodesState(
-        canvases.map((canvas) => ({
+    setRfNodesState(prev =>
+      canvases.map((canvas) => {
+        const existing = prev.find(n => n.id === canvas.id);
+        return {
           id: canvas.id,
           type: "graphnode" as const,
-          position: { x: canvas.positionX, y: canvas.positionY },
+          position: existing?.position ?? { x: canvas.positionX, y: canvas.positionY },
           data: {
             canvasId: canvas.id,
             name: canvas.name,
             status: getStatus(canvas.id),
             projectId,
-            },
-        }))
+          },
+        };
+      })
     );
-  }, [canvases.length]);
+  }, [canvases]);
 
 
    const onNodesChange = useCallback((changes: NodeChange<GraphNodeObj>[]) => {
@@ -97,7 +100,7 @@ export default function ProjectHomeClient({ lang, projectId }: ProjectHomeClient
           edgeTypes={GraphEdgeClasses}
           onNodesChange={onNodesChange} 
           nodesConnectable={false}
-          elementsSelectable={false}
+          elementsSelectable={true}
           fitView
           proOptions={{ hideAttribution: true }}
           onNodeDragStop={(_, node) => {

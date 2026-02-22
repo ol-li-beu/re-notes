@@ -149,7 +149,7 @@ export interface ProjectState {
   // canvas CRUD
   addCanvas: (name: string, positionX?: number, positionY?: number) => string; // returns new id
   deleteCanvas: (id: string) => void;
-  renameCanvas: (id: string, name: string) => void;
+  renameCanvas: (id: string, name: string) => boolean;
   updateCanvasPosition: (id: string, x: number, y: number) => void;
 
   // links

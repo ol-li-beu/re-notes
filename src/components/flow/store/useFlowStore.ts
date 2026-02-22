@@ -10,6 +10,7 @@ import {
 
 import { createNode, DefaultNodeString } from "./NodeFactory";
 import { FlowState, NodeObj, NodeTypes, COLLAPSED_HEIGHT, COLLAPSED_WIDTH, EXPANDED_MIN_WIDTH, EXPANDED_MIN_HEIGHT } from "../types";
+import { useProjectStore } from "./useProjectStore";
 
 export const useFlowStore = create<FlowState>((set, get) => ({
   nodes: [],
@@ -268,6 +269,11 @@ export const useFlowStore = create<FlowState>((set, get) => ({
     if (!state.isBatching) {
       state.commitHistory();
     }
+    // link deletion
+    const node = state.nodes.find(n => n.id === id);
+    if (node?.data.type === "subnode" && node.data.linkId) {
+      useProjectStore.getState().removeLink(node.data.linkId);
+    }
 
     const newNodes = state.nodes.filter((node) => node.id !== id);
     const newEdges = state.edges.filter(
@@ -288,19 +294,30 @@ export const useFlowStore = create<FlowState>((set, get) => ({
     if (!state.isBatching) {
       state.commitHistory();
     }
+    const cloned = structuredClone(nodeToDuplicate);
+
+    // Clear link data if subnode so user conscious
+    if (cloned.data.type === "subnode") {
+      cloned.data = {
+        ...cloned.data,
+        targetCanvasId: null,
+        targetCanvasName: null,
+        linkId: null,
+      };
+    }
 
     const newNode: NodeObj = {
-      ...structuredClone(nodeToDuplicate),
+      ...cloned,
       id: crypto.randomUUID(),
       position: {
         x: nodeToDuplicate.position.x + 50,
         y: nodeToDuplicate.position.y + 50,
       },
-      selected: false,
+      selected: true,
     };
 
     set({
-      nodes: [...state.nodes, newNode],
+      nodes: [...state.nodes.map(n => ({ ...n, selected: false })), newNode],
     });
   },
 
@@ -348,16 +365,19 @@ export const useFlowStore = create<FlowState>((set, get) => ({
         y: clipboardPosition.y + offset,
       };
     }
-
+    
     const newNode: NodeObj = {
       ...structuredClone(state.clipboard),
       id: crypto.randomUUID(),
       position: newPosition,
-      selected: false,
+      selected: true,
+      data: state.clipboard.data.type === "subnode"
+        ? { ...state.clipboard.data, targetCanvasId: null, targetCanvasName: null, linkId: null }
+        : state.clipboard.data,
     };
 
     set({
-      nodes: [...state.nodes, newNode],
+      nodes: [...state.nodes.map(n => ({ ...n, selected: false })), newNode],
     });
 
     return newNode.id;

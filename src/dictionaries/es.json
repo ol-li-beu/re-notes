@@ -182,7 +182,8 @@
             "delete" : "Eliminar",
             "incoming" : "Enlaces entrantes",
             "outgoing" : "Enlaces salientes",
-            "warning" : "Esta acción no se puede deshacer"
+            "warning" : "Esta acción no se puede deshacer",
+            "alreadyexist" : "Ya existe"
         },
 
         "basenodemodal" : {

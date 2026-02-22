@@ -60,6 +60,12 @@ export const useProjectStore = create<ProjectState>((set, get) => ({
    },
 
   renameCanvas: (id, name) => {
+    const { canvases } = get();
+    const exists = canvases.some(
+      (c) => c.id !== id && c.name.toLowerCase() === name.toLowerCase()
+    );
+    if (exists) return false;
+
     const flowNodes = useFlowStore.getState().nodes;
     flowNodes.forEach((node) => {
       if (node.data.type === "subnode" && node.data.targetCanvasId === id) {
@@ -67,6 +73,7 @@ export const useProjectStore = create<ProjectState>((set, get) => ({
           targetCanvasName: name,
         });
       }
+      
     });
 
     set((state) => ({
@@ -74,6 +81,9 @@ export const useProjectStore = create<ProjectState>((set, get) => ({
         c.id === id ? { ...c, name } : c
       ),
     }));
+
+    return true;
+
   },
 
   updateCanvasPosition: (id, x, y) => {

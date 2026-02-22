@@ -1,17 +1,19 @@
 "use client";
 
 import { NodeProps, Handle, Position, Node as XYNode, } from "@xyflow/react";
-import { useState, useRef, useEffect, useCallback } from "react";
+import { useState, useRef, useEffect, useCallback, useContext } from "react";
 import { useRouter, useParams } from "next/navigation";
 import { GraphNodeData, CanvasStatus,} from "../types";
 import { useProjectStore } from "../store/useProjectStore";
 import { useDictionary } from "@/utils/CanvasDictionaryContext";
+import { useToast } from "@/hooks/useToast";
 
 import { Icon } from "@/components/ui/Icons/Icons";
 import IconButtonWithHint from "@/components/ui/Icons/IconButtonWithHint";
 import ConfirmModal from "@/components/ui/ConfirmModal/ConfirmModal";
 
 import styles from "./graphnode.module.css";
+
 
 
 export type GraphNodeObj = XYNode<GraphNodeData>;
@@ -26,8 +28,9 @@ const MAX_NAME = 15;
 
 
 
-export default function GraphNode({ data }: NodeProps<GraphNodeObj>) {
+export default function GraphNode({ data, selected }: NodeProps<GraphNodeObj>) {
   const dict = useDictionary();
+  const {showToast} = useToast();
 
   const router = useRouter();
   const [menuOpen, setMenuOpen] = useState(false);
@@ -71,20 +74,26 @@ export default function GraphNode({ data }: NodeProps<GraphNodeObj>) {
       setIsRenaming(false);
       return;
     }
-    renameCanvas(data.canvasId, trimmed);
+    const success = renameCanvas(data.canvasId, trimmed);
+    if (!success) {
+      showToast(`${dict.graphnode.alreadyexist}: ${trimmed}`, "error");
+      setRenameValue(data.name);
+    }
     setIsRenaming(false);
   }, [renameValue, data.name, data.canvasId, renameCanvas]);
 
-  const stats = getCanvasStats(data.canvasId);
+  const stats = getCanvasStats(data.canvasId);  
   
 
 return (
   <>
     <div
-      className={styles.wrapper}
+      className={`${styles.wrapper}`}
       style={{
-        borderColor: color,
-        boxShadow: `0 0 0 3px ${color}22`,
+        borderColor: selected ? "var(--accent)" : color,
+        boxShadow: selected 
+          ? "0 0 0 3px color-mix(in srgb, var(--accent) 20%, transparent)"
+            : `0 0 0 3px ${color}22`,
       }}
     >
       {isRenaming ? (
@@ -188,8 +197,8 @@ return (
     {showDeleteModal && (
       <ConfirmModal
         title={`${dict.graphnode.delete} "${data.name}"?`}
-        description={`${dict.graphnode.incoming}: ${stats.incomingCount} - ${dict.graphnode.outgoing}: ${stats.outgoingCount}\n 
-                      T${dict.graphnode.warning}.`}
+        description={`${dict.graphnode.incoming}: ${stats.incomingCount} - ${dict.graphnode.outgoing}: ${stats.outgoingCount} |\n 
+                      ${dict.graphnode.warning}.`}
         btncancel="Cancel"
         btnconfirm="Delete"
         onCancel={() => setShowDeleteModal(false)}

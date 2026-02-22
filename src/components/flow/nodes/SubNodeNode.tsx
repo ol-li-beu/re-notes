@@ -48,7 +48,7 @@ export default function SubNodeNode(props: NodeProps<NodeObj>) {
 
   const lang = params?.lang as string;
   const projectId = params?.projectId as string;
-  const currentNodeId = params?.nodeId as string;
+  const currentNodeId = params?.nodeId as string; // as in current canvas id
 
   const isLinked = !!subdata.targetCanvasId;
   const available = canvases.filter((c) => c.id !== currentNodeId && c.id !== rootCanvasId);
